@@ -1,0 +1,17 @@
+:root {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Improve touch scrolling on mobile */
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
+@supports (-webkit-touch-callout: none) {
+    .main {
+        /* Prevent rubber-band scrolling on iOS */
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+    }
+}

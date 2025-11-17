@@ -1,34 +1,33 @@
 import './Skills.css';
 import { useState } from 'react';
-import { Link } from 'react-scroll';
+import AnimatedSection from './components/AnimatedSection';
 
 function Skills() {
-    const [activeCategory, setActiveCategory] = useState(null);
     const skills = {
         'Languages': [
-            { name: 'Python', level: 90, color: '#3776AB' },
-            { name: 'Java', level: 85, color: '#007396' },
-            { name: 'JavaScript', level: 88, color: '#F7DF1E' },
-            { name: 'SQL', level: 82, color: '#4479A1' },
-            { name: 'HTML/CSS', level: 85, color: '#E34F26' }
+            { name: 'Python', color: '#3776AB', icon: '🐍' },
+            { name: 'Java', color: '#007396', icon: '☕' },
+            { name: 'JavaScript', color: '#F7DF1E', icon: '💛' },
+            { name: 'SQL', color: '#4479A1', icon: '🗃️' },
+            { name: 'HTML/CSS', color: '#E34F26', icon: '🎨' }
         ],
         'Frameworks/Libraries': [
-            { name: 'React', level: 88, color: '#61DAFB' },
-            { name: 'Spring Boot', level: 80, color: '#6DB33F' },
-            { name: 'Node.js', level: 82, color: '#339933' },
-            { name: 'Bootstrap', level: 85, color: '#7952B3' }
+            { name: 'React', color: '#61DAFB', icon: '⚛️' },
+            { name: 'Spring Boot', color: '#6DB33F', icon: '🌱' },
+            { name: 'Node.js', color: '#339933', icon: '📦' },
+            { name: 'Bootstrap', color: '#7952B3', icon: '🎯' }
         ],
         'Tools & Technologies': [
-            { name: 'Git', level: 88, color: '#F05032' },
-            { name: 'MongoDB', level: 80, color: '#47A248' },
-            { name: 'Data Analysis', level: 85, color: '#FF6B6B' },
-            { name: 'Machine Learning', level: 78, color: '#00A6D6' }
+            { name: 'Git', color: '#F05032', icon: '📝' },
+            { name: 'MongoDB', color: '#47A248', icon: '🍃' },
+            { name: 'Data Analysis', color: '#FF6B6B', icon: '📊' },
+            { name: 'Machine Learning', color: '#00A6D6', icon: '🤖' }
         ],
         'Mathematics': [
-            { name: 'Data Mathematics', level: 92, color: '#9C27B0' },
-            { name: 'Statistics', level: 88, color: '#2196F3' },
-            { name: 'Algorithms', level: 85, color: '#FF9800' },
-            { name: 'Problem Solving', level: 90, color: '#4CAF50' }
+            { name: 'Data Mathematics', color: '#9C27B0', icon: '📈' },
+            { name: 'Statistics', color: '#2196F3', icon: '📊' },
+            { name: 'Algorithms', color: '#FF9800', icon: '🧮' },
+            { name: 'Problem Solving', color: '#4CAF50', icon: '🎯' }
         ]
     };
 
@@ -41,38 +40,40 @@ function Skills() {
         }
     };
 
+    const [activeCategory, setActiveCategory] = useState(Object.keys(skills)[0]);
+
     return (
-        <div className="skills-section">
+        <AnimatedSection className="skills-section" id="skills">
             <h1>🛠️ Skills</h1>
-            <div className="skills-container">
+            <div className="skills-nav">
+                {Object.keys(skills).map(category => (
+                    <button
+                        key={category}
+                        className={`category-btn ${category === activeCategory ? 'active' : ''}`}
+                        onClick={() => setActiveCategory(category)}
+                    >
+                        <span>{category}</span>
+                    </button>
+                ))}
+            </div>
+            <div className="skills-grid">
                 {Object.entries(skills).map(([category, skillList]) => (
                     <div 
-                        key={category} 
-                        className={`skill-category ${activeCategory === category ? 'active' : ''}`}
-                        onMouseEnter={() => setActiveCategory(category)}
-                        onMouseLeave={() => setActiveCategory(null)}
+                        key={category}
+                        className={`skill-category ${category === activeCategory ? 'active' : ''}`}
                     >
                         <h3>{category}</h3>
                         <div className="skill-list">
                             {skillList.map(skill => (
                                 <div 
                                     key={skill.name}
-                                    className="skill-tag-container"
+                                    className="skill-item"
                                     onClick={() => handleSkillClick(skill.name)}
-                                    role="button"
-                                    tabIndex={0}
                                     style={{'--skill-color': skill.color}}
                                 >
-                                    <div className="skill-tag">
+                                    <div className="skill-content">
+                                        <span className="skill-icon">{skill.icon}</span>
                                         <span className="skill-name">{skill.name}</span>
-                                        <div className="skill-progress-container">
-                                            <div 
-                                                className="skill-progress" 
-                                                style={{ width: `${skill.level}%` }}
-                                            >
-                                                <span className="skill-level">{skill.level}%</span>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             ))}
@@ -80,7 +81,7 @@ function Skills() {
                     </div>
                 ))}
             </div>
-        </div>
+        </AnimatedSection>
     );
 }
 

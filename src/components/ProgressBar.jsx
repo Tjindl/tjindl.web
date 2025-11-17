@@ -1,24 +1,17 @@
-import { useState, useEffect } from 'react';
 import './ProgressBar.css';
 
-function ProgressBar() {
-    const [scrollProgress, setScrollProgress] = useState(0);
-
-    useEffect(() => {
-        const updateProgress = () => {
-            const scrollPx = document.documentElement.scrollTop;
-            const winHeightPx = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const progress = `${scrollPx / winHeightPx * 100}%`;
-            setScrollProgress(progress);
-        };
-
-        window.addEventListener('scroll', updateProgress);
-        return () => window.removeEventListener('scroll', updateProgress);
-    }, []);
-
+function ProgressBar({ progress, color, height = 8 }) {
     return (
-        <div className="progress-bar-container">
-            <div className="progress-bar" style={{ width: scrollProgress }}></div>
+        <div className="skill-progress-container" style={{ height: `${height}px` }}>
+            <div 
+                className="skill-progress-bar" 
+                style={{ 
+                    width: `${progress}%`,
+                    background: `linear-gradient(90deg, ${color}, ${color}dd)`
+                }}
+            >
+                <div className="skill-progress-glow" style={{ background: color }}></div>
+            </div>
         </div>
     );
 }

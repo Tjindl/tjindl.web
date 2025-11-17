@@ -25,3 +25,23 @@
 .animated-section.scale {
     transform: scale(0.95);
 }
+
+@media (max-width: 768px) {
+    .animated-section {
+        margin: 1rem 0;
+        padding: 1rem;
+    }
+
+    .animated-section.fade-up {
+        transform: translateY(20px);
+    }
+
+    .animated-section.fade-up.visible {
+        transform: translateY(0);
+    }
+
+    .animated-section > * {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+}

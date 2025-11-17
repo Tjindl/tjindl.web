@@ -138,4 +138,40 @@
     .resume-btn {
         padding: 0.6rem 1rem !important;
     }
+
+    .navigation {
+        padding: 0.5rem;
+    }
+
+    .nav-content {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; /* Firefox */
+    }
+    
+    .nav-content::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Edge */
+    }
+
+    .navigation ul {
+        gap: 0.5rem;
+        padding: 0.5rem;
+        flex-wrap: nowrap;
+        white-space: nowrap;
+    }
+
+    .navigation li a {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.6rem;
+    }
+
+    .resume-btn {
+        padding: 0.4rem 0.8rem !important;
+        font-size: 0.85rem !important;
+    }
+
+    .theme-toggle {
+        width: 32px;
+        height: 32px;
+    }
 }

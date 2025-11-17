@@ -31,8 +31,12 @@ body {
   transition: background-color 0.3s ease;
 }
 
-* {
+/* Set page background only on root elements, not every element */
+html, body {
   background-color: var(--bg-color);
+}
+
+* {
   font-family: "JetBrains Mono", "Fira Code", "Source Code Pro", monospace;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -269,6 +273,70 @@ body {
     text-align: left;
     padding: 0.3rem;
     margin: 0.3rem 0;
+  }
+
+  .main {
+    padding: 80px 15px 30px;
+  }
+
+  .name {
+    font-size: 2rem;
+    margin: 1.5rem auto;
+  }
+
+  .title-1 {
+    font-size: 1.5rem;
+    margin: 1rem 0;
+  }
+
+  .image-container img {
+    width: 180px;
+    height: 180px;
+  }
+
+  .about {
+    padding: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .about h3 {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .connect-text h1 {
+    font-size: 2rem;
+  }
+
+  .connect-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0 0.5rem;
+  }
+
+  .button-container {
+    padding: 1rem;
+  }
+}
+
+/* Add additional breakpoint for very small devices */
+@media (max-width: 360px) {
+  .name {
+    font-size: 1.8rem;
+  }
+
+  .title-1 {
+    font-size: 1.3rem;
+  }
+
+  .image-container img {
+    width: 150px;
+    height: 150px;
+  }
+
+  .button-container {
+    padding: 0.8rem;
   }
 }
 
