@@ -15,7 +15,7 @@ const ParticleBackground = () => {
     };
 
     const particles = [];
-    const particleCount = 50;
+    const particleCount = 30; // Reduced for performance
 
     class Particle {
       constructor() {

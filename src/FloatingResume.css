@@ -1,0 +1,137 @@
+.floating-resume-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    cursor: grab;
+    /* Initial offset to start somewhat centrally or off-screen if desired, 
+     but framer-motion will handle the movement. 
+     Let's start it in a visible spot. */
+    /* Initial position handled by framer-motion */
+}
+
+.floating-resume-container:active {
+    cursor: grabbing;
+}
+
+.floating-resume-paper {
+    display: block;
+    background: transparent;
+    border: none;
+    padding: 0;
+    box-shadow: none;
+    cursor: pointer;
+    filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.3));
+    transition: transform 0.3s ease;
+}
+
+.floating-resume-paper:hover {
+    background: transparent;
+    border: none;
+    transform: scale(1.1);
+    filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.4));
+}
+
+.paper-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.paper-icon-img {
+    width: 60px;
+    /* Adjust size as needed */
+    height: auto;
+    object-fit: contain;
+}
+
+.paper-icon {
+    font-size: 1.2rem;
+    color: var(--primary);
+}
+
+.paper-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+}
+
+.download-icon {
+    font-size: 1rem;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.floating-resume-paper:hover .download-icon {
+    opacity: 1;
+}
+
+.paper-shine {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right,
+            transparent,
+            rgba(255, 255, 255, 0.1),
+            transparent);
+    transform: skewX(-25deg);
+    transition: left 0.5s ease;
+    z-index: 1;
+}
+
+.floating-resume-paper:hover .paper-shine {
+    left: 150%;
+    transition: left 0.7s ease;
+}
+
+.resume-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.resume-tooltip {
+    position: absolute;
+    top: -40px;
+    background: white;
+    color: black;
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+    /* Let clicks pass through to the button */
+    z-index: 1001;
+}
+
+.tooltip-arrow {
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 8px;
+    height: 8px;
+    background: white;
+}
+
+@media (max-width: 768px) {
+    .floating-resume-container {
+        bottom: 20px;
+        right: 20px;
+    }
+
+    .floating-resume-paper {
+        padding: 12px 20px;
+    }
+
+    .paper-icon-img {
+        width: 50px;
+    }
+}

@@ -6,10 +6,20 @@ import Connect from "./Connect.jsx"
 import Navigation from "./Navigation.jsx"
 import Skills from "./Skills.jsx"
 import Magnetic from "./Magnetic.jsx"
-import { motion, useScroll, useTransform } from 'framer-motion';
+import FloatingResume from "./FloatingResume.jsx"
+import LoadingScreen from "./components/LoadingScreen.jsx"
+import Footer from "./components/Footer.jsx"
+import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
 import { FiGithub, FiLinkedin, FiMail, FiEdit3 } from 'react-icons/fi';
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const { scrollY } = useScroll();
 
@@ -59,151 +69,162 @@ function App() {
   }, []);
 
   return (
-    <div
-      className="App"
-      style={{
-        background: `radial-gradient(600px at ${cursorPosition.x}px ${cursorPosition.y}px, rgba(29, 78, 216, 0.15), transparent 80%)`
-      }}
-    >
-      <div className="noise-overlay"></div>
-      <motion.div
-        className="cursor-dot"
-        style={{ left: cursorPosition.x, top: cursorPosition.y }}
-      />
-      <motion.div
-        className="cursor-outline"
-        animate={{ left: cursorPosition.x, top: cursorPosition.y }}
-        transition={{ type: "spring", stiffness: 500, damping: 28 }}
-      />
-      <Navigation />
+    <>
+      <AnimatePresence mode="wait">
+        {isLoading && <LoadingScreen key="loading" onComplete={() => setIsLoading(false)} />}
+      </AnimatePresence>
 
-      <main className="main">
-        <section id="about" className="hero-section">
-          <div className="hero-content">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              style={{ y: heroTextY, opacity: heroOpacity }}
-              className="hero-text"
-            >
-              <h2 className="greeting">Hello, I'm</h2>
-              <h1 className="name gradient-text">
-                {Array.from("Tushar Jindal").map((char, index) => (
-                  <motion.span
-                    key={index}
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      duration: 0.5,
-                      delay: index * 0.05,
-                      type: "spring",
-                      stiffness: 100
-                    }}
-                    style={{ display: "inline-block" }}
-                  >
-                    {char === " " ? "\u00A0" : char}
-                  </motion.span>
-                ))}
-              </h1>
-              <h3
-                className="role mono"
-                onMouseEnter={handleScramble}
-                style={{ cursor: 'pointer', width: 'fit-content' }}
-              >
-                {scrambleText}
-              </h3>
-              <p className="bio">
-                Crafting digital experiences with code and creativity.
-                Specializing in building exceptional, high-quality websites and applications.
-              </p>
-
-              <div className="hero-buttons">
-                <Magnetic>
-                  <motion.a
-                    href="#projects"
-                    className="btn-primary"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    View Work
-                  </motion.a>
-                </Magnetic>
-                <Magnetic>
-                  <motion.a
-                    href="#connect"
-                    className="btn-outline"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    Contact Me
-                  </motion.a>
-                </Magnetic>
-              </div>
-
-              <div className="social-links">
-                <Magnetic>
-                  <a href="https://github.com/tjindl" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                    <FiGithub />
-                  </a>
-                </Magnetic>
-                <Magnetic>
-                  <a href="https://linkedin.com/in/tushar-jindal-97602420b/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                    <FiLinkedin />
-                  </a>
-                </Magnetic>
-                <Magnetic>
-                  <a href="https://medium.com/@tushar.bzp05" target="_blank" rel="noopener noreferrer" aria-label="Medium">
-                    <FiEdit3 />
-                  </a>
-                </Magnetic>
-                <Magnetic>
-                  <a href="mailto:tushar.bzp05@gmail.com" aria-label="Email">
-                    <FiMail />
-                  </a>
-                </Magnetic>
-              </div>
-            </motion.div>
-
-            <motion.div
-              className="hero-image"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              style={{ y: heroImageY, opacity: heroOpacity }}
-            >
-              <div className="image-wrapper">
-                <img src={img} alt="Tushar Jindal" />
-                <div className="glow-effect"></div>
-              </div>
-            </motion.div>
-          </div>
-        </section>
-
-        <section id="projects" className="projects-section">
+      {!isLoading && (
+        <div className="App">
           <motion.div
-            className="section-header"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="gradient-text">Featured Projects</h2>
-            <p>A selection of my recent work</p>
-          </motion.div>
-          <Projects />
-        </section>
+            className="scroll-progress-bar"
+            style={{ scaleX }}
+          />
+          <div className="noise-overlay"></div>
+          <motion.div
+            className="cursor-dot"
+            style={{ left: cursorPosition.x, top: cursorPosition.y }}
+          />
+          <motion.div
+            className="cursor-outline"
+            animate={{ left: cursorPosition.x, top: cursorPosition.y }}
+            transition={{ type: "spring", stiffness: 500, damping: 28 }}
+          />
 
-        <section id="skills" className="skills-section">
-          <Skills />
-        </section>
+          <Navigation />
 
-        <section id="connect" className="connect-section">
-          <div className="connect-container">
-            <Connect />
-          </div>
-        </section>
-      </main>
-    </div>
+          <main className="main">
+            <section id="about" className="hero-section">
+              <div className="hero-content">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  style={{ y: heroTextY, opacity: heroOpacity }}
+                  className="hero-text"
+                >
+                  <h2 className="greeting">Hello, I'm</h2>
+                  <h1 className="name gradient-text">
+                    {Array.from("Tushar Jindal").map((char, index) => (
+                      <motion.span
+                        key={index}
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          duration: 0.5,
+                          delay: index * 0.05,
+                          type: "spring",
+                          stiffness: 100
+                        }}
+                        style={{ display: "inline-block" }}
+                      >
+                        {char === " " ? "\u00A0" : char}
+                      </motion.span>
+                    ))}
+                  </h1>
+                  <h3
+                    className="role mono"
+                    onMouseEnter={handleScramble}
+                    style={{ cursor: 'pointer', width: 'fit-content' }}
+                  >
+                    {scrambleText}
+                  </h3>
+                  <p className="bio">
+                    Crafting digital experiences with code and creativity.
+                    Specializing in building exceptional, high-quality websites and applications.
+                  </p>
+
+                  <div className="hero-buttons">
+                    <Magnetic>
+                      <motion.a
+                        href="#projects"
+                        className="btn-primary"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        View Work
+                      </motion.a>
+                    </Magnetic>
+                    <Magnetic>
+                      <motion.a
+                        href="#connect"
+                        className="btn-outline"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        Contact Me
+                      </motion.a>
+                    </Magnetic>
+                  </div>
+
+                  <div className="social-links">
+                    <Magnetic>
+                      <a href="https://github.com/tjindl" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                        <FiGithub />
+                      </a>
+                    </Magnetic>
+                    <Magnetic>
+                      <a href="https://linkedin.com/in/tushar-jindal-97602420b/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                        <FiLinkedin />
+                      </a>
+                    </Magnetic>
+                    <Magnetic>
+                      <a href="https://medium.com/@tushar.bzp05" target="_blank" rel="noopener noreferrer" aria-label="Medium">
+                        <FiEdit3 />
+                      </a>
+                    </Magnetic>
+                    <Magnetic>
+                      <a href="mailto:tushar.bzp05@gmail.com" aria-label="Email">
+                        <FiMail />
+                      </a>
+                    </Magnetic>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  className="hero-image"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  style={{ y: heroImageY, opacity: heroOpacity }}
+                >
+                  <div className="image-wrapper">
+                    <img src={img} alt="Tushar Jindal" />
+                    <div className="glow-effect"></div>
+                  </div>
+                </motion.div>
+              </div>
+            </section>
+
+            <section id="projects" className="projects-section">
+              <motion.div
+                className="section-header"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                <h2 className="gradient-text">Featured Projects</h2>
+                <p>A selection of my recent work</p>
+              </motion.div>
+              <Projects />
+            </section>
+
+            <section id="skills" className="skills-section">
+              <Skills />
+            </section>
+
+            <section id="connect" className="connect-section">
+              <div className="connect-container">
+                <Connect />
+              </div>
+            </section>
+
+            <Footer />
+            <FloatingResume />
+          </main>
+        </div>
+      )}
+    </>
   );
 }
 
