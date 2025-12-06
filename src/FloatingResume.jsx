@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiDownload, FiFileText } from 'react-icons/fi';
+import resumeIcon from './assets/resume_icon.png';
 import './FloatingResume.css';
 
 const FloatingResume = () => {
@@ -75,7 +76,7 @@ const FloatingResume = () => {
           whileTap={{ scale: 0.95 }}
         >
           <div className="paper-content">
-            <img src={`${import.meta.env.BASE_URL}assets/resume_icon.png`} alt="Resume" className="paper-icon-img" />
+            <img src={resumeIcon} alt="Resume" className="paper-icon-img" />
           </div>
         </motion.a>
       </div>
