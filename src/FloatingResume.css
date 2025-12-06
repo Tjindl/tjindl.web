@@ -123,6 +123,8 @@
 
 @media (max-width: 768px) {
     .floating-resume-container {
+        top: auto;
+        left: auto;
         bottom: 20px;
         right: 20px;
     }

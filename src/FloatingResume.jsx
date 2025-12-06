@@ -33,11 +33,15 @@ const FloatingResume = () => {
   }, []);
 
   // Memoize animation config to prevent re-calculation on re-renders (fixes lag)
-  const animationConfig = React.useMemo(() => ({
-    x: [0, Math.random() * (windowSize.width - 200), Math.random() * (windowSize.width - 200), Math.random() * (windowSize.width - 200)],
-    y: [0, Math.random() * (windowSize.height - 100), Math.random() * (windowSize.height - 100), Math.random() * (windowSize.height - 100)],
-    rotate: [0, Math.random() * 20 - 10, Math.random() * -20 + 10, Math.random() * 10],
-  }), [windowSize]);
+  const animationConfig = React.useMemo(() => {
+    if (windowSize.width < 768) return undefined; // Disable animation on mobile
+
+    return {
+      x: [0, Math.random() * (windowSize.width - 200), Math.random() * (windowSize.width - 200), Math.random() * (windowSize.width - 200)],
+      y: [0, Math.random() * (windowSize.height - 100), Math.random() * (windowSize.height - 100), Math.random() * (windowSize.height - 100)],
+      rotate: [0, Math.random() * 20 - 10, Math.random() * -20 + 10, Math.random() * 10],
+    };
+  }, [windowSize]);
 
   return (
     <motion.div
