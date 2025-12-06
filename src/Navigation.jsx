@@ -1,14 +1,18 @@
 import { Link } from 'react-scroll';
 import './Navigation.css';
-import { useTheme } from './context/ThemeContext';
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FiMenu, FiX, FiSun, FiMoon } from 'react-icons/fi';
 
 function Navigation() {
-    const { isDark, toggleTheme } = useTheme();
     const [activeSection, setActiveSection] = useState('about');
+    const [isMobileOpen, setIsMobileOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
+            setScrolled(window.scrollY > 50);
+
             const sections = ['about', 'skills', 'projects', 'connect'];
             const scrollPosition = window.scrollY + 100;
 
@@ -29,73 +33,86 @@ function Navigation() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    const navLinks = [
+        { name: 'About', to: 'about' },
+        { name: 'Skills', to: 'skills' },
+        { name: 'Projects', to: 'projects' },
+        { name: 'Connect', to: 'connect' },
+    ];
+
     return (
-        <nav className="navigation">
+        <motion.nav
+            className={`navigation ${scrolled ? 'scrolled' : ''}`}
+            initial={{ y: -100 }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.5 }}
+        >
             <div className="nav-content">
-                <ul>
-                    <li>
-                        <Link 
-                            to="about" 
-                            smooth={true} 
-                            duration={500} 
-                            className={activeSection === 'about' ? 'active' : ''}
-                        >
-                            About
-                            <div className="nav-indicator"></div>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link 
-                            to="skills" 
-                            smooth={true} 
-                            duration={500}
-                            className={activeSection === 'skills' ? 'active' : ''}
-                        >
-                            Skills
-                            <div className="nav-indicator"></div>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link 
-                            to="projects" 
-                            smooth={true} 
-                            duration={500}
-                            className={activeSection === 'projects' ? 'active' : ''}
-                        >
-                            Projects
-                            <div className="nav-indicator"></div>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link 
-                            to="connect" 
-                            smooth={true} 
-                            duration={500} 
-                            className={activeSection === 'connect' ? 'active' : ''}
-                        >
-                            Connect
-                            <div className="nav-indicator"></div>
-                        </Link>
-                    </li>
-                    <li>
-                        <a 
-                            href="/assets/resume/Tushar_latest_resume.pdf" 
-                            target="_blank" 
-                            rel="noopener noreferrer" 
-                            className="resume-btn"
-                        >
-                            Resume
-                        </a>
-                    </li>
-                    <li>
-                        <button onClick={toggleTheme} className="theme-toggle">
-                            <span>{isDark ? '☀️' : '🌙'}</span>
-                            <div className="toggle-background"></div>
-                        </button>
-                    </li>
+                <Link to="about" smooth={true} duration={500} className="nav-brand">
+                    <span className="gradient-text">TJ</span>
+                </Link>
+
+                {/* Desktop Menu */}
+                <ul className="nav-links desktop-only">
+                    {navLinks.map((link) => (
+                        <li key={link.name}>
+                            <Link
+                                to={link.to}
+                                smooth={true}
+                                duration={500}
+                                className={`nav-link ${activeSection === link.to ? 'active' : ''}`}
+                            >
+                                {link.name}
+                                {activeSection === link.to && (
+                                    <motion.div
+                                        className="active-indicator"
+                                        layoutId="activeIndicator"
+                                    />
+                                )}
+                            </Link>
+                        </li>
+                    ))}
                 </ul>
+
+                <div className="nav-controls">
+                    <button
+                        className="mobile-toggle"
+                        onClick={() => setIsMobileOpen(!isMobileOpen)}
+                        aria-label="Toggle menu"
+                    >
+                        {isMobileOpen ? <FiX /> : <FiMenu />}
+                    </button>
+                </div>
             </div>
-        </nav>
+
+            {/* Mobile Menu */}
+            <AnimatePresence>
+                {isMobileOpen && (
+                    <motion.div
+                        className="mobile-menu"
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                    >
+                        <ul>
+                            {navLinks.map((link) => (
+                                <li key={link.name}>
+                                    <Link
+                                        to={link.to}
+                                        smooth={true}
+                                        duration={500}
+                                        onClick={() => setIsMobileOpen(false)}
+                                        className={activeSection === link.to ? 'active' : ''}
+                                    >
+                                        {link.name}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </motion.nav>
     );
 }
 

@@ -8,10 +8,9 @@
     -webkit-tap-highlight-color: transparent;
 }
 
-@supports (-webkit-touch-callout: none) {
-    .main {
-        /* Prevent rubber-band scrolling on iOS */
-        overflow-y: scroll;
-        -webkit-overflow-scrolling: touch;
-    }
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #020617;
+    /* Matches --bg-darker */
 }

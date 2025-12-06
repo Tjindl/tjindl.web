@@ -12,7 +12,7 @@ const Data = [
         tech: "Java, Swing, Abstraction, Persistence, Unit testing, JDBC, SQL"
     },
     {
-        name:  "Messaging App 💬",
+        name: "Messaging App 💬",
         link: "https://github.com/Tjindl/messagingApp",
         description: "A modern real-time chat application built with React, Node.js, and Socket.IO. Features a sleek dark theme interface and real-time message synchronization.",
         tech: "React, Node.js, Socket.IO, JavaScript, CSS, HTML"
@@ -30,7 +30,7 @@ const Data = [
         tech: "Java, Blockchain, Cryptography, Data Structures, Networking"
     },
     {
-        name: "CodeMate 🤖", 
+        name: "CodeMate 🤖",
         link: "https://github.com/Tjindl/sweBot",
         description: "React-based chatbot, CodeMate, tailored for software developers, enhancing productivity through context-aware interactions.",
         tech: "React, JavaScript, CSS, HTML, AI integration, UI-UX design"
@@ -59,6 +59,24 @@ const Data = [
         link: "https://github.com/Tjindl/ASL-Recognition",
         description: "A real-time ASL gesture recognition system using CNN to classify ASL gestures (A–Y) with ~99% validation accuracy. Features live webcam prediction using OpenCV and MediaPipe Hands.",
         tech: "Python, TensorFlow, OpenCV, MediaPipe, Deep Learning, Computer Vision"
+    },
+    {
+        name: "EzBooks 📚",
+        link: "https://github.com/calebblo/ezbooks",
+        description: "A comprehensive bookkeeping application with automated receipt processing, expense tracking, and financial reporting.",
+        tech: "Python, Flask, React, OCR, DynamoDB, AWS"
+    },
+    {
+        name: "Code Lantern 🏮",
+        link: "https://github.com/naomichenruoxi/code-lantern",
+        description: "A multi-language code analysis tool that parses and visualizes code structures for Java, C++, and Rust using Tree-sitter.",
+        tech: "Rust, React, Tree-sitter, Code Analysis, Visualization"
+    },
+    {
+        name: "MailMind 📧",
+        link: "https://github.com/Tjindl/MailMind",
+        description: "An intelligent email management system with automated categorization, summarization, and response generation.",
+        tech: "Python, Gmail API, NLP, React, Node.js"
     }
 ];
 
