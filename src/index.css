@@ -3,8 +3,10 @@
     -webkit-overflow-scrolling: touch;
 }
 
-/* Improve touch scrolling on mobile */
-* {
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -13,4 +15,7 @@ body {
     padding: 0;
     background-color: #020617;
     /* Matches --bg-darker */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }

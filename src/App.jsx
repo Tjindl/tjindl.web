@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import Projects from './Projects'
 import './App.css'
 import img from "./img.jpeg";
@@ -9,10 +9,15 @@ import Magnetic from "./Magnetic.jsx"
 import FloatingResume from "./FloatingResume.jsx"
 import LoadingScreen from "./components/LoadingScreen.jsx"
 import Footer from "./components/Footer.jsx"
-import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring, AnimatePresence, useMotionValue } from 'framer-motion';
+import Experience from './Experience';
 import { FiGithub, FiLinkedin, FiMail, FiEdit3 } from 'react-icons/fi';
+import HeroImage from './HeroImage';
 
 function App() {
+  // ... (imports and component setup)
+
+
   const [isLoading, setIsLoading] = useState(true);
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
@@ -20,53 +25,33 @@ function App() {
     damping: 30,
     restDelta: 0.001
   });
-  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+
+  // Optimized Cursor with useMotionValue (No re-renders)
+  const cursorX = useMotionValue(-100);
+  const cursorY = useMotionValue(-100);
+
+  const springConfig = { damping: 25, stiffness: 700 };
+  const cursorXSpring = useSpring(cursorX, springConfig);
+  const cursorYSpring = useSpring(cursorY, springConfig);
+
+  useEffect(() => {
+    const moveCursor = (e) => {
+      cursorX.set(e.clientX);
+      cursorY.set(e.clientY);
+    };
+
+    window.addEventListener('mousemove', moveCursor);
+    return () => {
+      window.removeEventListener('mousemove', moveCursor);
+    };
+  }, [cursorX, cursorY]);
+
   const { scrollY } = useScroll();
 
   // Parallax Transforms
   const heroTextY = useTransform(scrollY, [0, 500], [0, 200]);
   const heroImageY = useTransform(scrollY, [0, 500], [0, 100]);
   const heroOpacity = useTransform(scrollY, [0, 400], [1, 0]);
-
-  // Scramble Effect State
-  const [scrambleText, setScrambleText] = useState("Full Stack Developer");
-  const originalText = "Full Stack Developer";
-  const scrambleChars = "!@#$%^&*()_+{}:<>?1234567890abcdef";
-
-  const handleScramble = () => {
-    let iteration = 0;
-    const interval = setInterval(() => {
-      setScrambleText(
-        originalText
-          .split("")
-          .map((letter, index) => {
-            if (index < iteration) {
-              return originalText[index];
-            }
-            return scrambleChars[Math.floor(Math.random() * 26)];
-          })
-          .join("")
-      );
-
-      if (iteration >= originalText.length) {
-        clearInterval(interval);
-      }
-
-      iteration += 1 / 3;
-    }, 30);
-  };
-
-  useEffect(() => {
-    const moveCursor = (e) => {
-      setCursorPosition({ x: e.clientX, y: e.clientY });
-    };
-
-    window.addEventListener('mousemove', moveCursor);
-
-    return () => {
-      window.removeEventListener('mousemove', moveCursor);
-    };
-  }, []);
 
   return (
     <>
@@ -81,14 +66,25 @@ function App() {
             style={{ scaleX }}
           />
           <div className="noise-overlay"></div>
+
+          {/* Optimized Cursor */}
           <motion.div
             className="cursor-dot"
-            style={{ left: cursorPosition.x, top: cursorPosition.y }}
+            style={{
+              translateX: "-50%",
+              translateY: "-50%",
+              x: cursorX,
+              y: cursorY
+            }}
           />
           <motion.div
             className="cursor-outline"
-            animate={{ left: cursorPosition.x, top: cursorPosition.y }}
-            transition={{ type: "spring", stiffness: 500, damping: 28 }}
+            style={{
+              translateX: "-50%",
+              translateY: "-50%",
+              x: cursorXSpring,
+              y: cursorYSpring
+            }}
           />
 
           <Navigation />
@@ -97,44 +93,52 @@ function App() {
             <section id="about" className="hero-section">
               <div className="hero-content">
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
+                  transition={{ duration: 0.8, ease: "easeOut" }}
                   style={{ y: heroTextY, opacity: heroOpacity }}
                   className="hero-text"
                 >
-                  <h2 className="greeting">Hello, I'm</h2>
-                  <h1 className="name gradient-text">
-                    {Array.from("Tushar Jindal").map((char, index) => (
-                      <motion.span
-                        key={index}
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{
-                          duration: 0.5,
-                          delay: index * 0.05,
-                          type: "spring",
-                          stiffness: 100
-                        }}
-                        style={{ display: "inline-block" }}
-                      >
-                        {char === " " ? "\u00A0" : char}
-                      </motion.span>
-                    ))}
-                  </h1>
-                  <h3
-                    className="role mono"
-                    onMouseEnter={handleScramble}
-                    style={{ cursor: 'pointer', width: 'fit-content' }}
+                  <motion.h2
+                    className="greeting"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2, duration: 0.5 }}
                   >
-                    {scrambleText}
-                  </h3>
-                  <p className="bio">
+                    Hello, I'm
+                  </motion.h2>
+                  <motion.h1
+                    className="name gradient-text"
+                    initial={{ opacity: 0, filter: "blur(20px)", scale: 0.9 }}
+                    animate={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
+                    transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+                  >
+                    Tushar Jindal
+                  </motion.h1>
+                  <motion.h3
+                    className="role mono"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.8, duration: 0.5 }}
+                  >
+                    Full Stack Developer
+                  </motion.h3>
+                  <motion.p
+                    className="bio"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1, duration: 0.5 }}
+                  >
                     Crafting digital experiences with code and creativity.
                     Specializing in building exceptional, high-quality websites and applications.
-                  </p>
+                  </motion.p>
 
-                  <div className="hero-buttons">
+                  <motion.div
+                    className="hero-buttons"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1.2, duration: 0.5 }}
+                  >
                     <Magnetic>
                       <motion.a
                         href="#projects"
@@ -155,9 +159,14 @@ function App() {
                         Contact Me
                       </motion.a>
                     </Magnetic>
-                  </div>
+                  </motion.div>
 
-                  <div className="social-links">
+                  <motion.div
+                    className="social-links"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1.4, duration: 0.5 }}
+                  >
                     <Magnetic>
                       <a href="https://github.com/tjindl" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
                         <FiGithub />
@@ -178,22 +187,27 @@ function App() {
                         <FiMail />
                       </a>
                     </Magnetic>
-                  </div>
+                  </motion.div>
                 </motion.div>
 
                 <motion.div
                   className="hero-image"
-                  initial={{ opacity: 0, scale: 0.8 }}
+                  initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
+                  transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
                   style={{ y: heroImageY, opacity: heroOpacity }}
                 >
-                  <div className="image-wrapper">
-                    <img src={img} alt="Tushar Jindal" />
-                    <div className="glow-effect"></div>
-                  </div>
+                  <HeroImage />
                 </motion.div>
               </div>
+            </section>
+
+            <section id="skills" className="skills-section">
+              <Skills />
+            </section>
+
+            <section id="experience" className="experience-section">
+              <Experience />
             </section>
 
             <section id="projects" className="projects-section">
@@ -207,10 +221,6 @@ function App() {
                 <p>A selection of my recent work</p>
               </motion.div>
               <Projects />
-            </section>
-
-            <section id="skills" className="skills-section">
-              <Skills />
             </section>
 
             <section id="connect" className="connect-section">

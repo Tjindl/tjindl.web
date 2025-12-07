@@ -2,79 +2,134 @@
 
 .skills-container {
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
+  overflow: hidden;
+  padding: 4rem 0 8rem 0;
+  position: relative;
+  /* Spotlight effect */
+  background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.05) 0%, transparent 70%);
+  mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
 }
 
-.skills-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 2.5rem;
-  padding: 0 1rem;
+.section-header {
+  text-align: center;
+  margin-bottom: 5rem;
+  position: relative;
+  z-index: 2;
 }
 
-.skill-category {
-  padding: 2.5rem;
-  border-radius: 24px;
-  transition: all 0.4s ease;
-}
-
-.skill-category:hover {
-  transform: translateY(-5px);
-  border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-}
-
-.skill-category h3 {
-  font-size: 1.5rem;
+.marquee-wrapper {
+  display: flex;
   margin-bottom: 2rem;
-  color: var(--text-primary);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  z-index: 1;
 }
 
-.skill-items {
+.marquee-track {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
+  gap: 4rem;
+  /* Increased gap for better readability */
+  white-space: nowrap;
+  will-change: transform;
+  padding-left: 4rem;
+  /* Initial offset */
 }
 
-.skill-item {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--text-secondary);
-  padding: 10px 20px;
-  border-radius: 12px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.85rem;
-  font-weight: 500;
+.marquee-track.left {
+  animation: scroll-left 40s linear infinite;
+}
+
+.marquee-track.right {
+  animation: scroll-right 40s linear infinite;
+}
+
+.marquee-item {
+  font-family: 'Outfit', sans-serif;
+  font-size: 5rem;
+  /* Even larger */
+  font-weight: 800;
+  /* Filled style by default for top row */
+  color: rgba(255, 255, 255, 0.1);
+  /* Subtler base color */
+  -webkit-text-stroke: 0px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: default;
-  transition: all 0.3s ease;
+  line-height: 1.1;
+  text-transform: uppercase;
   display: flex;
   align-items: center;
-  gap: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  gap: 1.5rem;
+  /* Gap between icon and text */
 }
 
-.skill-item:hover {
-  color: white;
-  background: rgba(255, 255, 255, 0.1);
-  border-color: var(--primary);
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(99, 102, 241, 0.2);
+.marquee-item .icon {
+  display: flex;
+  align-items: center;
+  font-size: 0.9em;
+  /* Icon slightly smaller than text cap height */
+}
+
+.marquee-item:hover {
+  color: var(--primary);
+  -webkit-text-stroke: 1px var(--primary);
+  text-shadow: 0 0 40px var(--primary-glow);
+  transform: scale(1.1) skewX(-5deg);
+  opacity: 1;
+  z-index: 10;
+}
+
+.marquee-item.outline {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
+}
+
+.marquee-item.outline .icon {
+  color: rgba(255, 255, 255, 0.2);
+  /* Make icon visible */
+  -webkit-text-stroke: 0;
+  /* Remove stroke from icon */
+}
+
+.marquee-item.outline:hover {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--accent);
+  text-shadow: 0 0 30px rgba(244, 63, 94, 0.4);
+  transform: scale(1.1) skewX(-5deg);
+}
+
+.marquee-item.outline:hover .icon {
+  color: var(--accent);
+  /* Icon glows on hover */
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scroll-right {
+  0% {
+    transform: translateX(-50%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
 }
 
 @media (max-width: 768px) {
-  .skills-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+  .marquee-item {
+    font-size: 3rem;
   }
 
-  .skill-category {
-    padding: 1.5rem;
+  .marquee-track {
+    gap: 2rem;
   }
 }

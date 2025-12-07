@@ -73,7 +73,7 @@ const FloatingResume = () => {
         </AnimatePresence>
 
         <motion.a
-          href={`${import.meta.env.BASE_URL}assets/resume/TusharJindalResume (2).pdf`}
+          href={`${import.meta.env.BASE_URL}assets/resume/Tushar_Jindal_Resume.pdf`}
           download="Tushar_Jindal_Resume.pdf"
           className="floating-resume-paper"
           whileHover={{ scale: 1.1 }}

@@ -13,7 +13,7 @@ function Navigation() {
         const handleScroll = () => {
             setScrolled(window.scrollY > 50);
 
-            const sections = ['about', 'skills', 'projects', 'connect'];
+            const sections = ['about', 'skills', 'experience', 'projects', 'connect'];
             const scrollPosition = window.scrollY + 100;
 
             for (const section of sections) {
@@ -36,6 +36,7 @@ function Navigation() {
     const navLinks = [
         { name: 'About', to: 'about' },
         { name: 'Skills', to: 'skills' },
+        { name: 'Experience', to: 'experience' },
         { name: 'Projects', to: 'projects' },
         { name: 'Connect', to: 'connect' },
     ];
