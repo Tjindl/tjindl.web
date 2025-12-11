@@ -1,16 +1,29 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import { FiBriefcase, FiBookOpen } from 'react-icons/fi';
+import fWordLogo from './assets/f_word_logo.jpg';
+import ubcLogo from './assets/ubc_logo.png';
+import tutorLogo from './assets/tutor_logo.png';
 import './Experience.css';
 
 const experienceData = [
+    {
+        id: 0,
+        role: "Telegram Developer Intern",
+        company: "The F* Word",
+        date: "Dec 2024 - Present",
+        description: "Developing AI-driven Telegram Bots and Mini Apps to redefine fashion design. Building responsive Mini Apps and secure backends within the Telegram ecosystem.",
+        type: "work",
+        logo: fWordLogo
+    },
     {
         id: 1,
         role: "Private Tutor",
         company: "Self-Employed",
         date: "2022 - Present",
         description: "providing personalized tutoring in Mathematics and Computer Science. Helping students master complex concepts in Calculus, Linear Algebra, and programming fundamentals.",
-        type: "work"
+        type: "work",
+        logo: tutorLogo
     },
     {
         id: 2,
@@ -18,9 +31,9 @@ const experienceData = [
         company: "University of British Columbia",
         date: "Fall 2022 - Present",
         description: "Pursuing a Bachelor's degree in Computational Mathematics. Developing strong analytical and problem-solving skills, with a focus on mathematical modeling and logic.",
-        type: "education"
+        type: "education",
+        logo: ubcLogo
     },
-    // Add more experience here
 ];
 
 function Experience() {
@@ -53,7 +66,9 @@ function Experience() {
                 <motion.div
                     className="timeline-line"
                     style={{ scaleY }}
-                />
+                >
+                    <div className="timeline-tip" />
+                </motion.div>
 
                 <div className="timeline-items">
                     {experienceData.map((item, index) => (
@@ -77,7 +92,7 @@ function TimelineItem({ item, index }) {
             transition={{ duration: 0.5, delay: index * 0.2 }}
         >
             <div className="timeline-dot">
-                {item.type === 'work' ? <FiBriefcase /> : <FiBookOpen />}
+                <img src={item.logo} alt={item.company} className="timeline-logo" />
             </div>
 
             <div className="timeline-content glass-panel">

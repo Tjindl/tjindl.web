@@ -2,16 +2,30 @@
     position: fixed;
     top: 0;
     left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    /* Let clicks pass through the container */
     z-index: 1000;
-    cursor: grab;
-    /* Initial offset to start somewhat centrally or off-screen if desired, 
-     but framer-motion will handle the movement. 
-     Let's start it in a visible spot. */
-    /* Initial position handled by framer-motion */
 }
 
-.floating-resume-container:active {
+.draggable-wrapper {
+    position: absolute;
+    pointer-events: auto;
+    /* Re-enable clicks on the button itself */
+    cursor: grab;
+    z-index: 1001;
+    /* Remove top/left constraints so framer motion controls position entirely via transform */
+}
+
+.draggable-wrapper:active {
     cursor: grabbing;
+}
+
+.floating-inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .floating-resume-paper {
@@ -40,53 +54,11 @@
 
 .paper-icon-img {
     width: 60px;
-    /* Adjust size as needed */
     height: auto;
     object-fit: contain;
 }
 
-.paper-icon {
-    font-size: 1.2rem;
-    color: var(--primary);
-}
-
-.paper-text {
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 600;
-    font-size: 0.9rem;
-    letter-spacing: 0.1em;
-}
-
-.download-icon {
-    font-size: 1rem;
-    opacity: 0.7;
-    transition: opacity 0.3s ease;
-}
-
-.floating-resume-paper:hover .download-icon {
-    opacity: 1;
-}
-
-.paper-shine {
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 50%;
-    height: 100%;
-    background: linear-gradient(to right,
-            transparent,
-            rgba(255, 255, 255, 0.1),
-            transparent);
-    transform: skewX(-25deg);
-    transition: left 0.5s ease;
-    z-index: 1;
-}
-
-.floating-resume-paper:hover .paper-shine {
-    left: 150%;
-    transition: left 0.7s ease;
-}
-
+/* Tooltip Styles */
 .resume-wrapper {
     position: relative;
     display: flex;
@@ -107,8 +79,7 @@
     white-space: nowrap;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     pointer-events: none;
-    /* Let clicks pass through to the button */
-    z-index: 1001;
+    z-index: 1002;
 }
 
 .tooltip-arrow {
@@ -121,16 +92,11 @@
     background: white;
 }
 
+/* Adjustments for mobile */
 @media (max-width: 768px) {
     .floating-resume-container {
-        top: auto;
-        left: auto;
-        bottom: 20px;
-        right: 20px;
-    }
-
-    .floating-resume-paper {
-        padding: 12px 20px;
+        /* On mobile, we might want to just stick it to the bottom right 
+           or keep the drag. Let's keep drag but maybe safe position. */
     }
 
     .paper-icon-img {

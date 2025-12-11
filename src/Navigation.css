@@ -17,13 +17,29 @@ nav,
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Scrolled State */
 .navigation.scrolled {
-  background: rgba(10, 10, 10, 0.8);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   height: 70px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Only apply the heavy blur to the container if we want a full bar, 
+   but for this "floating capsule" design, we might want the bar itself to be invisible 
+   and only the inner capsules to have backgrounds. 
+   However, typically a top bar needs some bg to read text over content. 
+   Let's use a very subtle gradient for the full bar or keep it transparent 
+   if the pill is the main focus. 
+   
+   Let's go with a transparent full bar to let the "Island" shine.
+*/
+.navigation.scrolled::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 5, 5, 0.3);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+  z-index: -1;
 }
 
 .nav-content {
@@ -42,48 +58,85 @@ nav,
   text-decoration: none;
   font-family: 'Outfit', sans-serif;
   letter-spacing: -0.02em;
+  position: relative;
+  z-index: 10;
 }
 
-.nav-links {
+/* --- The Floating Island (Desktop) --- */
+.nav-links.desktop-only {
   display: flex;
-  gap: 0.5rem;
+  gap: 4px;
   list-style: none;
   margin: 0;
   padding: 6px;
   align-items: center;
+
+  /* Premium Glass Effect */
   background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 50px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(8px);
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.2),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  /* Inner Stroke */
+
+  transition: all 0.3s ease;
+}
+
+.navigation.scrolled .nav-links.desktop-only {
+  background: rgba(10, 10, 10, 0.6);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .nav-link {
-  color: var(--text-secondary);
+  position: relative;
+  color: var(--text-secondary, #a0a0a0);
   text-decoration: none;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  padding: 8px 16px;
+  padding: 8px 20px;
   font-family: 'Inter', sans-serif;
-  border-radius: 20px;
+  border-radius: 24px;
+  /* Matches the indicator */
+  transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  /* Keep text above */
+}
+
+.nav-text {
+  position: relative;
+  z-index: 2;
 }
 
 .nav-link:hover {
-  color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary, #ffffff);
 }
 
 .nav-link.active {
-  color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
 }
 
-/* Remove old indicator */
+/* The Magic Pill */
 .active-indicator {
-  display: none;
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  z-index: 1;
+  /* Behind text (text is z-index 2) */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+  /* Optional: Subtle Gradient Overlay */
+  /* background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05)); */
 }
+
 
 .nav-controls {
   display: none;
@@ -92,7 +145,7 @@ nav,
 .mobile-toggle {
   background: none;
   border: none;
-  color: var(--text-primary);
+  color: var(--text-primary, #fff);
   font-size: 1.5rem;
   cursor: pointer;
   padding: 5px;
@@ -103,43 +156,48 @@ nav,
 
 /* Mobile Menu */
 .mobile-menu {
-  background: rgba(10, 10, 10, 0.95);
+  background: rgba(5, 5, 5, 0.95);
   backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   overflow: hidden;
   position: absolute;
-  top: 70px;
+  top: 100%;
+  /* pushes it below nav */
   left: 0;
   right: 0;
   padding: 0;
+  z-index: 999;
 }
 
 .mobile-menu ul {
   list-style: none;
-  padding: 20px;
+  padding: 24px;
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .mobile-menu a {
-  color: var(--text-secondary);
+  color: var(--text-secondary, #a0a0a0);
   text-decoration: none;
   font-size: 1.1rem;
   font-weight: 500;
   display: block;
-  padding: 15px;
-  border-radius: 12px;
+  padding: 16px;
+  border-radius: 16px;
   transition: all 0.2s ease;
   text-align: center;
   font-family: 'Inter', sans-serif;
+  border: 1px solid transparent;
 }
 
 .mobile-menu a.active,
 .mobile-menu a:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-primary, #fff);
+  border-color: rgba(255, 255, 255, 0.05);
 }
 
 @media (max-width: 768px) {
@@ -154,19 +212,17 @@ nav,
 
   .navigation {
     height: 70px;
-    background: rgba(10, 10, 10, 0.8);
-    backdrop-filter: blur(16px);
-  }
-
-  .nav-links {
-    display: none;
-    /* Hide desktop links container on mobile */
+    background: rgba(10, 10, 10, 0.7);
+    /* More solid on mobile to cover content */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   }
 }
 
 /* Accessibility */
-.nav-links a:focus,
-.nav-toggle:focus {
-  outline: 2px solid var(--primary);
+.nav-links a:focus-visible,
+.nav-toggle:focus-visible {
+  outline: 2px solid var(--primary, #fff);
   outline-offset: 2px;
 }

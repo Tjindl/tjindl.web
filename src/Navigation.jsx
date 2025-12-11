@@ -63,11 +63,16 @@ function Navigation() {
                                 duration={500}
                                 className={`nav-link ${activeSection === link.to ? 'active' : ''}`}
                             >
-                                {link.name}
+                                <span className="nav-text">{link.name}</span>
                                 {activeSection === link.to && (
                                     <motion.div
                                         className="active-indicator"
                                         layoutId="activeIndicator"
+                                        transition={{
+                                            type: "spring",
+                                            stiffness: 400,
+                                            damping: 30
+                                        }}
                                     />
                                 )}
                             </Link>

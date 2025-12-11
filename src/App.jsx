@@ -1,18 +1,22 @@
-import { useEffect, useState } from 'react';
-import Projects from './Projects'
+import { useEffect, useState, lazy, Suspense } from 'react';
+import LoadingScreen from "./components/LoadingScreen.jsx"
+import Footer from "./components/Footer.jsx"
+import ScrollToTop from "./components/ScrollToTop.jsx"
+import ParticleBackground from "./components/ParticleBackground.jsx"
+import { motion, useScroll, useTransform, useSpring, AnimatePresence, useMotionValue } from 'framer-motion';
 import './App.css'
 import img from "./img.jpeg";
 import Connect from "./Connect.jsx"
 import Navigation from "./Navigation.jsx"
-import Skills from "./Skills.jsx"
 import Magnetic from "./Magnetic.jsx"
 import FloatingResume from "./FloatingResume.jsx"
-import LoadingScreen from "./components/LoadingScreen.jsx"
-import Footer from "./components/Footer.jsx"
-import { motion, useScroll, useTransform, useSpring, AnimatePresence, useMotionValue } from 'framer-motion';
-import Experience from './Experience';
 import { FiGithub, FiLinkedin, FiMail, FiEdit3 } from 'react-icons/fi';
 import HeroImage from './HeroImage';
+import LogoStrip from './components/LogoStrip.jsx';
+
+const Projects = lazy(() => import('./Projects'));
+const Experience = lazy(() => import('./Experience'));
+const Skills = lazy(() => import('./Skills.jsx'));
 
 function App() {
   // ... (imports and component setup)
@@ -29,6 +33,7 @@ function App() {
   // Optimized Cursor with useMotionValue (No re-renders)
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
+  const cursorOpacity = useMotionValue(0);
 
   const springConfig = { damping: 25, stiffness: 700 };
   const cursorXSpring = useSpring(cursorX, springConfig);
@@ -38,13 +43,27 @@ function App() {
     const moveCursor = (e) => {
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
+      cursorOpacity.set(1);
+    };
+
+    const handleMouseLeave = () => {
+      cursorOpacity.set(0);
+    };
+
+    const handleMouseEnter = () => {
+      cursorOpacity.set(1);
     };
 
     window.addEventListener('mousemove', moveCursor);
+    document.addEventListener('mouseleave', handleMouseLeave);
+    document.addEventListener('mouseenter', handleMouseEnter);
+
     return () => {
       window.removeEventListener('mousemove', moveCursor);
+      document.removeEventListener('mouseleave', handleMouseLeave);
+      document.removeEventListener('mouseenter', handleMouseEnter);
     };
-  }, [cursorX, cursorY]);
+  }, [cursorX, cursorY, cursorOpacity]);
 
   const { scrollY } = useScroll();
 
@@ -66,6 +85,7 @@ function App() {
             style={{ scaleX }}
           />
           <div className="noise-overlay"></div>
+          <ParticleBackground />
 
           {/* Optimized Cursor */}
           <motion.div
@@ -74,7 +94,8 @@ function App() {
               translateX: "-50%",
               translateY: "-50%",
               x: cursorX,
-              y: cursorY
+              y: cursorY,
+              opacity: cursorOpacity
             }}
           />
           <motion.div
@@ -83,7 +104,8 @@ function App() {
               translateX: "-50%",
               translateY: "-50%",
               x: cursorXSpring,
-              y: cursorYSpring
+              y: cursorYSpring,
+              opacity: cursorOpacity
             }}
           />
 
@@ -188,7 +210,10 @@ function App() {
                       </a>
                     </Magnetic>
                   </motion.div>
+
+                  <LogoStrip />
                 </motion.div>
+
 
                 <motion.div
                   className="hero-image"
@@ -202,26 +227,28 @@ function App() {
               </div>
             </section>
 
-            <section id="skills" className="skills-section">
-              <Skills />
-            </section>
+            <Suspense fallback={<div className="section-loader">Loading...</div>}>
+              <section id="skills" className="skills-section">
+                <Skills />
+              </section>
 
-            <section id="experience" className="experience-section">
-              <Experience />
-            </section>
+              <section id="experience" className="experience-section">
+                <Experience />
+              </section>
 
-            <section id="projects" className="projects-section">
-              <motion.div
-                className="section-header"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-              >
-                <h2 className="gradient-text">Featured Projects</h2>
-                <p>A selection of my recent work</p>
-              </motion.div>
-              <Projects />
-            </section>
+              <section id="projects" className="projects-section">
+                <motion.div
+                  className="section-header"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                >
+                  <h2 className="gradient-text">Featured Projects</h2>
+                  <p>A selection of my recent work</p>
+                </motion.div>
+                <Projects />
+              </section>
+            </Suspense>
 
             <section id="connect" className="connect-section">
               <div className="connect-container">
@@ -231,9 +258,11 @@ function App() {
 
             <Footer />
             <FloatingResume />
+            <ScrollToTop />
           </main>
-        </div>
-      )}
+        </div >
+      )
+      }
     </>
   );
 }

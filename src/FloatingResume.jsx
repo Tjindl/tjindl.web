@@ -32,59 +32,58 @@ const FloatingResume = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Memoize animation config to prevent re-calculation on re-renders (fixes lag)
-  const animationConfig = React.useMemo(() => {
-    if (windowSize.width < 768) return undefined; // Disable animation on mobile
-
-    return {
-      x: [0, Math.random() * (windowSize.width - 200), Math.random() * (windowSize.width - 200), Math.random() * (windowSize.width - 200)],
-      y: [0, Math.random() * (windowSize.height - 100), Math.random() * (windowSize.height - 100), Math.random() * (windowSize.height - 100)],
-      rotate: [0, Math.random() * 20 - 10, Math.random() * -20 + 10, Math.random() * 10],
-    };
-  }, [windowSize]);
-
   return (
-    <motion.div
-      className="floating-resume-container"
-      animate={animationConfig}
-      transition={{
-        duration: 45, // Very slow, smooth drift
-        ease: "linear",
-        repeat: Infinity,
-        repeatType: "mirror"
-      }}
-      drag
-      dragMomentum={false}
-      whileDrag={{ scale: 1.1, cursor: 'grabbing' }}
-    >
-      <div className="resume-wrapper">
-        <AnimatePresence>
-          {showTooltip && (
-            <motion.div
-              className="resume-tooltip"
-              initial={{ opacity: 0, y: 10, scale: 0.8 }}
-              animate={{ opacity: 1, y: -10, scale: 1 }}
-              exit={{ opacity: 0, y: 10, scale: 0.8 }}
-            >
-              Click Me! 📄
-              <div className="tooltip-arrow"></div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        <motion.a
-          href={`${import.meta.env.BASE_URL}assets/resume/Tushar_Jindal_Resume.pdf`}
-          download="Tushar_Jindal_Resume.pdf"
-          className="floating-resume-paper"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
+    <div className="floating-resume-container">
+      <motion.div
+        drag
+        dragMomentum={false}
+        dragElastic={0.1}
+        whileDrag={{ scale: 1.1, cursor: 'grabbing' }}
+        className="draggable-wrapper"
+        initial={{ x: 20, y: windowSize.height - 100 }}
+      >
+        <motion.div
+          className="floating-inner"
+          animate={{
+            y: [0, -15, 0],
+            rotate: [0, 5, -5, 0]
+          }}
+          transition={{
+            duration: 6,
+            ease: "easeInOut",
+            repeat: Infinity,
+          }}
         >
-          <div className="paper-content">
-            <img src={resumeIcon} alt="Resume" className="paper-icon-img" />
+          <div className="resume-wrapper">
+            <AnimatePresence>
+              {showTooltip && (
+                <motion.div
+                  className="resume-tooltip"
+                  initial={{ opacity: 0, y: 10, scale: 0.8 }}
+                  animate={{ opacity: 1, y: -10, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.8 }}
+                >
+                  Click Me! 📄
+                  <div className="tooltip-arrow"></div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <motion.a
+              href={`${import.meta.env.BASE_URL}assets/resume/Tushar_Jindal_Resume.pdf`}
+              download="Tushar_Jindal_Resume.pdf"
+              className="floating-resume-paper"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <div className="paper-content">
+                <img src={resumeIcon} alt="Resume" className="paper-icon-img" />
+              </div>
+            </motion.a>
           </div>
-        </motion.a>
-      </div>
-    </motion.div>
+        </motion.div>
+      </motion.div>
+    </div>
   );
 };
 
