@@ -11,7 +11,7 @@ const experienceData = [
         id: 0,
         role: "Telegram Developer Intern",
         company: "The F* Word",
-        date: "Dec 2024 - Present",
+        date: "Dec 2025 - Present",
         description: "Developing AI-driven Telegram Bots and Mini Apps to redefine fashion design. Building responsive Mini Apps and secure backends within the Telegram ecosystem.",
         type: "work",
         logo: fWordLogo
