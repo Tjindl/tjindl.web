@@ -1,110 +1,82 @@
-/* Skills.css - Premium Design */
+/* Skills.css - Infinite Neon Marquee */
 
-.skills-container {
-  width: 100%;
-  overflow: hidden;
-  padding: 4rem 0 8rem 0;
+.skills-section {
+  padding: 6rem 0;
+  max-width: 100%;
+  margin: 0 auto;
   position: relative;
-  /* Spotlight effect */
-  background: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.05) 0%, transparent 70%);
-  mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
-  -webkit-mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
-}
-
-.section-header {
-  text-align: center;
-  margin-bottom: 5rem;
-  position: relative;
-  z-index: 2;
-}
-
-.marquee-wrapper {
-  display: flex;
-  margin-bottom: 2rem;
-  overflow: hidden;
-  width: 100%;
-  position: relative;
-  z-index: 1;
-}
-
-.marquee-track {
-  display: flex;
-  gap: 4rem;
-  /* Increased gap for better readability */
-  white-space: nowrap;
-  will-change: transform;
-  padding-left: 4rem;
-  /* Initial offset */
-}
-
-.marquee-track.left {
-  animation: scroll-left 40s linear infinite;
-}
-
-.marquee-track.right {
-  animation: scroll-right 40s linear infinite;
-}
-
-.marquee-item {
-  font-family: 'Outfit', sans-serif;
-  font-size: 5rem;
-  /* Even larger */
-  font-weight: 800;
-  /* Filled style by default for top row */
-  color: rgba(255, 255, 255, 0.1);
-  /* Subtler base color */
-  -webkit-text-stroke: 0px;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: default;
-  line-height: 1.1;
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  /* Gap between icon and text */
-}
-
-.marquee-item .icon {
-  display: flex;
-  align-items: center;
-  font-size: 0.9em;
-  /* Icon slightly smaller than text cap height */
-}
-
-.marquee-item:hover {
-  color: var(--primary);
-  -webkit-text-stroke: 1px var(--primary);
-  text-shadow: 0 0 40px var(--primary-glow);
-  transform: scale(1.1) skewX(-5deg);
-  opacity: 1;
   z-index: 10;
+  overflow: hidden;
+  /* Hide overflow from marquees */
 }
 
-.marquee-item.outline {
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
+.skills-header {
+  text-align: center;
+  margin-bottom: 4rem;
+  padding: 0 2rem;
 }
 
-.marquee-item.outline .icon {
-  color: rgba(255, 255, 255, 0.2);
-  /* Make icon visible */
-  -webkit-text-stroke: 0;
-  /* Remove stroke from icon */
+.skills-header h2 {
+  font-size: 3rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
 }
 
-.marquee-item.outline:hover {
-  color: transparent;
-  -webkit-text-stroke: 1px var(--accent);
-  text-shadow: 0 0 30px rgba(244, 63, 94, 0.4);
-  transform: scale(1.1) skewX(-5deg);
+.skills-header p {
+  color: #64748b;
+  font-size: 1.1rem;
 }
 
-.marquee-item.outline:hover .icon {
-  color: var(--accent);
-  /* Icon glows on hover */
+/* Marquee Container */
+.marquee-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  position: relative;
 }
 
-@keyframes scroll-left {
+/* Gradient Masks Removed for full-width seamless flow */
+.marquee-container::before,
+.marquee-container::after {
+  display: none;
+}
+
+/* Track */
+.marquee-track {
+  position: relative;
+  width: 100%;
+  display: flex;
+  overflow: hidden;
+  padding: 1rem 0;
+  /* Space for hover expansion */
+}
+
+/* Content Width: Must be large enough to hold double items */
+.marquee-content {
+  display: flex;
+  gap: 2rem;
+  width: max-content;
+}
+
+/* Animation Classes */
+.scroll-left {
+  animation: scrollLeft 40s linear infinite;
+}
+
+.scroll-right {
+  animation: scrollRight 45s linear infinite;
+}
+
+/* Pause on Hover */
+.marquee-track:hover .marquee-content {
+  animation-play-state: paused;
+}
+
+@keyframes scrollLeft {
   0% {
     transform: translateX(0);
   }
@@ -112,9 +84,11 @@
   100% {
     transform: translateX(-50%);
   }
+
+  /* Move by half (the original set) */
 }
 
-@keyframes scroll-right {
+@keyframes scrollRight {
   0% {
     transform: translateX(-50%);
   }
@@ -124,12 +98,84 @@
   }
 }
 
-@media (max-width: 768px) {
-  .marquee-item {
-    font-size: 3rem;
-  }
+/* Individual Card (Now just a container) */
+.skill-card {
+  position: relative;
+  /* Removed background and border for floating look */
+  background: transparent;
+  border: none;
+  padding: 1rem 1.5rem;
+  min-width: 140px;
+  /* Reduced width slightly */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+  /* Removed overflow:hidden to allow glow spread */
+}
 
-  .marquee-track {
-    gap: 2rem;
-  }
+/* Icon Styling */
+.skill-icon {
+  font-size: 3rem;
+  /* Slightly larger */
+  color: #64748b;
+  /* Muted default */
+  transition: all 0.3s ease;
+  z-index: 2;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
+}
+
+/* Text Styling */
+.skill-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #94a3b8;
+  z-index: 2;
+  transition: color 0.3s ease;
+}
+
+/* The Ambient Glow Background - Subtle backlight */
+.skill-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0%;
+  height: 0%;
+  background: radial-gradient(circle, var(--skill-color) 0%, transparent 60%);
+  opacity: 0;
+  transition: all 0.4s ease;
+  z-index: 1;
+  filter: blur(25px);
+  border-radius: 50%;
+}
+
+/* Hover Effects */
+.skill-card:hover {
+  transform: translateY(-8px) scale(1.1);
+  /* No box shadow or border */
+  z-index: 30;
+}
+
+.skill-card:hover .skill-icon {
+  color: var(--skill-color);
+  transform: scale(1.1);
+  /* Stronger neon glow on the icon itself */
+  filter: drop-shadow(0 0 15px var(--skill-color));
+}
+
+.skill-card:hover .skill-name {
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.skill-card:hover .skill-glow {
+  width: 180%;
+  height: 180%;
+  opacity: 0.25;
+  /* Visible but soft backlight */
 }

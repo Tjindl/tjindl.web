@@ -1,89 +1,160 @@
-import React, { useRef } from 'react';
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import img from "./img.jpeg";
-import './App.css'; // Ensure we have access to styles
+import React, { useRef, useState, useEffect, useMemo } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { Sphere, Torus, Ring, Cylinder, Float, OrbitControls } from '@react-three/drei';
+import * as THREE from 'three';
 
-function HeroImage() {
-    const ref = useRef(null);
+const RobotEye = () => {
+    const group = useRef();
+    const irisRef = useRef();
+    const pupilRef = useRef();
+    const [blink, setBlink] = useState(false);
+    const mouse = useRef(new THREE.Vector2(0, 0));
 
-    // Mouse position state
-    const x = useMotionValue(0);
-    const y = useMotionValue(0);
+    // Global Tracking
+    useEffect(() => {
+        const handleMouseMove = (event) => {
+            const x = (event.clientX / window.innerWidth) * 2 - 1;
+            const y = -(event.clientY / window.innerHeight) * 2 + 1;
+            mouse.current.set(x, y);
+        };
+        window.addEventListener('mousemove', handleMouseMove);
+        return () => window.removeEventListener('mousemove', handleMouseMove);
+    }, []);
 
-    // Smooth spring animation for tilt
-    const mouseXSpring = useSpring(x, { stiffness: 300, damping: 30 });
-    const mouseYSpring = useSpring(y, { stiffness: 300, damping: 30 });
+    // Random Blink Logic
+    useEffect(() => {
+        const triggerBlink = () => {
+            setBlink(true);
+            setTimeout(() => setBlink(false), 150);
+            setTimeout(triggerBlink, Math.random() * 4000 + 2000);
+        };
+        const timer = setTimeout(triggerBlink, 2000);
+        return () => clearTimeout(timer);
+    }, []);
 
-    // Calculate rotation based on mouse position
-    const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["7deg", "-7deg"]);
-    const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-7deg", "7deg"]);
+    useFrame((state) => {
+        if (group.current) {
+            // Tracking Logic
+            const rotationLimit = 0.6;
+            const targetY = mouse.current.x * rotationLimit;
+            const targetX = -mouse.current.y * rotationLimit;
 
-    // Parallax for layers (RGB Split)
-    const layer1X = useTransform(mouseXSpring, [-0.5, 0.5], ["-5px", "5px"]);
-    const layer1Y = useTransform(mouseYSpring, [-0.5, 0.5], ["-5px", "5px"]);
+            group.current.rotation.y = THREE.MathUtils.lerp(group.current.rotation.y, targetY, 0.1);
+            group.current.rotation.x = THREE.MathUtils.lerp(group.current.rotation.x, targetX, 0.1);
+        }
 
-    const layer2X = useTransform(mouseXSpring, [-0.5, 0.5], ["5px", "-5px"]);
-    const layer2Y = useTransform(mouseYSpring, [-0.5, 0.5], ["5px", "-5px"]);
+        // Pulse the pupil
+        if (pupilRef.current) {
+            const scale = 1 + Math.sin(state.clock.elapsedTime * 2) * 0.1;
+            pupilRef.current.scale.setScalar(scale);
+        }
 
-    const handleMouseMove = (e) => {
-        if (!ref.current) return;
-
-        const rect = ref.current.getBoundingClientRect();
-
-        const width = rect.width;
-        const height = rect.height;
-
-        const mouseX = e.clientX - rect.left;
-        const mouseY = e.clientY - rect.top;
-
-        const xPct = mouseX / width - 0.5;
-        const yPct = mouseY / height - 0.5;
-
-        x.set(xPct);
-        y.set(yPct);
-    };
-
-    const handleMouseLeave = () => {
-        x.set(0);
-        y.set(0);
-    };
+        // Rotate Iris parts
+        if (irisRef.current) {
+            irisRef.current.rotation.z -= 0.005;
+        }
+    });
 
     return (
-        <motion.div
-            ref={ref}
-            className="hero-image-container"
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-            style={{
-                rotateX,
-                rotateY,
-                transformStyle: "preserve-3d",
-            }}
-        >
-            {/* Red Channel */}
-            <motion.div
-                className="hero-image-layer red"
-                style={{ x: layer1X, y: layer1Y, backgroundImage: `url(${img})` }}
-            />
+        <group ref={group} scale={[1.0, 1.0, 1.0]}>
+            {/* Standard Scale */}
 
-            {/* Blue Channel */}
-            <motion.div
-                className="hero-image-layer blue"
-                style={{ x: layer2X, y: layer2Y, backgroundImage: `url(${img})` }}
-            />
+            {/* --- Main Housing (The Sclera) --- */}
+            <Sphere args={[1.5, 64, 64]}>
+                <meshPhysicalMaterial
+                    color="#0a0a0a"
+                    metalness={0.9}
+                    roughness={0.2}
+                    clearcoat={1}
+                    clearcoatRoughness={0.1}
+                />
+            </Sphere>
 
-            {/* Main Image */}
-            <div
-                className="hero-image-main"
-                style={{ backgroundImage: `url(${img})` }}
-            >
-                <div className="glitch-overlay"></div>
-            </div>
+            {/* --- The Eyelids (Blink Animation) --- */}
+            {/* Top Lid */}
+            <Sphere args={[1.52, 64, 64, 0, Math.PI * 2, 0, Math.PI * 0.5]} rotation={[blink ? 0.3 : -0.8, 0, 0]}>
+                <meshStandardMaterial color="#222" metalness={0.8} roughness={0.2} side={THREE.DoubleSide} />
+            </Sphere>
+            {/* Bottom Lid */}
+            <Sphere args={[1.52, 64, 64, 0, Math.PI * 2, Math.PI * 0.5, Math.PI * 0.5]} rotation={[blink ? -0.3 : 0.8, 0, 0]}>
+                <meshStandardMaterial color="#222" metalness={0.8} roughness={0.2} side={THREE.DoubleSide} />
+            </Sphere>
 
-            {/* Frame/Border Elements */}
-            <div className="holo-border"></div>
-        </motion.div>
+            {/* --- The Eye Complex --- */}
+            <group position={[0, 0, 1.35]} rotation={[Math.PI / 2, 0, 0]}>
+
+                {/* 1. Glass Cornea Dome */}
+                <mesh position={[0, 0.2, 0]}>
+                    <cylinderGeometry args={[0.7, 0.7, 0.4, 32]} />
+                    <meshPhysicalMaterial
+                        color="white"
+                        transmission={0.95} // Glass
+                        opacity={1}
+                        metalness={0}
+                        roughness={0}
+                        ior={1.5}
+                        thickness={0.5}
+                    />
+                </mesh>
+
+                {/* 2. Glowing Iris Ring (Outer) */}
+                <Torus args={[0.6, 0.05, 16, 64]} rotation={[Math.PI / 2, 0, 0]}>
+                    <meshStandardMaterial color="#00ffff" emissive="#00ffff" emissiveIntensity={2} />
+                </Torus>
+
+                {/* 3. Mechanical Iris Details (Inner Rotating) */}
+                <group ref={irisRef} rotation={[Math.PI / 2, 0, 0]}>
+                    <Ring args={[0.3, 0.55, 32]}>
+                        <meshStandardMaterial color="#333" wireframe />
+                    </Ring>
+                    <Ring args={[0.35, 0.45, 8]}>
+                        <meshStandardMaterial color="#00ffff" emissive="#00ffff" emissiveIntensity={0.5} wireframe />
+                    </Ring>
+                </group>
+
+                {/* 4. The Pupil (Black Hole + Glow) */}
+                <group ref={pupilRef} rotation={[Math.PI / 2, 0, 0]}>
+                    <Sphere args={[0.25, 32, 32]} scale={[1, 0.5, 1]}>
+                        <meshBasicMaterial color="black" />
+                    </Sphere>
+                    <Sphere args={[0.1, 32, 32]} position={[0.1, 0.1, 0.15]}>
+                        <meshBasicMaterial color="white" />
+                    </Sphere>
+                </group>
+            </group>
+
+            {/* --- Holographic HUD Rings (Floating) --- */}
+            <Float speed={2} rotationIntensity={0.5} floatIntensity={0.2}>
+                <Ring args={[1.8, 1.85, 64]} rotation={[0, 0, 0]}>
+                    <meshBasicMaterial color="#00ffcc" transparent opacity={0.3} side={THREE.DoubleSide} />
+                </Ring>
+                <Ring args={[2.2, 2.22, 64]} rotation={[0.2, 0, 0]}>
+                    <meshBasicMaterial color="#ff00aa" transparent opacity={0.2} side={THREE.DoubleSide} />
+                </Ring>
+            </Float>
+
+        </group>
     );
-}
+};
+
+const HeroImage = () => {
+    return (
+        <div style={{ width: '100%', height: '500px' }}>
+            <Canvas
+                camera={{ position: [0, 0, 6], fov: 45 }}
+                gl={{ alpha: true }} // Transparent background
+            >
+                {/* Clean Cinematic Lighting */}
+                <ambientLight intensity={0.5} />
+                <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={2} color="#00ffff" />
+                <pointLight position={[-10, -10, -10]} intensity={2} color="#ff00aa" />
+
+                <RobotEye />
+
+                <OrbitControls enableZoom={false} enablePan={false} />
+            </Canvas>
+        </div>
+    );
+};
 
 export default HeroImage;

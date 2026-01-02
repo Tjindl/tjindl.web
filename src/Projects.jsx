@@ -1,165 +1,110 @@
-import Data from "./Data";
-import React, { useState } from 'react';
+import React from 'react';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { FiGithub, FiExternalLink, FiFolder, FiCode, FiCpu, FiLayers } from 'react-icons/fi';
+import Data from './Data';
 import './Projects.css';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FiGithub, FiExternalLink, FiFolder } from 'react-icons/fi';
 
-import ProjectModal from './ProjectModal';
-
-function Projects() {
-    const [filter, setFilter] = useState('All');
-    const [selectedProject, setSelectedProject] = useState(null);
-
-    const allTechnologies = ['All', ...new Set(Data.flatMap(proj =>
-        proj.tech.split(',').map(tech => tech.trim())
-    ))];
-
-    const filteredProjects = filter === 'All'
-        ? Data
-        : Data.filter(proj => proj.tech.includes(filter));
-
+const Projects = () => {
     return (
         <div className="projects-container">
-            <div className="filter-container">
-                {allTechnologies.map(tech => (
-                    <button
-                        key={tech}
-                        className={`filter-btn ${filter === tech ? 'active' : ''}`}
-                        onClick={() => setFilter(tech)}
-                    >
-                        {tech}
-                    </button>
-                ))}
-            </div>
-
             <motion.div
-                layout
-                className="projects-grid bento-grid"
+                className="projects-grid"
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: "-50px" }}
+                variants={{
+                    hidden: { opacity: 0 },
+                    show: {
+                        opacity: 1,
+                        transition: {
+                            staggerChildren: 0.1
+                        }
+                    }
+                }}
             >
-                <AnimatePresence>
-                    {filteredProjects.map((proj, index) => {
-                        // Mosaic Pattern Logic
-                        let bentoClass = "";
-                        if (index === 0) bentoClass = "bento-large"; // Flagship
-                        else if (index === 1) bentoClass = "bento-tall";
-                        else if (index === 6) bentoClass = "bento-wide"; // Moved index 2 to standard to fill gap
-
-                        return (
-                            <TiltCard
-                                key={proj.name}
-                                proj={proj}
-                                index={index}
-                                className={bentoClass}
-                                onClick={() => setSelectedProject(proj)}
-                            />
-                        );
-                    })}
-                </AnimatePresence>
+                {Data.map((project, index) => (
+                    <Project3DCard key={index} project={project} index={index} />
+                ))}
             </motion.div>
-
-            <AnimatePresence>
-                {selectedProject && (
-                    <ProjectModal
-                        project={selectedProject}
-                        onClose={() => setSelectedProject(null)}
-                    />
-                )}
-            </AnimatePresence>
         </div>
     );
-}
+};
 
-function TiltCard({ proj, index, className, onClick }) {
-    const [rotate, setRotate] = useState({ x: 0, y: 0 });
-    const [glowPos, setGlowPos] = useState({ x: 0, y: 0 });
+const Project3DCard = ({ project }) => {
+    const x = useMotionValue(0);
+    const y = useMotionValue(0);
 
-    const onMouseMove = (e) => {
-        const card = e.currentTarget;
-        const box = card.getBoundingClientRect();
-        const x = e.clientX - box.left;
-        const y = e.clientY - box.top;
-        const centerX = box.width / 2;
-        const centerY = box.height / 2;
+    const mouseX = useSpring(x, { stiffness: 500, damping: 100 });
+    const mouseY = useSpring(y, { stiffness: 500, damping: 100 });
 
-        const rotateX = (y - centerY) / 15; // Increased sensitivity
-        const rotateY = (centerX - x) / 15;
+    const rotateX = useTransform(mouseY, [-0.5, 0.5], [7, -7]); // Slightly stronger tilt
+    const rotateY = useTransform(mouseX, [-0.5, 0.5], [-7, 7]);
 
-        setRotate({ x: rotateX, y: rotateY });
-        setGlowPos({ x, y });
-    };
+    function onMouseMove({ currentTarget, clientX, clientY }) {
+        const { left, top, width, height } = currentTarget.getBoundingClientRect();
+        x.set((clientX - left) / width - 0.5);
+        y.set((clientY - top) / height - 0.5);
+    }
 
-    const onMouseLeave = () => {
-        setRotate({ x: 0, y: 0 });
-    };
+    function onMouseLeave() {
+        x.set(0);
+        y.set(0);
+    }
 
     return (
         <motion.div
-            layout
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{
-                opacity: 1,
-                scale: 1,
-                y: 0,
-                rotateX: rotate.x,
-                rotateY: rotate.y
+            variants={{
+                hidden: { opacity: 0, y: 30 },
+                show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 50, damping: 20 } }
             }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            transition={{
-                type: "spring",
-                stiffness: 300,
-                damping: 20,
-                delay: index * 0.1
-            }}
-            className={`project-card ${className || ''}`}
-            onMouseMove={onMouseMove}
-            onMouseLeave={onMouseLeave}
-            onClick={onClick}
-            style={{ transformStyle: "preserve-3d", cursor: "pointer" }}
+            className="project-card-wrapper"
+            style={{ perspective: 1200 }} // Increased perspective for deeper 3D feel
         >
-            <div
-                className="card-glow"
+            <motion.div
+                className="project-card glass-panel"
+                onMouseMove={onMouseMove}
+                onMouseLeave={onMouseLeave}
                 style={{
-                    background: `radial-gradient(circle at ${glowPos.x}px ${glowPos.y}px, rgba(99, 102, 241, 0.15), transparent 80%)`
+                    rotateX,
+                    rotateY,
+                    transformStyle: "preserve-3d"
                 }}
-            />
+                whileHover={{ scale: 1.02 }} // Gentle scale up
+            >
+                {/* HUD Corners */}
+                <div className="hud-corner top-left" />
+                <div className="hud-corner top-right" />
+                <div className="hud-corner bottom-left" />
+                <div className="hud-corner bottom-right" />
 
-            <div className="card-content" style={{ transform: "translateZ(30px)" }}>
-                <div className="card-header">
-                    <div className="folder-icon">
-                        <FiFolder size={40} color="var(--primary)" />
+                <div className="card-bg-glow" />
+
+                <div className="card-content" style={{ transform: "translateZ(30px)" }}>
+                    <div className="card-top">
+                        <div className="folder-icon">
+                            <FiFolder />
+                        </div>
+                        <div className="links">
+                            {project.link && (
+                                <a href={project.link} target="_blank" rel="noopener noreferrer" className="icon-link">
+                                    <FiGithub />
+                                </a>
+                            )}
+                        </div>
                     </div>
-                    <div className="project-links">
-                        <a href={proj.link} target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                            <FiGithub size={20} />
-                        </a>
-                        {proj.demo && (
-                            <a href={proj.demo} target="_blank" rel="noopener noreferrer" aria-label="Demo">
-                                <FiExternalLink size={20} />
-                            </a>
-                        )}
-                    </div>
-                </div>
 
-                <div className="card-body">
-                    <h3>{proj.name}</h3>
-                    <p>{proj.description}</p>
-                </div>
+                    <h3 className="project-title">{project.name}</h3>
+                    <p className="project-description">{project.description}</p>
 
-                <div className="card-footer">
-                    <div className="tech-tags">
-                        {proj.tech.split(',').map(tech => (
-                            <span
-                                key={tech.trim()}
-                                className="tech-tag"
-                            >
-                                {tech.trim()}
-                            </span>
+                    <div className="project-tech-wrapper">
+                        {project.tech.split(',').map((tech, i) => (
+                            <span key={i} className="tech-chip">{tech.trim()}</span>
                         ))}
                     </div>
                 </div>
-            </div>
+            </motion.div>
         </motion.div>
     );
-}
+};
 
 export default Projects;

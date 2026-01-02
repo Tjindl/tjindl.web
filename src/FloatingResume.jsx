@@ -70,8 +70,8 @@ const FloatingResume = () => {
             </AnimatePresence>
 
             <motion.a
-              href={`${import.meta.env.BASE_URL}assets/resume/Tushar_Jindal_Resume.pdf`}
-              download="Tushar_Jindal_Resume.pdf"
+              href="/tjindl.web/assets/resume/TjindlResumeLatest.pdf"
+              target="_blank"
               className="floating-resume-paper"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}

@@ -1,60 +1,62 @@
-/* Experience.css */
+/* Experience.css - Cinematic Glass Timeline */
+
 .experience-container {
     width: 100%;
-    max-width: 1000px;
+    max-width: 1200px;
+    /* Wider for cinematic feel */
     margin: 0 auto;
-    padding: 4rem 1rem;
+    padding: 6rem 1rem;
     position: relative;
+    overflow: hidden;
+}
+
+.section-header-wrapper {
+    text-align: center;
+    margin-bottom: 5rem;
 }
 
 .timeline-wrapper {
     position: relative;
-    margin-top: 4rem;
     padding: 2rem 0;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
-/* The Glowing Line */
-.timeline-line {
+/* Central Laser Beam */
+.timeline-line-track {
     position: absolute;
     left: 50%;
     top: 0;
     bottom: 0;
-    width: 4px;
-    background: var(--primary);
-    transform-origin: top;
-    box-shadow: 0 0 15px var(--primary-glow);
-    z-index: 0;
-    border-radius: 2px;
-}
-
-.timeline-tip {
-    position: absolute;
-    bottom: -5px;
-    left: 50%;
+    width: 2px;
+    background: rgba(255, 255, 255, 0.05);
+    /* Faint track */
     transform: translateX(-50%);
-    width: 10px;
-    height: 10px;
-    background: var(--primary);
-    border-radius: 50%;
-    box-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary);
+    z-index: 0;
 }
 
-.timeline-logo {
+.timeline-line-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
+    background: linear-gradient(to bottom, #818cf8, #3b82f6, #06b6d4);
+    transform-origin: top;
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.5), 0 0 30px rgba(59, 130, 246, 0.3);
 }
 
+/* Rows */
 .timeline-items {
     display: flex;
     flex-direction: column;
-    gap: 4rem;
+    gap: 6rem;
+    /* Spacious cinematic layout */
     position: relative;
-    z-index: 1;
+    padding-bottom: 4rem;
 }
 
-.timeline-item {
+.timeline-row {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -62,114 +64,311 @@
     position: relative;
 }
 
-/* Dot on the line */
-.timeline-dot {
+/* Positioning Sides */
+.timeline-row.left .timeline-content-wrapper {
+    margin-right: auto;
+    margin-left: 2rem;
+    /* Keep close to center but not too far */
+    transform-origin: right center;
+}
+
+.timeline-row.right {
+    justify-content: flex-end;
+}
+
+.timeline-row.right .timeline-content-wrapper {
+    margin-left: auto;
+    margin-right: 2rem;
+    transform-origin: left center;
+}
+
+
+/* Connecting Nodes */
+.timeline-node {
     position: absolute;
     left: 50%;
-    transform: translateX(-50%);
-    width: 50px;
-    height: 50px;
-    background: var(--bg-darker);
-    border: 2px solid var(--primary);
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.node-circle {
+    width: 24px;
+    height: 24px;
+    border: 2px solid #fff;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: var(--primary);
-    font-size: 1.2rem;
+    background: #000;
+    box-shadow: 0 0 15px currentColor;
     z-index: 2;
-    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
-    transition: all 0.3s ease;
 }
 
-.timeline-item:hover .timeline-dot {
-    background: var(--primary);
-    color: white;
-    transform: translateX(-50%) scale(1.2);
-    box-shadow: 0 0 30px var(--primary-glow);
+.node-core {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    box-shadow: 0 0 10px currentColor;
 }
 
-/* Content Card */
-.timeline-content {
+/* Horizontal Beams connecting node to card */
+.node-beam {
+    position: absolute;
+    height: 2px;
+    width: 50px;
+    /* Length of connection */
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    /* Low Z-index so it goes behind card if needed */
+    opacity: 0.5;
+}
+
+/* Left node beam goes Right */
+.timeline-node.left-node .node-beam {
+    right: 12px;
+    width: 80px;
+    /* Shortened slightly from 100px */
+    background: linear-gradient(to left, currentColor 0%, transparent 100%);
+    transform-origin: right;
+}
+
+/* Right node beam goes Left */
+.timeline-node.right-node .node-beam {
+    left: 12px;
+    width: 80px;
+    /* Shortened slightly */
+    background: linear-gradient(to right, currentColor 0%, transparent 100%);
+    transform-origin: left;
+}
+
+
+/* CARD Styles - Holographic HUD Upgrade */
+.timeline-content-wrapper {
     width: 45%;
-    padding: 2rem;
+    max-width: 500px;
     position: relative;
+    z-index: 20;
+    /* Ensure card sits ON TOP of the beam */
+}
+
+.timeline-card {
+    background: rgba(10, 10, 15, 0.7);
+    /* Darker, richer base */
+    /* Remove default border, use pseudo-element for gradient border */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    /* Fallback/Base border */
+    border-radius: 16px;
+    padding: 2.5rem;
+    /* Increased padding to clear corners */
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     transition: all 0.3s ease;
 }
 
-.timeline-content:hover {
-    transform: translateY(-5px);
-    border-color: var(--primary);
+/* Dynamic Gradient Border via Box Shadow or Pseudo */
+.timeline-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    padding: 1px;
+    /* Border width */
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), var(--card-color), rgba(255, 255, 255, 0.1));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
 }
 
-/* Alternating Layout */
-.timeline-item.left {
-    justify-content: flex-start;
+.timeline-card:hover::before {
+    opacity: 1;
 }
 
-.timeline-item.right {
-    justify-content: flex-end;
+/* Background Grid Pattern */
+.card-bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: 0;
 }
 
-.timeline-item.left .timeline-content {
-    margin-right: auto;
-    text-align: right;
+/* HUD Corner Accents - Pushed flush to edges */
+.card-accent-corner {
+    position: absolute;
+    width: 25px;
+    /* Slightly larger visually but further out */
+    height: 25px;
+    border: 2px solid var(--card-color);
+    transition: all 0.3s ease;
+    opacity: 0.5;
+    z-index: 1;
+    /* Below content */
+    pointer-events: none;
 }
 
-.timeline-item.right .timeline-content {
-    margin-left: auto;
-    text-align: left;
+.card-accent-corner.top-right {
+    top: 0;
+    right: 0;
+    border-bottom: none;
+    border-left: none;
+    border-top-right-radius: 16px;
+    /* Exact match to card border radius */
 }
 
-/* Typography */
-.timeline-date {
-    display: inline-block;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.85rem;
-    color: var(--accent);
-    margin-bottom: 0.5rem;
+.card-accent-corner.bottom-left {
+    bottom: 0;
+    left: 0;
+    border-top: none;
+    border-right: none;
+    border-bottom-left-radius: 16px;
+    /* Exact match */
+}
+
+/* Bottom Glowing Edge */
+.card-glowing-edge {
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: var(--card-color);
+    box-shadow: 0 0 15px var(--card-color), 0 0 30px var(--card-color);
+    opacity: 0.3;
+    transition: opacity 0.3s ease;
+    z-index: 10;
+}
+
+.timeline-card:hover .card-glowing-edge {
+    opacity: 0.8;
+}
+
+/* Tilt Inner Wrapper */
+.tilt-inner {
+    position: relative;
+    z-index: 2;
+}
+
+/* Sheen Overlay */
+.tilt-sheen {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+}
+
+/* Card Content */
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 1.5rem;
+    position: relative;
+    z-index: 2;
+}
+
+.logo-wrapper {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #000;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.company-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.role-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+}
+
+.company-name {
+    font-size: 0.95rem;
     font-weight: 600;
+    margin: 0.3rem 0 0 0;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-.timeline-content h3 {
-    font-size: 1.5rem;
-    margin-bottom: 0.25rem;
-    color: var(--text-primary);
-}
-
-.timeline-content h4 {
-    font-size: 1.1rem;
-    color: var(--text-secondary);
-    margin-bottom: 1rem;
-    font-weight: 500;
-}
-
-.timeline-content p {
-    color: var(--text-secondary);
-    font-size: 1rem;
+.description {
+    color: #a1a1aa;
     line-height: 1.6;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 2;
+}
+
+.date-badge {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    /* Squarer tech badge */
+    font-size: 0.8rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--card-color);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 2;
 }
 
 /* Responsive */
-@media (max-width: 768px) {
-    .timeline-line {
+@media (max-width: 900px) {
+    .timeline-line-track {
         left: 20px;
     }
 
-    .timeline-dot {
+    .timeline-node {
         left: 20px;
-        width: 40px;
-        height: 40px;
-        font-size: 1rem;
     }
 
-    .timeline-item {
-        justify-content: flex-start !important;
+    .timeline-row {
+        flex-direction: column;
+        align-items: flex-start;
         padding-left: 60px;
     }
 
-    .timeline-content {
+    .timeline-content-wrapper {
         width: 100%;
-        text-align: left !important;
+        max-width: 100%;
+        margin: 0 !important;
+    }
+
+    .timeline-node.left-node .node-beam,
+    .timeline-node.right-node .node-beam {
+        left: 12px;
+        right: auto;
+        width: 40px;
+        background: linear-gradient(to right, currentColor 0%, transparent 100%);
     }
 }

@@ -5,4 +5,5 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   base: '/tjindl.web/', // Explicitly set the base path for GitHub Pages
+  assetsInclude: ['**/*.pdf'], // Treat PDF files as static assets
 });

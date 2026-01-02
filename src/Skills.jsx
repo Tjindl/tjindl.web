@@ -1,106 +1,71 @@
 import React from 'react';
 import './Skills.css';
-import { motion } from 'framer-motion';
-import {
-    FaReact, FaPython, FaJava, FaNodeJs, FaRust, FaDocker, FaAws, FaGitAlt, FaLinux, FaFigma, FaBrain
-} from 'react-icons/fa';
-import {
-    SiTypescript, SiNextdotjs, SiTailwindcss, SiMui, SiFramer, SiThreedotjs,
-    SiSpringboot, SiFastapi, SiFlask, SiPostgresql,
-    SiPytorch, SiTensorflow, SiScikitlearn, SiPandas, SiNumpy, SiOpencv, SiHuggingface,
-    SiGithubactions
-} from 'react-icons/si';
+import { FaReact, FaNodeJs, FaPython, FaDocker, FaAws, FaGitAlt, FaJava, FaRust } from 'react-icons/fa';
+import { SiTypescript, SiNextdotjs, SiTailwindcss, SiThreedotjs, SiPostgresql, SiFigma, SiGraphql, SiRedux, SiVite, SiGo, SiKubernetes, SiSupabase, SiFramer } from 'react-icons/si';
 
-function Skills() {
-    const skills = [
-        {
-            category: "Frontend",
-            items: [
-                { name: "React", icon: <FaReact /> },
-                { name: "TypeScript", icon: <SiTypescript /> },
-                { name: "Next.js", icon: <SiNextdotjs /> },
-                { name: "Tailwind", icon: <SiTailwindcss /> },
-                { name: "Material UI", icon: <SiMui /> },
-                { name: "Framer", icon: <SiFramer /> },
-                { name: "Three.js", icon: <SiThreedotjs /> }
-            ]
-        },
-        {
-            category: "Backend",
-            items: [
-                { name: "Python", icon: <FaPython /> },
-                { name: "Java", icon: <FaJava /> },
-                { name: "Node.js", icon: <FaNodeJs /> },
-                { name: "Spring", icon: <SiSpringboot /> },
-                { name: "FastAPI", icon: <SiFastapi /> },
-                { name: "Flask", icon: <SiFlask /> },
-                { name: "Rust", icon: <FaRust /> },
-                { name: "Postgres", icon: <SiPostgresql /> }
-            ]
-        },
-        {
-            category: "AI / ML",
-            items: [
-                { name: "PyTorch", icon: <SiPytorch /> },
-                { name: "TensorFlow", icon: <SiTensorflow /> },
-                { name: "Scikit", icon: <SiScikitlearn /> },
-                { name: "Pandas", icon: <SiPandas /> },
-                { name: "NumPy", icon: <SiNumpy /> },
-                { name: "OpenCV", icon: <SiOpencv /> },
-                { name: "NLP", icon: <FaBrain /> },
-                { name: "HuggingFace", icon: <SiHuggingface /> }
-            ]
-        },
-        {
-            category: "Tools",
-            items: [
-                { name: "Docker", icon: <FaDocker /> },
-                { name: "AWS", icon: <FaAws /> },
-                { name: "Git", icon: <FaGitAlt /> },
-                { name: "Actions", icon: <SiGithubactions /> },
-                { name: "Linux", icon: <FaLinux /> },
-                { name: "Figma", icon: <FaFigma /> }
-            ]
-        }
-    ];
+const skills = [
+    { name: "React", icon: <FaReact />, color: "#61DAFB" },
+    { name: "TypeScript", icon: <SiTypescript />, color: "#3178C6" },
+    { name: "Next.js", icon: <SiNextdotjs />, color: "#ffffff" },
+    { name: "Tailwind", icon: <SiTailwindcss />, color: "#38B2AC" },
+    { name: "Node.js", icon: <FaNodeJs />, color: "#339933" },
+    { name: "Three.js", icon: <SiThreedotjs />, color: "#ffffff" },
+    { name: "Python", icon: <FaPython />, color: "#3776AB" },
+    { name: "AWS", icon: <FaAws />, color: "#FF9900" },
+    { name: "Docker", icon: <FaDocker />, color: "#2496ED" },
+    { name: "PostgreSQL", icon: <SiPostgresql />, color: "#336791" },
+    { name: "Rust", icon: <FaRust />, color: "#DEA584" },
+    { name: "Figma", icon: <SiFigma />, color: "#F24E1E" },
+    { name: "Git", icon: <FaGitAlt />, color: "#F05032" },
+    { name: "Go", icon: <SiGo />, color: "#00ADD8" },
+    { name: "GraphQL", icon: <SiGraphql />, color: "#E10098" },
+    { name: "K8s", icon: <SiKubernetes />, color: "#326CE5" },
+    { name: "Supabase", icon: <SiSupabase />, color: "#3ECF8E" },
+    { name: "Framer", icon: <SiFramer />, color: "#0055FF" },
+    { name: "Vite", icon: <SiVite />, color: "#646CFF" },
+    { name: "Redux", icon: <SiRedux />, color: "#764ABC" }
+];
+
+const SkillCard = ({ skill }) => (
+    <div className="skill-card" style={{ '--skill-color': skill.color }}>
+        <div className="skill-icon">{skill.icon}</div>
+        <span className="skill-name">{skill.name}</span>
+        <div className="skill-glow"></div>
+    </div>
+);
+
+const Skills = () => {
+    // Split skills into two rows for variety
+    const half = Math.ceil(skills.length / 2);
+    const topRow = skills.slice(0, half);
+    const bottomRow = skills.slice(half);
 
     return (
-        <div className="skills-container">
-            <motion.div
-                className="section-header"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-            >
-                <h2 className="gradient-text">Skills & Expertise</h2>
-                <p>Technologies I work with</p>
-            </motion.div>
+        <div className="skills-section">
+            <div className="skills-header">
+                <h2>Technical Arsenal</h2>
+                <p>Interactive expertise across the full stack</p>
+            </div>
 
-            <div className="skills-marquee-container">
-                <div className="marquee-wrapper">
-                    <div className="marquee-track left">
-                        {[...skills[0].items, ...skills[1].items, ...skills[0].items, ...skills[1].items].map((item, index) => (
-                            <span key={index} className="marquee-item">
-                                <span className="icon">{item.icon}</span>
-                                {item.name}
-                            </span>
-                        ))}
+            <div className="marquee-container">
+                {/* Row 1: Left to Right */}
+                <div className="marquee-track">
+                    <div className="marquee-content scroll-left">
+                        {topRow.map((skill, index) => <SkillCard key={index} skill={skill} />)}
+                        {topRow.map((skill, index) => <SkillCard key={`dup-${index}`} skill={skill} />)}
                     </div>
                 </div>
 
-                <div className="marquee-wrapper">
-                    <div className="marquee-track right">
-                        {[...skills[2].items, ...skills[3].items, ...skills[2].items, ...skills[3].items].map((item, index) => (
-                            <span key={index} className="marquee-item outline">
-                                <span className="icon">{item.icon}</span>
-                                {item.name}
-                            </span>
-                        ))}
+                {/* Row 2: Right to Left */}
+                <div className="marquee-track">
+                    <div className="marquee-content scroll-right">
+                        {bottomRow.map((skill, index) => <SkillCard key={index} skill={skill} />)}
+                        {bottomRow.map((skill, index) => <SkillCard key={`dup-${index}`} skill={skill} />)}
                     </div>
                 </div>
             </div>
         </div>
     );
-}
+};
 
 export default Skills;
