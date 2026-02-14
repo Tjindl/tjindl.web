@@ -142,7 +142,8 @@ const HeroImage = () => {
         <div style={{ width: '100%', height: '500px' }}>
             <Canvas
                 camera={{ position: [0, 0, 6], fov: 45 }}
-                gl={{ alpha: true }} // Transparent background
+                gl={{ alpha: true }}
+                dpr={[1, 1.5]}
             >
                 {/* Clean Cinematic Lighting */}
                 <ambientLight intensity={0.5} />

@@ -118,15 +118,15 @@ function Connect() {
 
                         <div className="form-group">
                             <label htmlFor="user_name">ENTER_NAME:</label>
-                            <input type="text" name="user_name" id="user_name" placeholder="_" required />
+                            <input type="text" name="user_name" id="user_name" placeholder="John Doe" required />
                         </div>
                         <div className="form-group">
                             <label htmlFor="user_email">ENTER_EMAIL:</label>
-                            <input type="email" name="user_email" id="user_email" placeholder="_" required />
+                            <input type="email" name="user_email" id="user_email" placeholder="you@example.com" required />
                         </div>
                         <div className="form-group">
                             <label htmlFor="message">ENTER_MESSAGE:</label>
-                            <textarea name="message" id="message" rows="4" placeholder="_" required></textarea>
+                            <textarea name="message" id="message" rows="4" placeholder="Your message..." required></textarea>
                         </div>
 
                         <motion.button

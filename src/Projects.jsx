@@ -1,6 +1,5 @@
-import React from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { FiGithub, FiExternalLink, FiFolder, FiCode, FiCpu, FiLayers } from 'react-icons/fi';
+import { FiGithub, FiFolder } from 'react-icons/fi';
 import Data from './Data';
 import './Projects.css';
 

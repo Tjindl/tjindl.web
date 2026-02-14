@@ -6,7 +6,7 @@ function ScrollToTop() {
 
     useEffect(() => {
         const toggleVisibility = () => {
-            if (window.pageYOffset > 300) {
+            if (window.scrollY > 300) {
                 setIsVisible(true);
             } else {
                 setIsVisible(false);
@@ -27,9 +27,9 @@ function ScrollToTop() {
     return (
         <>
             {isVisible && (
-                <div className="scroll-to-top" onClick={scrollToTop}>
+                <button className="scroll-to-top" onClick={scrollToTop} aria-label="Scroll to top">
                     <span>↑</span>
-                </div>
+                </button>
             )}
         </>
     );

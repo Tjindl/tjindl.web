@@ -2,7 +2,9 @@ import { Link } from 'react-scroll';
 import './Navigation.css';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiMenu, FiX, FiSun, FiMoon } from 'react-icons/fi';
+import { FiMenu, FiX, FiFileText } from 'react-icons/fi';
+
+const RESUME_URL = "/tjindl.web/assets/resume/TjindlResumeLatest.pdf";
 
 function Navigation() {
     const [activeSection, setActiveSection] = useState('about');
@@ -78,6 +80,17 @@ function Navigation() {
                             </Link>
                         </li>
                     ))}
+                    <li>
+                        <a
+                            href={RESUME_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="nav-link resume-link"
+                        >
+                            <FiFileText style={{ marginRight: 6 }} />
+                            <span className="nav-text">Resume</span>
+                        </a>
+                    </li>
                 </ul>
 
                 <div className="nav-controls">
@@ -114,6 +127,16 @@ function Navigation() {
                                     </Link>
                                 </li>
                             ))}
+                            <li>
+                                <a
+                                    href={RESUME_URL}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    onClick={() => setIsMobileOpen(false)}
+                                >
+                                    Resume
+                                </a>
+                            </li>
                         </ul>
                     </motion.div>
                 )}

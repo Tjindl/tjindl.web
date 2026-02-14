@@ -138,6 +138,12 @@ nav,
 }
 
 
+.resume-link {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
 .nav-controls {
   display: none;
 }

@@ -85,6 +85,8 @@ function App() {
             style={{ scaleX }}
           />
           <div className="noise-overlay"></div>
+          <div className="aurora-blob"></div>
+          <div className="aurora-accent"></div>
           <ParticleBackground />
 
           {/* Optimized Cursor */}
@@ -151,8 +153,8 @@ function App() {
                     animate={{ opacity: 1 }}
                     transition={{ delay: 1, duration: 0.5 }}
                   >
-                    Crafting digital experiences with code and creativity.
-                    Specializing in building exceptional, high-quality websites and applications.
+                    Math student at UBC building AI-powered tools and full-stack applications.
+                    From computer vision to NLP, I turn complex problems into clean, usable software.
                   </motion.p>
 
                   <motion.div

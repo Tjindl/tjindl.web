@@ -149,11 +149,12 @@ body {
   width: 200%;
   height: 200%;
   background:
-    radial-gradient(circle at 0% 0%, rgba(99, 102, 241, 0.15), transparent 50%),
-    radial-gradient(circle at 100% 0%, rgba(139, 92, 246, 0.15), transparent 50%),
-    radial-gradient(circle at 100% 100%, rgba(16, 185, 129, 0.15), transparent 50%),
-    radial-gradient(circle at 0% 100%, rgba(244, 63, 94, 0.15), transparent 50%);
-  animation: aurora-spin 20s linear infinite;
+    radial-gradient(ellipse at 20% 20%, rgba(99, 102, 241, 0.2), transparent 50%),
+    radial-gradient(ellipse at 80% 15%, rgba(139, 92, 246, 0.18), transparent 50%),
+    radial-gradient(ellipse at 85% 80%, rgba(16, 185, 129, 0.15), transparent 50%),
+    radial-gradient(ellipse at 10% 85%, rgba(244, 63, 94, 0.12), transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(192, 132, 252, 0.1), transparent 65%);
+  animation: aurora-drift 25s ease-in-out infinite;
   z-index: 0;
   pointer-events: none;
   filter: blur(60px);
@@ -169,28 +170,102 @@ body {
   height: 150%;
   background:
     conic-gradient(from 0deg at 50% 50%,
-      rgba(99, 102, 241, 0.1) 0deg,
-      rgba(139, 92, 246, 0.1) 120deg,
-      rgba(16, 185, 129, 0.1) 240deg,
-      rgba(99, 102, 241, 0.1) 360deg);
-  animation: aurora-rotate 30s linear infinite reverse;
+      rgba(99, 102, 241, 0.14) 0deg,
+      rgba(168, 85, 247, 0.12) 60deg,
+      rgba(139, 92, 246, 0.14) 120deg,
+      rgba(16, 185, 129, 0.1) 180deg,
+      rgba(99, 102, 241, 0.08) 240deg,
+      rgba(192, 132, 252, 0.1) 300deg,
+      rgba(99, 102, 241, 0.14) 360deg);
+  animation: aurora-rotate 35s linear infinite reverse, aurora-hue 45s ease-in-out infinite alternate;
   z-index: 0;
   pointer-events: none;
   filter: blur(80px);
-  opacity: 0.6;
+  opacity: 0.75;
 }
 
-@keyframes aurora-spin {
+/* Aurora accent — warm undertone */
+.aurora-accent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.aurora-accent::before {
+  content: '';
+  position: absolute;
+  width: 45vw;
+  height: 45vw;
+  top: 20%;
+  left: 30%;
+  border-radius: 50% 40% 60% 50% / 40% 60% 40% 60%;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, rgba(99, 102, 241, 0.06) 50%, transparent 70%);
+  filter: blur(90px);
+  animation: blob-float-3 30s ease-in-out infinite, blob-morph-1 22s ease-in-out infinite reverse;
+  opacity: 0.8;
+}
+
+@keyframes blob-float-3 {
+  0%, 100% { top: 20%; left: 30%; }
+  25% { top: 50%; left: 60%; }
+  50% { top: 70%; left: 40%; }
+  75% { top: 30%; left: 10%; }
+}
+
+/* Third aurora layer — slow floating blob */
+.aurora-blob {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.aurora-blob::before {
+  content: '';
+  position: absolute;
+  width: 60vw;
+  height: 60vw;
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.18) 0%, rgba(99, 102, 241, 0.1) 40%, transparent 70%);
+  filter: blur(80px);
+  animation: blob-float-1 20s ease-in-out infinite, blob-morph-1 15s ease-in-out infinite;
+}
+
+.aurora-blob::after {
+  content: '';
+  position: absolute;
+  width: 50vw;
+  height: 50vw;
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.14) 0%, rgba(99, 102, 241, 0.07) 40%, transparent 70%);
+  filter: blur(80px);
+  animation: blob-float-2 25s ease-in-out infinite, blob-morph-2 18s ease-in-out infinite;
+}
+
+@keyframes aurora-drift {
   0% {
-    transform: rotate(0deg) scale(1);
+    transform: rotate(0deg) scale(1) translate(0%, 0%);
   }
-
+  25% {
+    transform: rotate(90deg) scale(1.1) translate(5%, -3%);
+  }
   50% {
-    transform: rotate(180deg) scale(1.2);
+    transform: rotate(180deg) scale(1.15) translate(-3%, 5%);
   }
-
+  75% {
+    transform: rotate(270deg) scale(1.05) translate(-5%, -2%);
+  }
   100% {
-    transform: rotate(360deg) scale(1);
+    transform: rotate(360deg) scale(1) translate(0%, 0%);
   }
 }
 
@@ -198,10 +273,40 @@ body {
   0% {
     transform: translate(-50%, -50%) rotate(0deg);
   }
-
   100% {
     transform: translate(-50%, -50%) rotate(360deg);
   }
+}
+
+@keyframes blob-float-1 {
+  0%, 100% { top: -10%; left: -10%; }
+  33% { top: 30%; left: 60%; }
+  66% { top: 60%; left: 20%; }
+}
+
+@keyframes blob-float-2 {
+  0%, 100% { bottom: -10%; right: -10%; top: auto; left: auto; }
+  33% { bottom: 40%; right: 50%; top: auto; left: auto; }
+  66% { bottom: 10%; right: 20%; top: auto; left: auto; }
+}
+
+@keyframes blob-morph-1 {
+  0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+  25% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; }
+  50% { border-radius: 50% 60% 30% 60% / 50% 70% 40% 60%; }
+  75% { border-radius: 30% 40% 60% 70% / 60% 40% 50% 50%; }
+}
+
+@keyframes blob-morph-2 {
+  0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  25% { border-radius: 40% 60% 50% 50% / 50% 60% 40% 60%; }
+  50% { border-radius: 30% 70% 60% 40% / 40% 50% 60% 50%; }
+  75% { border-radius: 50% 30% 40% 60% / 70% 40% 30% 60%; }
+}
+
+@keyframes aurora-hue {
+  0% { filter: blur(80px) hue-rotate(0deg); }
+  100% { filter: blur(80px) hue-rotate(30deg); }
 }
 
 /* Typography */

@@ -1,29 +1,27 @@
-import React from 'react';
 import './Skills.css';
-import { FaReact, FaNodeJs, FaPython, FaDocker, FaAws, FaGitAlt, FaJava, FaRust } from 'react-icons/fa';
-import { SiTypescript, SiNextdotjs, SiTailwindcss, SiThreedotjs, SiPostgresql, SiFigma, SiGraphql, SiRedux, SiVite, SiGo, SiKubernetes, SiSupabase, SiFramer } from 'react-icons/si';
+import { FaReact, FaNodeJs, FaPython, FaDocker, FaAws, FaGitAlt, FaJava } from 'react-icons/fa';
+import { SiTypescript, SiTailwindcss, SiPostgresql, SiFlask, SiFastapi, SiTensorflow, SiOpencv, SiScikitlearn, SiJavascript, SiCplusplus, SiMongodb, SiGooglecloud } from 'react-icons/si';
 
 const skills = [
-    { name: "React", icon: <FaReact />, color: "#61DAFB" },
-    { name: "TypeScript", icon: <SiTypescript />, color: "#3178C6" },
-    { name: "Next.js", icon: <SiNextdotjs />, color: "#ffffff" },
-    { name: "Tailwind", icon: <SiTailwindcss />, color: "#38B2AC" },
-    { name: "Node.js", icon: <FaNodeJs />, color: "#339933" },
-    { name: "Three.js", icon: <SiThreedotjs />, color: "#ffffff" },
+    { name: "Java", icon: <FaJava />, color: "#ED8B00" },
     { name: "Python", icon: <FaPython />, color: "#3776AB" },
-    { name: "AWS", icon: <FaAws />, color: "#FF9900" },
-    { name: "Docker", icon: <FaDocker />, color: "#2496ED" },
+    { name: "C/C++", icon: <SiCplusplus />, color: "#00599C" },
+    { name: "JavaScript", icon: <SiJavascript />, color: "#F7DF1E" },
+    { name: "TypeScript", icon: <SiTypescript />, color: "#3178C6" },
+    { name: "React", icon: <FaReact />, color: "#61DAFB" },
+    { name: "Node.js", icon: <FaNodeJs />, color: "#339933" },
+    { name: "Flask", icon: <SiFlask />, color: "#ffffff" },
+    { name: "FastAPI", icon: <SiFastapi />, color: "#009688" },
+    { name: "Tailwind", icon: <SiTailwindcss />, color: "#38B2AC" },
     { name: "PostgreSQL", icon: <SiPostgresql />, color: "#336791" },
-    { name: "Rust", icon: <FaRust />, color: "#DEA584" },
-    { name: "Figma", icon: <SiFigma />, color: "#F24E1E" },
+    { name: "MongoDB", icon: <SiMongodb />, color: "#47A248" },
+    { name: "TensorFlow", icon: <SiTensorflow />, color: "#FF6F00" },
+    { name: "OpenCV", icon: <SiOpencv />, color: "#5C3EE8" },
+    { name: "scikit-learn", icon: <SiScikitlearn />, color: "#F7931E" },
     { name: "Git", icon: <FaGitAlt />, color: "#F05032" },
-    { name: "Go", icon: <SiGo />, color: "#00ADD8" },
-    { name: "GraphQL", icon: <SiGraphql />, color: "#E10098" },
-    { name: "K8s", icon: <SiKubernetes />, color: "#326CE5" },
-    { name: "Supabase", icon: <SiSupabase />, color: "#3ECF8E" },
-    { name: "Framer", icon: <SiFramer />, color: "#0055FF" },
-    { name: "Vite", icon: <SiVite />, color: "#646CFF" },
-    { name: "Redux", icon: <SiRedux />, color: "#764ABC" }
+    { name: "Docker", icon: <FaDocker />, color: "#2496ED" },
+    { name: "AWS", icon: <FaAws />, color: "#FF9900" },
+    { name: "GCP", icon: <SiGooglecloud />, color: "#4285F4" }
 ];
 
 const SkillCard = ({ skill }) => (

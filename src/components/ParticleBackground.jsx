@@ -15,7 +15,8 @@ const ParticleBackground = () => {
     };
 
     const particles = [];
-    const particleCount = 30; // Reduced for performance
+    const isMobile = window.innerWidth < 768;
+    const particleCount = isMobile ? 12 : 30;
 
     class Particle {
       constructor() {
@@ -25,7 +26,7 @@ const ParticleBackground = () => {
         this.vy = (Math.random() - 0.5) * 0.5;
         this.radius = Math.random() * 2 + 1;
         this.opacity = Math.random() * 0.5 + 0.2;
-        this.color = `hsla(${Math.random() * 60 + 180}, 70%, 60%, ${this.opacity})`;
+        this.color = `hsla(${Math.random() * 40 + 230}, 70%, 65%, ${this.opacity})`;
       }
 
       update() {
@@ -58,7 +59,7 @@ const ParticleBackground = () => {
           const distance = Math.sqrt(dx * dx + dy * dy);
 
           if (distance < 100) {
-            ctx.strokeStyle = `rgba(0, 212, 255, ${0.2 * (1 - distance / 100)})`;
+            ctx.strokeStyle = `rgba(129, 140, 248, ${0.2 * (1 - distance / 100)})`;
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
