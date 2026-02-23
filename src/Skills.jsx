@@ -1,6 +1,6 @@
 import './Skills.css';
-import { FaReact, FaNodeJs, FaPython, FaDocker, FaAws, FaGitAlt, FaJava } from 'react-icons/fa';
-import { SiTypescript, SiTailwindcss, SiPostgresql, SiFlask, SiFastapi, SiTensorflow, SiOpencv, SiScikitlearn, SiJavascript, SiCplusplus, SiMongodb, SiGooglecloud } from 'react-icons/si';
+import { FaReact, FaNodeJs, FaPython, FaDocker, FaAws, FaGitAlt, FaJava, FaBrain } from 'react-icons/fa';
+import { SiTypescript, SiTailwindcss, SiPostgresql, SiFlask, SiFastapi, SiTensorflow, SiOpencv, SiScikitlearn, SiJavascript, SiCplusplus, SiMongodb, SiGooglecloud, SiPytorch } from 'react-icons/si';
 
 const skills = [
     { name: "Java", icon: <FaJava />, color: "#ED8B00" },
@@ -21,7 +21,9 @@ const skills = [
     { name: "Git", icon: <FaGitAlt />, color: "#F05032" },
     { name: "Docker", icon: <FaDocker />, color: "#2496ED" },
     { name: "AWS", icon: <FaAws />, color: "#FF9900" },
-    { name: "GCP", icon: <SiGooglecloud />, color: "#4285F4" }
+    { name: "GCP", icon: <SiGooglecloud />, color: "#4285F4" },
+    { name: "PyTorch", icon: <SiPytorch />, color: "#EE4C2C" },
+    { name: "LLMs / Generative AI", icon: <FaBrain />, color: "#FF6EC7" }
 ];
 
 const SkillCard = ({ skill }) => (

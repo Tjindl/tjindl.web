@@ -1,5 +1,11 @@
 const Data = [
     {
+        name: "BitSmith 🧠",
+        link: "https://github.com/Tjindl/BitSmith",
+        description: "Custom LLM Inference Engine & Research Sandbox. Designed an end-to-end compression pipeline for GPT-2 reducing footprint by 50% using AWQ. Created a pure-Python PageRank graph-pruning algorithm. Built a zero-dependency C++ inference engine optimized for Apple Silicon with PyBind11 and ARM NEON SIMD intrinsics.",
+        tech: "Python, C++, PyBind11, ARM NEON, LLMs, Machine Learning"
+    },
+    {
         name: "AwardScope 🎯",
         link: "https://github.com/Tjindl/AwardScope",
         description: "AI-powered financial aid discovery platform that matches students with scholarships using smart eligibility scoring and generates personalized essay strategies with generative AI.",
