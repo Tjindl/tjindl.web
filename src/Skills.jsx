@@ -24,7 +24,11 @@ const Skills = () => (
         {skillGroups.map((group) => (
             <div className="skills-row" key={group.category}>
                 <span className="skills-category">{group.category}</span>
-                <span className="skills-items">{group.items.join(", ")}</span>
+                <span className="skills-items">
+                    {group.items.map((item) => (
+                        <span className="skill-chip" key={item}>{item}</span>
+                    ))}
+                </span>
             </div>
         ))}
     </div>

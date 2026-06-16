@@ -14,7 +14,11 @@ const Projects = () => (
                     {project.name}
                 </a>
                 <p className="project-description">{project.description}</p>
-                <p className="project-tech">{project.tech}</p>
+                <div className="project-tech">
+                    {project.tech.split(", ").map((item) => (
+                        <span className="tech-chip" key={item}>{item}</span>
+                    ))}
+                </div>
             </div>
         ))}
     </div>

@@ -19,9 +19,26 @@
 }
 
 .skills-items {
-    font-size: 0.9rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.skill-chip {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.74rem;
     color: var(--text-body);
-    line-height: 1.6;
+    background: var(--bg-darker);
+    border: 1px solid var(--border-light);
+    border-radius: 5px;
+    padding: 3px 8px;
+    line-height: 1.3;
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.skill-chip:hover {
+    border-color: var(--primary);
+    color: var(--primary);
 }
 
 @media (max-width: 600px) {
