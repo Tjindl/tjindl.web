@@ -10,8 +10,6 @@ function ParallaxBackground() {
 
   const springX = useSpring(mouseX, { stiffness: 90, damping: 18, mass: 0.4 });
   const springY = useSpring(mouseY, { stiffness: 90, damping: 18, mass: 0.4 });
-  const spotX = useSpring(rawX, { stiffness: 400, damping: 32, mass: 0.15 });
-  const spotY = useSpring(rawY, { stiffness: 400, damping: 32, mass: 0.15 });
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -34,7 +32,7 @@ function ParallaxBackground() {
   const blob3X = useTransform(springX, (v) => v * 55);
   const blob3Y = useTransform(springY, (v) => v * 55);
 
-  const spotlightBg = useMotionTemplate`radial-gradient(circle 280px at ${spotX}px ${spotY}px, rgba(var(--primary-rgb), 0.4), transparent 70%)`;
+  const spotlightBg = useMotionTemplate`radial-gradient(circle 280px at ${rawX}px ${rawY}px, rgba(var(--primary-rgb), 0.4), transparent 70%)`;
 
   return (
     <div className="parallax-bg" aria-hidden="true">
