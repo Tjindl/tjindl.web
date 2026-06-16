@@ -4,7 +4,7 @@ import LoadingScreen from "./components/LoadingScreen.jsx"
 import Footer from "./components/Footer.jsx"
 import ScrollToTop from "./components/ScrollToTop.jsx"
 import ParallaxBackground from "./components/ParallaxBackground.jsx"
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, MotionConfig } from 'framer-motion';
 import './App.css'
 
 import Connect from "./Connect.jsx"
@@ -33,6 +33,7 @@ function App() {
       </AnimatePresence>
 
       {!isLoading && (
+        <MotionConfig reducedMotion="user">
         <div className="App">
           <ParallaxBackground />
           <Navigation />
@@ -64,46 +65,88 @@ function App() {
               </motion.div>
             </header>
 
-            <section id="about" className="profile-section">
+            <motion.section
+              id="about"
+              className="profile-section"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
               <h2 className="section-title">About</h2>
               <ul className="about-list">
                 {aboutBullets.map((line, i) => (
                   <li key={i}>{line}</li>
                 ))}
               </ul>
-            </section>
+            </motion.section>
 
             <Suspense fallback={<div className="section-loader">Loading...</div>}>
-              <section id="skills" className="profile-section">
+              <motion.section
+                id="skills"
+                className="profile-section"
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+              >
                 <h2 className="section-title">Skills</h2>
                 <Skills />
-              </section>
+              </motion.section>
 
-              <section id="experience" className="profile-section">
+              <motion.section
+                id="experience"
+                className="profile-section"
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+              >
                 <h2 className="section-title">Experience</h2>
                 <Experience />
-              </section>
+              </motion.section>
 
-              <section className="profile-section">
+              <motion.section
+                className="profile-section"
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+              >
                 <h2 className="section-title">Education</h2>
                 <Education />
-              </section>
+              </motion.section>
 
-              <section id="projects" className="profile-section">
+              <motion.section
+                id="projects"
+                className="profile-section"
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+              >
                 <h2 className="section-title">Projects</h2>
                 <Projects />
-              </section>
+              </motion.section>
             </Suspense>
 
-            <section id="connect" className="profile-section">
+            <motion.section
+              id="connect"
+              className="profile-section"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
               <h2 className="section-title">Connect</h2>
               <Connect />
-            </section>
+            </motion.section>
 
             <Footer />
             <ScrollToTop />
           </main>
         </div>
+        </MotionConfig>
       )}
     </>
   );
