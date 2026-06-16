@@ -6,6 +6,30 @@ const Data = [
         tech: "Python, C++, PyBind11, ARM NEON, LLMs, Machine Learning"
     },
     {
+        name: "Lore 🧠",
+        link: "https://github.com/Tjindl/Lore",
+        description: "Persistent project memory for developers and AI coding sessions. Captures architectural decisions, invariants, gotchas, and abandoned approaches — stored as git-native JSON, injected into AI context via an MCP server. Features a CLI, local web dashboard, file watcher, and semantic search via Ollama.",
+        tech: "Node.js, Express, MCP SDK, SQLite, Ollama, Tailwind CSS, Commander"
+    },
+    {
+        name: "UBC Course Assistant 🎓",
+        link: "https://github.com/Tjindl/ubc-course-assistant",
+        description: "AI-powered chatbot for navigating UBC's course catalog using vector search and semantic understanding. Transforms natural language queries into high-dimensional embeddings via BERT-based sentence transformers stored in ChromaDB.",
+        tech: "Python, ChromaDB, Sentence Transformers, NLP, Vector Search"
+    },
+    {
+        name: "AxiomForge ∑",
+        link: "https://github.com/Tjindl/AxiomForge",
+        description: "RL research framework for automated mathematical reasoning. Trains a DQN agent to simplify polynomials and solve equations using a SymPy-based environment with a discrete action space of algebraic rewrite rules.",
+        tech: "Python, PyTorch, SymPy, NumPy, Reinforcement Learning, DQN"
+    },
+    {
+        name: "MontrWalk ♿",
+        link: "https://github.com/Tjindl/Conuhacks-X",
+        description: "Accessibility navigation tool built at ConUHacks X. Uses Gemini 2.0 Flash for real-time street-view image analysis to help users navigate urban environments with live AI-powered scene descriptions.",
+        tech: "Python, Gemini API, Computer Vision, React, FastAPI"
+    },
+    {
         name: "AwardScope 🎯",
         link: "https://github.com/Tjindl/AwardScope",
         description: "AI-powered financial aid discovery platform that matches students with scholarships using smart eligibility scoring and generates personalized essay strategies with generative AI.",

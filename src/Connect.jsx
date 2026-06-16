@@ -1,28 +1,18 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import './Connect.css';
-import { motion } from 'framer-motion';
-import { FiMail, FiSend, FiGithub, FiLinkedin, FiEdit3, FiCheck, FiAlertCircle, FiTerminal } from 'react-icons/fi';
 import emailjs from '@emailjs/browser';
+
+const links = [
+    { label: "Email", value: "tushar.bzp05@gmail.com", href: "mailto:tushar.bzp05@gmail.com" },
+    { label: "GitHub", value: "@tjindl", href: "https://github.com/tjindl" },
+    { label: "LinkedIn", value: "tushar-jindal", href: "https://linkedin.com/in/tushar-jindal-97602420b/" },
+    { label: "Medium", value: "@tushar.bzp05", href: "https://medium.com/@tushar.bzp05" },
+];
 
 function Connect() {
     const formRef = useRef();
     const [loading, setLoading] = useState(false);
-    const [status, setStatus] = useState(null); // 'success' | 'error' | null
-    const [headerText, setHeaderText] = useState('');
-    const fullHeaderText = "> INITIATE_CONNECTION_PROTOCOL";
-
-    useEffect(() => {
-        let currentIndex = 0;
-        const interval = setInterval(() => {
-            if (currentIndex <= fullHeaderText.length) {
-                setHeaderText(fullHeaderText.slice(0, currentIndex));
-                currentIndex++;
-            } else {
-                clearInterval(interval);
-            }
-        }, 50);
-        return () => clearInterval(interval);
-    }, []);
+    const [status, setStatus] = useState(null);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -41,12 +31,12 @@ function Connect() {
         };
 
         emailjs.send(SERVICE_ID, TEMPLATE_ID, data, PUBLIC_KEY)
-            .then((result) => {
+            .then(() => {
                 setLoading(false);
                 setStatus('success');
                 formRef.current.reset();
                 setTimeout(() => setStatus(null), 5000);
-            }, (error) => {
+            }, () => {
                 setLoading(false);
                 setStatus('error');
                 setTimeout(() => setStatus(null), 5000);
@@ -55,98 +45,39 @@ function Connect() {
 
     return (
         <div className="connect-wrapper">
-            <motion.div
-                className="section-header"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-            >
-                <h2 className="terminal-header">
-                    {headerText}<span className="cursor-blink">_</span>
-                </h2>
-                <p className="terminal-subheader">ESTABLISH_COMMUNICATION_LINK</p>
-            </motion.div>
+            <div className="connect-links">
+                {links.map((link) => (
+                    <a
+                        key={link.label}
+                        href={link.href}
+                        target={link.href.startsWith('mailto:') ? undefined : '_blank'}
+                        rel={link.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+                        className="link-row"
+                    >
+                        <span className="link-label">{link.label}</span>
+                        <span className="link-value">{link.value}</span>
+                    </a>
+                ))}
+            </div>
 
-            <motion.div
-                className="terminal-container"
-                initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, type: "spring" }}
-            >
-                <div className="terminal-header-bar">
-                    <div className="terminal-buttons">
-                        <span className="close"></span>
-                        <span className="minimize"></span>
-                        <span className="maximize"></span>
-                    </div>
-                    <div className="terminal-title">user@portfolio:~/contact</div>
+            <form className="contact-form" ref={formRef} onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label htmlFor="user_name">Name</label>
+                    <input type="text" name="user_name" id="user_name" placeholder="Your name" required />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="user_email">Email</label>
+                    <input type="email" name="user_email" id="user_email" placeholder="you@example.com" required />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="message">Message</label>
+                    <textarea name="message" id="message" rows="4" placeholder="What's on your mind?" required></textarea>
                 </div>
 
-                <div className="terminal-body">
-                    <div className="contact-info">
-                        <div className="terminal-line">
-                            <span className="prompt">$</span> cat contact_info.txt
-                        </div>
-                        <p className="terminal-output">
-                            Open to collaborations, freelance projects, and technical discussions.
-                            Transmission channels available below.
-                        </p>
-
-                        <div className="connect-links">
-                            <a href="mailto:tushar.bzp05@gmail.com" className="terminal-btn">
-                                <FiMail className="icon" /> EMAIL
-                            </a>
-                            <a href="https://github.com/tjindl" target="_blank" rel="noopener noreferrer" className="terminal-btn">
-                                <FiGithub className="icon" /> GITHUB
-                            </a>
-                            <a href="https://linkedin.com/in/tushar-jindal-97602420b/" target="_blank" rel="noopener noreferrer" className="terminal-btn">
-                                <FiLinkedin className="icon" /> LINKEDIN
-                            </a>
-                            <a href="https://medium.com/@tushar.bzp05" target="_blank" rel="noopener noreferrer" className="terminal-btn">
-                                <FiEdit3 className="icon" /> MEDIUM
-                            </a>
-                        </div>
-                    </div>
-
-                    <div className="terminal-divider"></div>
-
-                    <form className="contact-form" ref={formRef} onSubmit={handleSubmit}>
-                        <div className="terminal-line">
-                            <span className="prompt">$</span> ./send_message.sh
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="user_name">ENTER_NAME:</label>
-                            <input type="text" name="user_name" id="user_name" placeholder="John Doe" required />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="user_email">ENTER_EMAIL:</label>
-                            <input type="email" name="user_email" id="user_email" placeholder="you@example.com" required />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="message">ENTER_MESSAGE:</label>
-                            <textarea name="message" id="message" rows="4" placeholder="Your message..." required></textarea>
-                        </div>
-
-                        <motion.button
-                            type="submit"
-                            className={`terminal-submit ${status === 'success' ? 'success' : ''} ${status === 'error' ? 'error' : ''}`}
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            disabled={loading}
-                        >
-                            {loading ? '[ EXECUTING... ]' : status === 'success' ? (
-                                <>[ TRANSMISSION_COMPLETE ] <FiCheck className="icon-right" /></>
-                            ) : status === 'error' ? (
-                                <>[ ERROR: RETRY ] <FiAlertCircle className="icon-right" /></>
-                            ) : (
-                                <>[ EXECUTE ] <FiTerminal className="icon-right" /></>
-                            )}
-                        </motion.button>
-                    </form>
-                </div>
-            </motion.div>
+                <button type="submit" className="connect-submit" disabled={loading}>
+                    {loading ? 'Sending...' : status === 'success' ? 'Sent' : status === 'error' ? 'Failed — try again' : 'Send message'}
+                </button>
+            </form>
         </div>
     );
 }

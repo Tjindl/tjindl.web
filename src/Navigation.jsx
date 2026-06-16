@@ -2,19 +2,24 @@ import { Link } from 'react-scroll';
 import './Navigation.css';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiMenu, FiX, FiFileText } from 'react-icons/fi';
+import { FiMenu, FiX, FiFileText, FiSun, FiMoon } from 'react-icons/fi';
 
 const RESUME_URL = "/tjindl.web/assets/resume/TjindlResumeLatest.pdf";
 
 function Navigation() {
     const [activeSection, setActiveSection] = useState('about');
     const [isMobileOpen, setIsMobileOpen] = useState(false);
-    const [scrolled, setScrolled] = useState(false);
+    const [theme, setTheme] = useState(() => document.documentElement.getAttribute('data-theme') || 'light');
+
+    const toggleTheme = () => {
+        const next = theme === 'dark' ? 'light' : 'dark';
+        setTheme(next);
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+    };
 
     useEffect(() => {
         const handleScroll = () => {
-            setScrolled(window.scrollY > 50);
-
             const sections = ['about', 'skills', 'experience', 'projects', 'connect'];
             const scrollPosition = window.scrollY + 100;
 
@@ -36,75 +41,64 @@ function Navigation() {
     }, []);
 
     const navLinks = [
-        { name: 'About', to: 'about' },
-        { name: 'Skills', to: 'skills' },
-        { name: 'Experience', to: 'experience' },
-        { name: 'Projects', to: 'projects' },
-        { name: 'Connect', to: 'connect' },
+        { name: 'About', to: 'about', index: '01' },
+        { name: 'Skills', to: 'skills', index: '02' },
+        { name: 'Experience', to: 'experience', index: '03' },
+        { name: 'Projects', to: 'projects', index: '04' },
+        { name: 'Connect', to: 'connect', index: '05' },
     ];
 
     return (
-        <motion.nav
-            className={`navigation ${scrolled ? 'scrolled' : ''}`}
-            initial={{ y: -100 }}
-            animate={{ y: 0 }}
-            transition={{ duration: 0.5 }}
-        >
-            <div className="nav-content">
-                <Link to="about" smooth={true} duration={500} className="nav-brand">
-                    <span className="gradient-text">TJ</span>
-                </Link>
-
-                {/* Desktop Menu */}
-                <ul className="nav-links desktop-only">
-                    {navLinks.map((link) => (
-                        <li key={link.name}>
+        <>
+            <nav className="navigation desktop-only">
+                <div className="nav-items">
+                    {navLinks.map((link) => {
+                        const isActive = activeSection === link.to;
+                        return (
                             <Link
+                                key={link.name}
                                 to={link.to}
                                 smooth={true}
                                 duration={500}
-                                className={`nav-link ${activeSection === link.to ? 'active' : ''}`}
+                                className={`nav-item ${isActive ? 'active' : ''}`}
                             >
-                                <span className="nav-text">{link.name}</span>
-                                {activeSection === link.to && (
-                                    <motion.div
-                                        className="active-indicator"
-                                        layoutId="activeIndicator"
-                                        transition={{
-                                            type: "spring",
-                                            stiffness: 400,
-                                            damping: 30
-                                        }}
-                                    />
-                                )}
+                                <span className="nav-index">{link.index}</span>
+                                <span className="nav-label">{link.name}</span>
                             </Link>
-                        </li>
-                    ))}
-                    <li>
-                        <a
-                            href={RESUME_URL}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="nav-link resume-link"
-                        >
-                            <FiFileText style={{ marginRight: 6 }} />
-                            <span className="nav-text">Resume</span>
-                        </a>
-                    </li>
-                </ul>
-
-                <div className="nav-controls">
-                    <button
-                        className="mobile-toggle"
-                        onClick={() => setIsMobileOpen(!isMobileOpen)}
-                        aria-label="Toggle menu"
-                    >
-                        {isMobileOpen ? <FiX /> : <FiMenu />}
-                    </button>
+                        );
+                    })}
                 </div>
+            </nav>
+
+            <div className="nav-corner desktop-only">
+                <a
+                    href={RESUME_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="resume-corner-link"
+                >
+                    <FiFileText />
+                    <span>Resume</span>
+                </a>
+                <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
+                    {theme === 'dark' ? <FiSun /> : <FiMoon />}
+                </button>
             </div>
 
-            {/* Mobile Menu */}
+            {/* Mobile nav */}
+            <div className="mobile-nav-bar">
+                <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
+                    {theme === 'dark' ? <FiSun /> : <FiMoon />}
+                </button>
+                <button
+                    className="mobile-toggle"
+                    onClick={() => setIsMobileOpen(!isMobileOpen)}
+                    aria-label="Toggle menu"
+                >
+                    {isMobileOpen ? <FiX /> : <FiMenu />}
+                </button>
+            </div>
+
             <AnimatePresence>
                 {isMobileOpen && (
                     <motion.div
@@ -113,35 +107,38 @@ function Navigation() {
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
                     >
-                        <ul>
-                            {navLinks.map((link) => (
-                                <li key={link.name}>
+                        <div className="nav-items mobile">
+                            {navLinks.map((link) => {
+                                const isActive = activeSection === link.to;
+                                return (
                                     <Link
+                                        key={link.name}
                                         to={link.to}
                                         smooth={true}
                                         duration={500}
                                         onClick={() => setIsMobileOpen(false)}
-                                        className={activeSection === link.to ? 'active' : ''}
+                                        className={`nav-item ${isActive ? 'active' : ''}`}
                                     >
-                                        {link.name}
+                                        <span className="nav-index">{link.index}</span>
+                                        <span className="nav-label">{link.name}</span>
                                     </Link>
-                                </li>
-                            ))}
-                            <li>
-                                <a
-                                    href={RESUME_URL}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    onClick={() => setIsMobileOpen(false)}
-                                >
-                                    Resume
-                                </a>
-                            </li>
-                        </ul>
+                                );
+                            })}
+                            <a
+                                href={RESUME_URL}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="nav-item"
+                                onClick={() => setIsMobileOpen(false)}
+                            >
+                                <FiFileText style={{ marginRight: 6 }} />
+                                <span className="nav-label">Resume</span>
+                            </a>
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>
-        </motion.nav>
+        </>
     );
 }
 

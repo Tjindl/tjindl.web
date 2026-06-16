@@ -4,7 +4,7 @@ import './LoadingScreen.css';
 
 const LoadingScreen = ({ onComplete }) => {
     const [text, setText] = useState('');
-    const fullText = "INITIALIZING NEURAL INTERFACE...";
+    const fullText = "Loading portfolio...";
     const [progress, setProgress] = useState(0);
 
     useEffect(() => {
@@ -40,22 +40,19 @@ const LoadingScreen = ({ onComplete }) => {
     return (
         <motion.div
             className="loading-screen"
-            exit={{ opacity: 0, y: -50 }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
+            exit={{ y: '-100%' }}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
         >
             <div className="loading-content">
                 <div className="terminal-text">
-                    <span className="prompt">{'>'}</span> {text}
-                    <span className="cursor">_</span>
+                    {text}
+                    <span className="cursor">|</span>
                 </div>
                 <div className="loading-bar-container">
                     <motion.div
                         className="loading-bar"
                         style={{ width: `${progress}%` }}
                     />
-                </div>
-                <div className="loading-status">
-                    SYSTEM STATUS: {progress < 100 ? 'BOOTING' : 'ONLINE'} [{progress}%]
                 </div>
             </div>
         </motion.div>
