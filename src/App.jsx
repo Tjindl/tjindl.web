@@ -132,6 +132,18 @@ function App() {
             </Suspense>
 
             <motion.section
+              id="connect"
+              className="profile-section"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
+              <h2 className="section-title">Connect</h2>
+              <Connect />
+            </motion.section>
+
+            <motion.section
               id="fun"
               className="profile-section"
               initial={{ opacity: 0, y: 24 }}
@@ -142,18 +154,6 @@ function App() {
               <h2 className="section-title">Beyond the IDE</h2>
               <p className="section-subtitle">Outside of code — I play Clash of Clans. Here&apos;s the live data.</p>
               <CocWidget />
-            </motion.section>
-
-            <motion.section
-              id="connect"
-              className="profile-section"
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-            >
-              <h2 className="section-title">Connect</h2>
-              <Connect />
             </motion.section>
 
             <Footer />
