@@ -3,12 +3,13 @@ import { useState } from 'react';
 import LoadingScreen from "./components/LoadingScreen.jsx"
 import Footer from "./components/Footer.jsx"
 import ScrollToTop from "./components/ScrollToTop.jsx"
-import ParallaxBackground from "./components/ParallaxBackground.jsx"
+import ParallaxBackground from "./components/NeuralBackground.jsx"
 import { motion, AnimatePresence, MotionConfig } from 'framer-motion';
 import './App.css'
 
 import Connect from "./Connect.jsx"
 import Navigation from "./Navigation.jsx"
+import CocWidget from "./components/CocWidget.jsx"
 import { FiGithub, FiLinkedin, FiMail, FiEdit3 } from 'react-icons/fi';
 
 const Projects = lazy(() => import('./Projects'));
@@ -129,6 +130,19 @@ function App() {
                 <Projects />
               </motion.section>
             </Suspense>
+
+            <motion.section
+              id="fun"
+              className="profile-section"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
+              <h2 className="section-title">Beyond the IDE</h2>
+              <p className="section-subtitle">Outside of code — I play Clash of Clans. Here&apos;s the live data.</p>
+              <CocWidget />
+            </motion.section>
 
             <motion.section
               id="connect"

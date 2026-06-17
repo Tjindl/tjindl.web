@@ -9,6 +9,49 @@
   padding-left: 16px;
 }
 
+.nav-name-cycle {
+  position: fixed;
+  top: 248px;
+  left: 40px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--divider);
+  width: 140px;
+  z-index: 1000;
+}
+
+.nav-name-text {
+  display: block;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.nav-fun-link {
+  display: block;
+  margin-top: 10px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  opacity: 0.6;
+  text-align: center;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: color 0.2s ease, opacity 0.2s ease;
+  text-decoration: none;
+}
+
+.nav-fun-link:hover,
+.nav-fun-link.active {
+  color: var(--primary);
+  opacity: 1;
+}
+
 .nav-items {
   display: flex;
   flex-direction: column;

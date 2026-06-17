@@ -1,0 +1,50 @@
+{
+  "tag": "#LUUGLYLJV",
+  "name": "Tushar.05",
+  "townHallLevel": 13,
+  "expLevel": 117,
+  "trophies": 417,
+  "bestTrophies": 4527,
+  "warStars": 236,
+  "builderHallLevel": 5,
+  "builderBaseTrophies": 1719,
+  "bestBuilderBaseTrophies": 1799,
+  "clanCapitalContributions": 224226,
+  "clan": {
+    "name": "Electro Elite",
+    "clanLevel": 16,
+    "badgeUrls": {
+      "small": "https://api-assets.clashofclans.com/badges/70/LBEAsQ3-4MXSI5Y_K9ahDFJNkIe-j-GEmfVkU2XblbA.png",
+      "medium": "https://api-assets.clashofclans.com/badges/200/LBEAsQ3-4MXSI5Y_K9ahDFJNkIe-j-GEmfVkU2XblbA.png"
+    }
+  },
+  "leagueTier": {
+    "name": "Valkyrie League 13",
+    "iconUrls": {
+      "small": "https://api-assets.clashofclans.com/leaguetiers/125/6BwmbzkNm6p2unZonTauFQ_683uNl4NYtoOXJmEs78c.png",
+      "large": "https://api-assets.clashofclans.com/leaguetiers/326/6BwmbzkNm6p2unZonTauFQ_683uNl4NYtoOXJmEs78c.png"
+    }
+  },
+  "heroes": [
+    { "name": "Barbarian King", "level": 45, "maxLevel": 110 },
+    { "name": "Archer Queen", "level": 60, "maxLevel": 110 },
+    { "name": "Grand Warden", "level": 33, "maxLevel": 85 },
+    { "name": "Royal Champion", "level": 7, "maxLevel": 55 },
+    { "name": "Minion Prince", "level": 38, "maxLevel": 95 }
+  ],
+  "highlights": [
+    { "name": "Gold Grab", "stars": 3, "value": 457422037, "label": "457M Gold looted" },
+    { "name": "Elixir Escapade", "stars": 3, "value": 478269768, "label": "478M Elixir looted" },
+    { "name": "Heroic Heist", "stars": 3, "value": 4919613, "label": "4.9M Dark Elixir stolen" },
+    { "name": "Sweet Victory!", "stars": 3, "value": 4527, "label": "Peak 4527 trophies" },
+    { "name": "Wall Buster", "stars": 3, "value": 13257, "label": "13,257 walls destroyed" },
+    { "name": "League All-Star", "stars": 3, "value": 20, "label": "Champion achieved" },
+    { "name": "War Hero", "stars": 2, "value": 236, "label": "236 war stars" },
+    { "name": "Clan War Wealth", "stars": 3, "value": 170715613, "label": "170M war gold" }
+  ],
+  "labels": [
+    { "name": "Trophy Pushing", "iconUrls": { "small": "https://api-assets.clashofclans.com/labels/64/tINt65InVEc35rFYkxqFQqGDTsBpVRqY9K7BJf5kr4A.png" } },
+    { "name": "Active Daily", "iconUrls": { "small": "https://api-assets.clashofclans.com/labels/64/mcWhk0ii7CyjiiHOidhRofrSulpVrxjDu24cQtGCQbE.png" } },
+    { "name": "Competitive", "iconUrls": { "small": "https://api-assets.clashofclans.com/labels/64/DfTPKAsvjdsD-CFfbpmfIJiT2uF3FQLfftRdJgBA37Y.png" } }
+  ]
+}

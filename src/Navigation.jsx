@@ -10,6 +10,18 @@ function Navigation() {
     const [activeSection, setActiveSection] = useState('about');
     const [isMobileOpen, setIsMobileOpen] = useState(false);
     const [theme, setTheme] = useState(() => document.documentElement.getAttribute('data-theme') || 'light');
+    const [nameIdx, setNameIdx] = useState(0);
+
+    const names = [
+        { text: 'Tushar Jindal', script: 'en' },
+        { text: 'तुषार जिंदल', script: 'hi' },
+        { text: 'ਤੁਸ਼ਾਰ ਜਿੰਦਲ', script: 'pa' },
+    ];
+
+    useEffect(() => {
+        const t = setInterval(() => setNameIdx(i => (i + 1) % 3), 2500);
+        return () => clearInterval(t);
+    }, []);
 
     const toggleTheme = () => {
         const next = theme === 'dark' ? 'light' : 'dark';
@@ -20,7 +32,7 @@ function Navigation() {
 
     useEffect(() => {
         const handleScroll = () => {
-            const sections = ['about', 'skills', 'experience', 'projects', 'connect'];
+            const sections = ['about', 'skills', 'experience', 'projects', 'fun', 'connect'];
             const scrollPosition = window.scrollY + 100;
 
             for (const section of sections) {
@@ -69,6 +81,30 @@ function Navigation() {
                     })}
                 </div>
             </nav>
+
+            <div className="nav-name-cycle desktop-only">
+                <AnimatePresence mode="wait">
+                    <motion.span
+                        key={nameIdx}
+                        initial={{ opacity: 0, y: 4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -4 }}
+                        transition={{ duration: 0.4, ease: 'easeInOut' }}
+                        className="nav-name-text"
+                        lang={names[nameIdx].script}
+                    >
+                        {names[nameIdx].text}
+                    </motion.span>
+                </AnimatePresence>
+                <Link
+                    to="fun"
+                    smooth={true}
+                    duration={500}
+                    className={`nav-fun-link ${activeSection === 'fun' ? 'active' : ''}`}
+                >
+                    / fun
+                </Link>
+            </div>
 
             <div className="nav-corner desktop-only">
                 <a
