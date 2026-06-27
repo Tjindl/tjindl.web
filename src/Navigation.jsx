@@ -32,7 +32,7 @@ function Navigation() {
 
     useEffect(() => {
         const handleScroll = () => {
-            const sections = ['about', 'skills', 'experience', 'projects', 'connect', 'fun'];
+            const sections = ['about', 'skills', 'experience', 'projects', 'connect'];
             const scrollPosition = window.scrollY + 100;
 
             for (const section of sections) {
@@ -96,14 +96,6 @@ function Navigation() {
                         {names[nameIdx].text}
                     </motion.span>
                 </AnimatePresence>
-                <Link
-                    to="fun"
-                    smooth={true}
-                    duration={500}
-                    className={`nav-fun-link ${activeSection === 'fun' ? 'active' : ''}`}
-                >
-                    / fun
-                </Link>
             </div>
 
             <div className="nav-corner desktop-only">

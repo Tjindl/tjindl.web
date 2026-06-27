@@ -32,26 +32,6 @@
   text-align: center;
 }
 
-.nav-fun-link {
-  display: block;
-  margin-top: 10px;
-  font-family: 'Space Mono', monospace;
-  font-size: 0.72rem;
-  color: var(--text-secondary);
-  opacity: 0.6;
-  text-align: center;
-  cursor: pointer;
-  letter-spacing: 0.04em;
-  transition: color 0.2s ease, opacity 0.2s ease;
-  text-decoration: none;
-}
-
-.nav-fun-link:hover,
-.nav-fun-link.active {
-  color: var(--primary);
-  opacity: 1;
-}
-
 .nav-items {
   display: flex;
   flex-direction: column;
