@@ -1,0 +1,120 @@
+.os-list {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.os-repo {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.os-repo-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.os-repo-name {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.15em;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--text-primary);
+  width: fit-content;
+}
+
+.os-repo-name:hover .os-repo-label {
+  color: var(--primary);
+}
+
+.os-org {
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.os-slash {
+  color: var(--text-secondary);
+  opacity: 0.5;
+  padding: 0 0.05em;
+}
+
+.os-repo-label {
+  transition: color 0.2s ease;
+}
+
+.os-repo-desc {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.os-prs {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border-left: 1px solid var(--divider);
+  padding-left: 16px;
+}
+
+.os-pr {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.os-pr-top {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.os-pr-title {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.os-pr-title:hover {
+  color: var(--primary);
+}
+
+.os-badge {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.os-badge--merged {
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
+  color: var(--primary);
+  border: 1px solid color-mix(in srgb, var(--primary) 30%, transparent);
+}
+
+.os-badge--open {
+  background: color-mix(in srgb, var(--text-secondary) 10%, transparent);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-light);
+}
+
+.os-pr-desc {
+  font-size: 0.84rem;
+  line-height: 1.55;
+  color: var(--text-body);
+}
+
+.os-pr-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 0.1rem;
+}

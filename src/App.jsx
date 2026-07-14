@@ -8,6 +8,7 @@ import { motion, AnimatePresence, MotionConfig } from 'framer-motion';
 import './App.css'
 
 import Connect from "./Connect.jsx"
+import OpenSource from "./OpenSource.jsx"
 import Navigation from "./Navigation.jsx"
 import { FiGithub, FiLinkedin, FiMail, FiEdit3 } from 'react-icons/fi';
 
@@ -17,7 +18,7 @@ const Education = lazy(() => import('./Experience').then((m) => ({ default: m.Ed
 const Skills = lazy(() => import('./Skills.jsx'));
 
 const aboutBullets = [
-  "Data Science student at UBC, graduating 2028 — statistical modeling, machine learning, and large-scale data analysis",
+  "Double major in Data Science and Mathematics at UBC, graduating 2028 — statistical modeling, machine learning, and large-scale data analysis",
   "Building end-to-end ML systems, from computer vision pipelines to LLM inference engines",
   "Comfortable across the stack: production full-stack apps, APIs, and infra",
   "Most interested in where statistical rigour meets real-world engineering constraints",
@@ -46,7 +47,7 @@ function App() {
                 transition={{ duration: 0.5, ease: "easeOut" }}
               >
                 <h1 className="name">Tushar Jindal</h1>
-                <p className="byline">ML Engineer & Computer Vision — Data Science student at UBC</p>
+                <p className="byline">ML Engineer & Computer Vision — Data Science & Mathematics at UBC</p>
 
                 <div className="social-links">
                   <a href="https://github.com/tjindl" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
@@ -129,6 +130,19 @@ function App() {
                 <Projects />
               </motion.section>
             </Suspense>
+
+            <motion.section
+              id="opensource"
+              className="profile-section"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
+              <h2 className="section-title">Open Source</h2>
+              <p className="section-subtitle">Contributions to production codebases used in industry.</p>
+              <OpenSource />
+            </motion.section>
 
             <motion.section
               id="connect"
