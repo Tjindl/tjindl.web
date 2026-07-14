@@ -48,7 +48,7 @@ const workData = [
 const educationData = [
     {
         id: 0,
-        role: "B.Sc. Data Science",
+        role: "B.Sc. Data Science & Mathematics",
         company: "University of British Columbia",
         location: "Vancouver, BC",
         date: "Fall 2022 — 2028",
