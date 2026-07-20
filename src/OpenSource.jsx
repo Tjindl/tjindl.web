@@ -10,7 +10,7 @@ const contributions = [
       {
         title: '[FEA] Support force_ascii flag in JSON writer',
         url: 'https://github.com/rapidsai/cudf/pull/23177',
-        status: 'open',
+        status: 'merged',
         description: 'Added force_ascii flag to the cuDF JSON engine mirroring the pandas API, allowing non-ASCII characters to be written as-is instead of escaped. Modified the Python backend and added parameterized tests.',
         tags: ['Python', 'C++', 'I/O'],
       },
