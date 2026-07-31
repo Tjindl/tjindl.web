@@ -6,6 +6,7 @@ const contributions = [
     repo: 'cudf',
     repoUrl: 'https://github.com/rapidsai/cudf',
     description: "NVIDIA's GPU-accelerated DataFrame library — cuDF enables pandas-like operations on CUDA GPUs. Written in C++ and Python with CUDA kernels.",
+    logo: 'https://github.com/nvidia.png',
     prs: [
       {
         title: '[FEA] Support force_ascii flag in JSON writer',
@@ -17,14 +18,14 @@ const contributions = [
       {
         title: 'Replace duplicate type-stringify logic with type_to_name',
         url: 'https://github.com/rapidsai/cudf/pull/23230',
-        status: 'open',
+        status: 'merged',
         description: 'Eliminated two hand-maintained type-stringify switches in C++ benchmark code by unifying on type_to_name(), and added a print_type debug utility to the cudf test headers.',
         tags: ['C++', 'CUDA', 'Benchmarks'],
       },
       {
         title: 'Fix ufunc test domains to ensure valid input generation',
         url: 'https://github.com/rapidsai/cudf/pull/23196',
-        status: 'open',
+        status: 'merged',
         description: 'Fixed NumPy ufunc tests (arcsin, arccos, arctanh) that were always producing NaN because inputs fell outside valid domains. Introduced domain-aware random input generation.',
         tags: ['Python', 'Testing', 'NumPy'],
       },
@@ -42,6 +43,7 @@ const contributions = [
     repo: 'vllm',
     repoUrl: 'https://github.com/vllm-project/vllm',
     description: "A high-throughput and memory-efficient LLM inference engine used in production by major AI labs. Powers fast serving of models like Llama, Mistral, and Qwen.",
+    logo: 'https://github.com/vllm-project.png',
     prs: [
       {
         title: 'Fix platform plugin load error message swallowed',
@@ -57,6 +59,7 @@ const contributions = [
     repo: 'dynamo',
     repoUrl: 'https://github.com/ai-dynamo/dynamo',
     description: "NVIDIA's distributed LLM inference framework built in Rust and Python, designed for high-performance multi-node serving with disaggregated prefill and decode.",
+    logo: 'https://github.com/nvidia.png',
     prs: [
       {
         title: 'fix(runtime): avoid no-reactor panic during sync OTLP export init',
@@ -64,6 +67,22 @@ const contributions = [
         status: 'open',
         description: 'Calling logging::init() from a synchronous entrypoint panicked with "no reactor running" when OTLP export was enabled. Fixed by spinning up a background Tokio runtime for the exporter when none is already active.',
         tags: ['Rust', 'Runtime', 'OpenTelemetry'],
+      },
+    ],
+  },
+  {
+    org: 'Science-Undergraduate-Society',
+    repo: 'www-v2',
+    repoUrl: 'https://github.com/Science-Undergraduate-Society/www-v2',
+    description: 'The official website for the Science Undergraduate Society at UBC.',
+    logo: 'https://github.com/Science-Undergraduate-Society.png',
+    prs: [
+      {
+        title: 'Perf: Optimize homepage images using Next.js Image component',
+        url: 'https://github.com/Science-Undergraduate-Society/www-v2/pull/70',
+        status: 'open',
+        description: 'Optimized homepage images by migrating to the Next.js Image component for automatic lazy loading, sizing, and modern format conversions.',
+        tags: ['Next.js', 'React', 'Performance'],
       },
     ],
   },
@@ -83,16 +102,21 @@ function OpenSource() {
       {contributions.map((contrib) => (
         <div className="os-repo" key={contrib.repo}>
           <div className="os-repo-header">
-            <a
-              href={contrib.repoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="os-repo-name"
-            >
-              <span className="os-org">{contrib.org}</span>
-              <span className="os-slash">/</span>
-              <span className="os-repo-label">{contrib.repo}</span>
-            </a>
+            <div className="os-repo-title-wrapper">
+              {contrib.logo && (
+                <img src={contrib.logo} alt={`${contrib.org} logo`} className="os-repo-logo" />
+              )}
+              <a
+                href={contrib.repoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="os-repo-name"
+              >
+                <span className="os-org">{contrib.org}</span>
+                <span className="os-slash">/</span>
+                <span className="os-repo-label">{contrib.repo}</span>
+              </a>
+            </div>
             <p className="os-repo-desc">{contrib.description}</p>
           </div>
           <div className="os-prs">
