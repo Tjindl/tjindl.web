@@ -4,6 +4,22 @@
   gap: 36px;
 }
 
+.os-summary {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  font-family: 'Space Mono', monospace;
+  font-size: var(--fs-label);
+  color: var(--text-secondary);
+  margin-bottom: -12px;
+}
+
+.os-summary strong {
+  color: var(--primary);
+  font-size: 1.1rem;
+  margin-right: 0.3rem;
+}
+
 .os-repo {
   display: flex;
   flex-direction: column;
@@ -16,11 +32,35 @@
   gap: 0.3rem;
 }
 
+.os-repo-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.os-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-shrink: 0;
+  font-family: 'Space Mono', monospace;
+  font-size: var(--fs-chip);
+  color: var(--text-secondary);
+  padding: 3px 9px;
+  border: 1px solid var(--border-light);
+  border-radius: 999px;
+}
+
+.os-stars svg {
+  color: var(--primary);
+}
+
 .os-repo-name {
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
   gap: 0.15em;
-  font-size: 0.95rem;
+  font-size: var(--fs-title);
   font-weight: 500;
   text-decoration: none;
   color: var(--text-primary);
@@ -47,23 +87,30 @@
 }
 
 .os-repo-desc {
-  font-size: 0.82rem;
+  font-size: var(--fs-small);
   color: var(--text-secondary);
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 .os-prs {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 4px;
   border-left: 1px solid var(--divider);
-  padding-left: 16px;
+  padding-left: 4px;
 }
 
 .os-pr {
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: 0.35rem;
+  padding: 10px 12px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.os-pr:hover {
+  background: color-mix(in srgb, var(--primary) 8%, transparent);
 }
 
 .os-pr-top {
@@ -74,7 +121,7 @@
 }
 
 .os-pr-title {
-  font-size: 0.88rem;
+  font-size: 1rem;
   font-weight: 500;
   color: var(--text-primary);
   text-decoration: none;
@@ -87,7 +134,7 @@
 
 .os-badge {
   font-family: 'Space Mono', monospace;
-  font-size: 0.7rem;
+  font-size: var(--fs-chip);
   padding: 2px 8px;
   border-radius: 999px;
   white-space: nowrap;
@@ -107,22 +154,22 @@
 }
 
 .os-pr-desc {
-  font-size: 0.84rem;
-  line-height: 1.55;
+  font-size: var(--fs-body);
+  line-height: 1.6;
   color: var(--text-body);
 }
 
-.os-pr-tags {
+.os-pr-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 0.1rem;
+  gap: 0.35rem 0.9rem;
+  font-family: 'Space Mono', monospace;
+  font-size: var(--fs-chip);
+  color: var(--text-secondary);
 }
 
-.os-repo-title-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.os-pr-number {
+  color: var(--text-primary);
 }
 
 .os-repo-logo {
@@ -130,4 +177,5 @@
   height: 20px;
   border-radius: 4px;
   object-fit: contain;
+  margin-right: 0.45em;
 }

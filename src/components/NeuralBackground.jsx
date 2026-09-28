@@ -4,6 +4,9 @@ const NODE_COUNT = 42;
 const MAX_DIST = 185;
 const MOUSE_RADIUS = 200;
 const SPEED = 0.55;
+// Full strength behind the hero, fading to a faint texture once reading starts.
+const HERO_OPACITY = 0.6;
+const READING_OPACITY = 0.14;
 
 function getRGB() {
   return getComputedStyle(document.documentElement)
@@ -31,6 +34,13 @@ function NeuralBackground() {
 
     const onMouseMove = (e) => { mouse.x = e.clientX; mouse.y = e.clientY; };
     window.addEventListener('mousemove', onMouseMove);
+
+    const onScroll = () => {
+      const t = Math.min(window.scrollY / (window.innerHeight * 0.6), 1);
+      canvas.style.opacity = HERO_OPACITY + (READING_OPACITY - HERO_OPACITY) * t;
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
 
     const nodes = Array.from({ length: NODE_COUNT }, () => ({
       x: Math.random() * canvas.width,
@@ -136,6 +146,7 @@ function NeuralBackground() {
       cancelAnimationFrame(raf);
       window.removeEventListener('resize', resize);
       window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('scroll', onScroll);
       observer.disconnect();
     };
   }, []);
@@ -149,7 +160,7 @@ function NeuralBackground() {
         inset: 0,
         zIndex: 0,
         pointerEvents: 'none',
-        opacity: 0.65,
+        opacity: HERO_OPACITY,
       }}
     />
   );

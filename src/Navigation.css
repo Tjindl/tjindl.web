@@ -1,24 +1,24 @@
 /* Navigation.css - numbered sidebar nav with accent rail */
 
-.navigation {
+.nav-rail {
   position: fixed;
   top: 40px;
   left: 40px;
   z-index: 1000;
+}
+
+.navigation {
   border-left: 1px solid var(--divider);
   padding-left: 16px;
 }
 
 .nav-name-cycle {
-  position: fixed;
-  top: 248px;
-  left: 40px;
+  margin-top: 14px;
   padding-left: 16px;
   padding-right: 16px;
   padding-top: 14px;
   border-top: 1px solid var(--divider);
   width: 140px;
-  z-index: 1000;
 }
 
 .nav-name-text {
@@ -143,6 +143,15 @@
   display: none;
 }
 
+.mobile-brand {
+  margin-right: auto;
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.3rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  cursor: pointer;
+}
+
 .mobile-toggle {
   background: none;
   border: none;
@@ -191,7 +200,6 @@
     right: 0;
     height: 64px;
     align-items: center;
-    justify-content: flex-end;
     gap: 0.75rem;
     padding: 0 20px;
     background: var(--overlay-bg);

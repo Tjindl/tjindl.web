@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { FiArrowUp } from 'react-icons/fi';
 import './ScrollToTop.css';
 
 function ScrollToTop() {
@@ -13,7 +14,7 @@ function ScrollToTop() {
             }
         };
 
-        window.addEventListener('scroll', toggleVisibility);
+        window.addEventListener('scroll', toggleVisibility, { passive: true });
         return () => window.removeEventListener('scroll', toggleVisibility);
     }, []);
 
@@ -28,7 +29,7 @@ function ScrollToTop() {
         <>
             {isVisible && (
                 <button className="scroll-to-top" onClick={scrollToTop} aria-label="Scroll to top">
-                    <span>↑</span>
+                    <FiArrowUp />
                 </button>
             )}
         </>

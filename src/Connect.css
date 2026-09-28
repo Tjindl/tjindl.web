@@ -1,47 +1,124 @@
-.connect-wrapper {
+.connect-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+.connect-info {
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 1.25rem;
+}
+
+.connect-lead {
+    font-size: var(--fs-body);
+    line-height: 1.6;
+    color: var(--text-body);
+}
+
+.email-block {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.9rem;
+}
+
+.email-link {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.65rem;
+    line-height: 1.2;
+    color: var(--text-primary);
+    text-decoration: none;
+    background-image: linear-gradient(var(--primary), var(--primary));
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.3s ease, color 0.2s ease;
+}
+
+.email-link:hover {
+    color: var(--primary);
+    background-size: 100% 1px;
+}
+
+.copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: 'Space Mono', monospace;
+    font-size: var(--fs-chip);
+    color: var(--text-secondary);
+    background: none;
+    border: 1px solid var(--border-light);
+    border-radius: 999px;
+    padding: 4px 10px;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.copy-btn:hover {
+    color: var(--primary);
+    border-color: var(--primary);
 }
 
 .connect-links {
     display: flex;
     flex-direction: column;
+    border-top: 1px solid var(--divider);
 }
 
 .link-row {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    padding: 12px 4px;
-    border-bottom: 1px dashed var(--border-light);
+    padding: 12px 0;
+    border-bottom: 1px solid var(--divider);
     text-decoration: none;
-    transition: border-color 0.2s ease, padding-left 0.2s ease;
+    transition: padding 0.2s ease;
 }
 
 .link-row:hover {
-    border-color: var(--primary);
-    padding-left: 10px;
+    padding-left: 6px;
 }
 
 .link-label {
     font-family: 'Space Mono', monospace;
-    font-size: 0.78rem;
+    font-size: var(--fs-label);
     color: var(--text-secondary);
-    width: 90px;
-    flex-shrink: 0;
 }
 
 .link-value {
-    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: var(--fs-small);
     color: var(--text-primary);
+    transition: color 0.2s ease;
+}
+
+.link-arrow {
+    color: var(--text-secondary);
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.link-row:hover .link-value,
+.link-row:hover .link-arrow {
+    color: var(--primary);
+}
+
+.link-row:hover .link-arrow {
+    transform: translate(2px, -2px);
 }
 
 .contact-form {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    max-width: 480px;
+    padding: 24px;
+    background: color-mix(in srgb, var(--bg-darker) 70%, transparent);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
 }
 
 .form-group {
@@ -52,7 +129,7 @@
 
 .form-group label {
     font-family: 'Space Mono', monospace;
-    font-size: 0.75rem;
+    font-size: var(--fs-chip);
     color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.04em;
@@ -65,10 +142,16 @@
     border-bottom: 1px solid var(--divider);
     padding: 0.4rem 0;
     font-family: 'Sora', sans-serif;
-    font-size: 0.9rem;
+    font-size: var(--fs-body);
     color: var(--text-primary);
     resize: none;
     transition: border-color 0.2s ease;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.7;
 }
 
 .form-group input:focus,
@@ -79,27 +162,17 @@
 
 .connect-submit {
     align-self: flex-start;
-    background: none;
-    border: none;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.85rem;
-    color: var(--primary);
-    cursor: pointer;
-    padding: 0.4rem 0;
-    transition: opacity 0.2s ease;
 }
 
-.connect-submit:hover {
-    opacity: 0.7;
+.email-link:focus-visible,
+.copy-btn:focus-visible,
+.link-row:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 3px;
 }
 
-.connect-submit:disabled {
-    opacity: 0.5;
-    cursor: default;
-}
-
-@media (max-width: 600px) {
-    .link-label {
-        width: 70px;
+@media (max-width: 700px) {
+    .connect-grid {
+        grid-template-columns: 1fr;
     }
 }

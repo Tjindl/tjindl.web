@@ -1,18 +1,22 @@
 import { useState, useRef } from 'react';
 import './Connect.css';
 import emailjs from '@emailjs/browser';
-
-const links = [
-    { label: "Email", value: "tushar.bzp05@gmail.com", href: "mailto:tushar.bzp05@gmail.com" },
-    { label: "GitHub", value: "@tjindl", href: "https://github.com/tjindl" },
-    { label: "LinkedIn", value: "tushar-jindal", href: "https://linkedin.com/in/tushar-jindal-97602420b/" },
-    { label: "Medium", value: "@tushar.bzp05", href: "https://medium.com/@tushar.bzp05" },
-];
+import { FiArrowUpRight, FiCheck, FiCopy, FiSend } from 'react-icons/fi';
+import { EMAIL, SOCIAL_LINKS } from './site';
+import { copyToClipboard } from './clipboard';
 
 function Connect() {
     const formRef = useRef();
     const [loading, setLoading] = useState(false);
     const [status, setStatus] = useState(null);
+    const [copied, setCopied] = useState(false);
+
+    const copyEmail = async () => {
+        if (await copyToClipboard(EMAIL)) {
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        }
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -44,20 +48,35 @@ function Connect() {
     };
 
     return (
-        <div className="connect-wrapper">
-            <div className="connect-links">
-                {links.map((link) => (
-                    <a
-                        key={link.label}
-                        href={link.href}
-                        target={link.href.startsWith('mailto:') ? undefined : '_blank'}
-                        rel={link.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
-                        className="link-row"
-                    >
-                        <span className="link-label">{link.label}</span>
-                        <span className="link-value">{link.value}</span>
-                    </a>
-                ))}
+        <div className="connect-grid">
+            <div className="connect-info">
+                <p className="connect-lead">Email is the fastest way to reach me, or send a note with the form.</p>
+
+                <div className="email-block">
+                    <a href={`mailto:${EMAIL}`} className="email-link">{EMAIL}</a>
+                    <button type="button" className="copy-btn" onClick={copyEmail} aria-live="polite">
+                        {copied ? <FiCheck aria-hidden="true" /> : <FiCopy aria-hidden="true" />}
+                        {copied ? 'Copied' : 'Copy'}
+                    </button>
+                </div>
+
+                <div className="connect-links">
+                    {SOCIAL_LINKS.map((link) => (
+                        <a
+                            key={link.label}
+                            href={link.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="link-row"
+                        >
+                            <span className="link-label">{link.label}</span>
+                            <span className="link-value">
+                                {link.value}
+                                <FiArrowUpRight className="link-arrow" aria-hidden="true" />
+                            </span>
+                        </a>
+                    ))}
+                </div>
             </div>
 
             <form className="contact-form" ref={formRef} onSubmit={handleSubmit}>
@@ -74,8 +93,9 @@ function Connect() {
                     <textarea name="message" id="message" rows="4" placeholder="What's on your mind?" required></textarea>
                 </div>
 
-                <button type="submit" className="connect-submit" disabled={loading}>
+                <button type="submit" className="btn btn-primary connect-submit" disabled={loading}>
                     {loading ? 'Sending...' : status === 'success' ? 'Sent' : status === 'error' ? 'Failed — try again' : 'Send message'}
+                    {!loading && !status && <FiSend aria-hidden="true" />}
                 </button>
             </form>
         </div>

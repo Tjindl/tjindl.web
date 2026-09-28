@@ -1,30 +1,135 @@
-.projects-list {
+.projects {
     display: flex;
     flex-direction: column;
-    gap: 28px;
 }
 
-.project-row {
+/* Featured cards */
+.featured-list {
     display: flex;
     flex-direction: column;
-    gap: 0.35rem;
+    gap: 20px;
 }
 
-.project-title {
-    font-size: 0.95rem;
-    font-weight: 500;
+.featured-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    padding: 24px;
+    background: color-mix(in srgb, var(--bg-darker) 70%, transparent);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    transition: border-color 0.25s ease, transform 0.25s ease;
+}
+
+.featured-card:hover {
+    border-color: color-mix(in srgb, var(--primary) 40%, transparent);
+    transform: translateY(-2px);
+}
+
+/* Soft glow that follows the cursor (position set in Projects.jsx) */
+.featured-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+        420px circle at var(--mx, 50%) var(--my, 50%),
+        color-mix(in srgb, var(--primary) 9%, transparent),
+        transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.featured-card:hover::before {
+    opacity: 1;
+}
+
+.featured-card > * {
+    position: relative;
+}
+
+.featured-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.featured-name {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.75rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.1;
+}
+
+.featured-tagline {
+    font-size: 1rem;
+    line-height: 1.5;
     color: var(--text-primary);
-    text-decoration: none;
-    width: fit-content;
+    margin-top: -0.4rem;
 }
 
-.project-title:hover {
+.project-links {
+    display: flex;
+    gap: 0.9rem;
+}
+
+.project-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-family: 'Space Mono', monospace;
+    font-size: var(--fs-label);
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.project-links a:hover {
     color: var(--primary);
 }
 
+.featured-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border-light);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 12px 14px;
+    background: var(--bg-darker);
+}
+
+.stat-value {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--primary);
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.stat-label {
+    font-size: var(--fs-label);
+    line-height: 1.45;
+    color: var(--text-secondary);
+}
+
 .project-description {
-    font-size: 0.85rem;
-    line-height: 1.55;
+    font-size: var(--fs-body);
+    line-height: 1.65;
     color: var(--text-body);
 }
 
@@ -32,22 +137,146 @@
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    margin-top: 0.15rem;
 }
 
 .tech-chip {
     font-family: 'Space Mono', monospace;
-    font-size: 0.74rem;
+    font-size: var(--fs-chip);
     color: var(--text-body);
     background: var(--bg-darker);
     border: 1px solid var(--border-light);
     border-radius: 5px;
     padding: 3px 8px;
     line-height: 1.3;
-    transition: border-color 0.2s ease, color 0.2s ease;
 }
 
-.tech-chip:hover {
-    border-color: var(--primary);
+/* Compact list */
+.compact-heading {
+    font-family: 'Space Mono', monospace;
+    font-size: var(--fs-label);
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin: 40px 0 8px;
+}
+
+.compact-list {
+    list-style: none;
+    border-top: 1px solid var(--divider);
+}
+
+.compact-row {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    column-gap: 20px;
+    row-gap: 0.2rem;
+    padding: 14px 8px;
+    margin: 0 -8px;
+    border-bottom: 1px solid var(--divider);
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.compact-row:hover {
+    background: color-mix(in srgb, var(--primary) 8%, transparent);
+}
+
+.compact-name {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: var(--fs-title);
+    font-weight: 500;
+    color: var(--text-primary);
+    grid-row: span 2;
+    align-self: start;
+}
+
+.compact-arrow {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    opacity: 0;
+    transform: translate(-3px, 3px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.compact-row:hover .compact-name {
     color: var(--primary);
+}
+
+.compact-row:hover .compact-arrow {
+    opacity: 1;
+    transform: translate(0, 0);
+    color: var(--primary);
+}
+
+.compact-tagline {
+    font-size: var(--fs-body);
+    line-height: 1.55;
+    color: var(--text-body);
+}
+
+.compact-tech {
+    font-family: 'Space Mono', monospace;
+    font-size: var(--fs-chip);
+    color: var(--text-secondary);
+}
+
+.compact-row:focus-visible,
+.show-more:focus-visible,
+.project-links a:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.show-more {
+    align-self: flex-start;
+    margin-top: 14px;
+    background: none;
+    border: none;
+    padding: 0.3rem 0;
+    font-family: 'Space Mono', monospace;
+    font-size: var(--fs-label);
+    color: var(--primary);
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.show-more:hover {
+    opacity: 0.7;
+}
+
+@media (max-width: 600px) {
+    .featured-card {
+        padding: 18px;
+    }
+
+    .featured-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .stat {
+        flex-direction: row;
+        align-items: baseline;
+        gap: 0.75rem;
+    }
+
+    .stat-value {
+        min-width: 6.5rem;
+    }
+
+    .compact-row {
+        grid-template-columns: 1fr;
+    }
+
+    .compact-name {
+        grid-row: auto;
+    }
+
+    .compact-arrow {
+        opacity: 1;
+        transform: none;
+    }
 }

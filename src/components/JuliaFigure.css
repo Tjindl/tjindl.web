@@ -1,0 +1,209 @@
+.julia {
+    margin-top: 56px;
+}
+
+.julia-stage {
+    position: relative;
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--bg-darker);
+}
+
+.julia-canvas {
+    display: block;
+    width: 100%;
+    aspect-ratio: 2 / 1;
+    cursor: crosshair;
+    touch-action: pan-y;
+}
+
+.julia-canvas:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: -2px;
+}
+
+.julia-inset-wrap {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 6px 6px 5px;
+    background: color-mix(in srgb, var(--bg-darker) 82%, transparent);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    pointer-events: none;
+}
+
+.julia-inset {
+    display: block;
+    width: 110px;
+    height: 115px;
+}
+
+.julia-inset-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.64rem;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+.julia-hint {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    padding: 4px 10px;
+    font-family: 'Space Mono', monospace;
+    font-size: var(--fs-chip);
+    color: var(--text-secondary);
+    background: color-mix(in srgb, var(--bg-darker) 82%, transparent);
+    border: 1px solid var(--border-light);
+    border-radius: 999px;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.julia-hint.is-hidden {
+    opacity: 0;
+}
+
+.hint-touch {
+    display: none;
+}
+
+@media (hover: none) {
+    .hint-pointer {
+        display: none;
+    }
+
+    .hint-touch {
+        display: inline;
+    }
+}
+
+.julia-fallback {
+    display: none;
+}
+
+.julia-stage.is-unsupported .julia-canvas,
+.julia-stage.is-unsupported .julia-inset-wrap,
+.julia-stage.is-unsupported .julia-hint {
+    display: none;
+}
+
+.julia-stage.is-unsupported .julia-fallback {
+    display: block;
+    padding: 48px 16px;
+    text-align: center;
+    font-size: var(--fs-small);
+    color: var(--text-secondary);
+}
+
+/* Caption */
+.julia-caption {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    gap: 10px 24px;
+    margin-top: 16px;
+}
+
+.julia-title {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0 0.4em;
+    font-size: var(--fs-body);
+    color: var(--text-primary);
+}
+
+.fig-label {
+    font-family: 'Space Mono', monospace;
+    font-size: var(--fs-label);
+    color: var(--primary);
+    margin-right: 0.5em;
+}
+
+/* Maths is set in STIX Two, with variables in italic */
+.math-inline,
+.julia-value {
+    font-family: 'STIX Two Text', 'Times New Roman', serif;
+    font-size: 1.1em;
+}
+
+.math-inline i,
+i.math-inline {
+    font-style: italic;
+}
+
+.math-inline sub,
+.math-inline sup {
+    font-size: 0.7em;
+    line-height: 0;
+}
+
+.julia-readout {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    color: var(--text-primary);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.julia-value {
+    display: inline-block;
+    min-width: 9.5em;
+    font-size: 1em;
+}
+
+.julia-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: var(--fs-chip);
+    padding: 2px 9px;
+    border-radius: 999px;
+    color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--primary) 30%, transparent);
+}
+
+.julia-badge.is-dust {
+    color: var(--text-secondary);
+    background: none;
+    border-color: var(--border-light);
+}
+
+.julia-text {
+    grid-column: 1 / -1;
+    font-size: var(--fs-small);
+    line-height: 1.6;
+    color: var(--text-body);
+}
+
+@media (max-width: 700px) {
+    .julia-canvas {
+        aspect-ratio: 4 / 3;
+    }
+
+    .julia-inset {
+        width: 80px;
+        height: 84px;
+    }
+
+    .julia-caption {
+        grid-template-columns: 1fr;
+    }
+
+    .julia-readout {
+        flex-wrap: wrap;
+        row-gap: 6px;
+    }
+
+    .julia-value {
+        min-width: 0;
+    }
+}

@@ -1,0 +1,107 @@
+.post-list {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--divider);
+}
+
+.post-row {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 20px;
+    padding: 18px 10px;
+    margin: 0 -10px;
+    border-bottom: 1px solid var(--divider);
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.post-row:hover {
+    background: color-mix(in srgb, var(--primary) 7%, transparent);
+}
+
+.post-row:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.post-row-date {
+    font-family: 'Space Mono', monospace;
+    font-size: var(--fs-label);
+    color: var(--text-secondary);
+    padding-top: 0.35rem;
+}
+
+.post-row-main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.post-row-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.55rem;
+    line-height: 1.2;
+    color: var(--text-primary);
+    transition: color 0.2s ease;
+}
+
+.post-row:hover .post-row-title {
+    color: var(--primary);
+}
+
+.post-row-arrow {
+    font-size: 0.7em;
+    margin-left: 0.3em;
+    vertical-align: 0.05em;
+    color: var(--text-secondary);
+}
+
+.post-row-summary {
+    font-size: var(--fs-small);
+    line-height: 1.6;
+    color: var(--text-body);
+}
+
+.post-row-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: var(--fs-chip);
+    color: var(--text-secondary);
+}
+
+.post-draft {
+    padding: 1px 7px;
+    border-radius: 999px;
+    border: 1px dashed var(--primary);
+    color: var(--primary);
+}
+
+.all-writing {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 16px;
+    font-family: 'Space Mono', monospace;
+    font-size: var(--fs-label);
+    color: var(--primary);
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+
+.all-writing:hover {
+    opacity: 0.7;
+}
+
+@media (max-width: 600px) {
+    .post-row {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+
+    .post-row-date {
+        padding-top: 0;
+    }
+}

@@ -2,51 +2,44 @@
     position: fixed;
     bottom: 2rem;
     right: 2rem;
-    background: var(--bg-card);
-    border: 1px solid var(--border-light);
-    width: 50px;
-    height: 50px;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    opacity: 0.85;
-    z-index: 1000;
-    animation: fadeIn 0.3s ease-in;
-    overflow: hidden;
     padding: 0;
-    font-family: inherit;
+    background: var(--overlay-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-light);
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    cursor: pointer;
+    z-index: 1000;
+    animation: scroll-top-in 0.25s ease-out;
+    transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
 .scroll-to-top:hover {
-    transform: translateY(-4px);
-    opacity: 1;
-    border-color: var(--primary);
-}
-
-.scroll-to-top span {
-    color: var(--text-secondary);
-    font-size: 1.5rem;
-    font-weight: bold;
-    position: relative;
-    z-index: 2;
-    transition: all 0.3s ease;
-}
-
-.scroll-to-top:hover span {
     color: var(--primary);
+    border-color: var(--primary);
     transform: translateY(-2px);
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 0.85;
-        transform: translateY(0);
+.scroll-to-top:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 3px;
+}
+
+@keyframes scroll-top-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+    .scroll-to-top {
+        bottom: 1.25rem;
+        right: 1.25rem;
     }
 }

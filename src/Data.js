@@ -1,112 +1,150 @@
+// Featured projects render as cards with stat tiles; the rest render as a compact list.
+// `link` is the source repo, `live` is a deployed site. Private repos should only have `live`.
 const Data = [
     {
-        name: "BitSmith 🧠",
+        name: "BitSmith",
+        featured: true,
         link: "https://github.com/Tjindl/BitSmith",
-        description: "Custom LLM Inference Engine & Research Sandbox. Designed an end-to-end compression pipeline for GPT-2 reducing footprint by 50% using AWQ. Created a pure-Python PageRank graph-pruning algorithm. Built a zero-dependency C++ inference engine optimized for Apple Silicon with PyBind11 and ARM NEON SIMD intrinsics.",
-        tech: "Python, C++, PyBind11, ARM NEON, LLMs, Machine Learning"
+        tagline: "INT4 LLM quantization research + a from-scratch C++ inference engine",
+        description: "Compressed GPT-2 by 50% with AWQ and uniform quantization, then ran paired statistical tests (bootstrap CI, McNemar's) and found perplexity is a misleading proxy for quality: a 5× perplexity jump under AWQ INT4 collapsed LAMBADA accuracy but left HellaSwag unchanged. Also built PageRank-guided structured pruning and a zero-dependency C++ engine with packed INT4 weights and ARM NEON SIMD kernels.",
+        stats: [
+            { value: "~10×", label: "lower INT4 perplexity with AWQ vs uniform quantization" },
+            { value: "p < 1e-10", label: "LAMBADA accuracy collapse, while HellaSwag held (p = 0.44)" },
+            { value: "50%", label: "smaller GPT-2 with packed INT4 weights" },
+        ],
+        tech: ["Python", "C++", "PyBind11", "ARM NEON", "LLMs"],
     },
     {
-        name: "Lore 🧠",
-        link: "https://github.com/Tjindl/Lore",
-        description: "Persistent project memory for developers and AI coding sessions. Captures architectural decisions, invariants, gotchas, and abandoned approaches — stored as git-native JSON, injected into AI context via an MCP server. Features a CLI, local web dashboard, file watcher, and semantic search via Ollama.",
-        tech: "Node.js, Express, MCP SDK, SQLite, Ollama, Tailwind CSS, Commander"
+        name: "Lore",
+        featured: true,
+        live: "https://getlore.tech/",
+        npm: "https://www.npmjs.com/package/lore-memory",
+        tagline: "Persistent project memory for developers and their AI assistants",
+        description: "Captures the decisions, invariants, gotchas, and abandoned approaches that usually live in your head, stores them as git-native JSON, and serves them to AI coding assistants through an MCP server. Ships as a CLI with a background file watcher, a local web dashboard, and semantic search via Ollama.",
+        stats: [
+            { value: "npm", label: "published as lore-memory, v0.5" },
+            { value: "MCP", label: "server injects project memory into AI context" },
+            { value: "git", label: "native storage: memory is versioned with the code" },
+        ],
+        tech: ["Node.js", "MCP SDK", "SQLite", "Ollama", "Express"],
     },
     {
-        name: "UBC Course Assistant 🎓",
-        link: "https://github.com/Tjindl/ubc-course-assistant",
-        description: "AI-powered chatbot for navigating UBC's course catalog using vector search and semantic understanding. Transforms natural language queries into high-dimensional embeddings via BERT-based sentence transformers stored in ChromaDB.",
-        tech: "Python, ChromaDB, Sentence Transformers, NLP, Vector Search"
+        name: "Pairs Trading",
+        featured: true,
+        link: "https://github.com/Tjindl/pairs-trading",
+        tagline: "Cointegration-based statistical arbitrage, built and backtested from scratch",
+        description: "Market-neutral strategy on Mastercard / Visa: tests for cointegration, estimates the hedge ratio by OLS, and trades z-score deviations of the spread, backtested over 2020–2024 with realistic entry and exit rules.",
+        stats: [
+            { value: "45.5%", label: "total return over 4 years, beating buy-and-hold on both legs" },
+            { value: "0.97", label: "Sharpe ratio" },
+            { value: "16%", label: "of the time in the market" },
+        ],
+        tech: ["Python", "statsmodels", "pandas", "Time Series"],
     },
     {
-        name: "AxiomForge ∑",
+        name: "Corpus",
+        link: "https://github.com/Tjindl/aipapers",
+        live: "https://corpusai-nine.vercel.app/",
+        tagline: "Daily AI research reader: arXiv + lab papers, deduplicated, auto-tagged, and summarized by Claude",
+        tech: ["Next.js", "Prisma", "PostgreSQL", "Claude API"],
+    },
+    {
+        name: "AxiomForge",
         link: "https://github.com/Tjindl/AxiomForge",
-        description: "RL research framework for automated mathematical reasoning. Trains a DQN agent to simplify polynomials and solve equations using a SymPy-based environment with a discrete action space of algebraic rewrite rules.",
-        tech: "Python, PyTorch, SymPy, NumPy, Reinforcement Learning, DQN"
+        tagline: "DQN agent that learns to simplify polynomials and solve equations via algebraic rewrite rules",
+        tech: ["PyTorch", "SymPy", "Reinforcement Learning"],
     },
     {
-        name: "MontrWalk ♿",
-        link: "https://github.com/Tjindl/Conuhacks-X",
-        description: "Accessibility navigation tool built at ConUHacks X. Uses Gemini 2.0 Flash for real-time street-view image analysis to help users navigate urban environments with live AI-powered scene descriptions.",
-        tech: "Python, Gemini API, Computer Vision, React, FastAPI"
-    },
-    {
-        name: "AwardScope 🎯",
-        link: "https://github.com/Tjindl/AwardScope",
-        description: "AI-powered financial aid discovery platform that matches students with scholarships using smart eligibility scoring and generates personalized essay strategies with generative AI.",
-        tech: "React, TypeScript, Node.js, MongoDB, Gemini API, Tailwind, Docker"
-    },
-    {
-        name: "Aether ✏️",
-        link: "https://github.com/Tjindl/Aether",
-        description: "A real-time AR whiteboard that tracks your index finger via webcam and renders strokes in the air. Powered by a Random Forest gesture classifier with 98%+ accuracy for gesture-based controls.",
-        tech: "Python, OpenCV, MediaPipe, scikit-learn, Computer Vision"
-    },
-    {
-        name: "Verifex 🔍",
+        name: "Verifex",
         link: "https://github.com/Tjindl/Verifex",
-        description: "A neuro-symbolic AI code explainer that uses tree-sitter static analysis paired with LLM reasoning to explain why code is correct — focusing on invariants, termination, and complexity.",
-        tech: "Python, FastAPI, tree-sitter, React, OpenAI, Docker"
+        tagline: "Neuro-symbolic code explainer: tree-sitter static analysis + LLM reasoning about invariants and termination",
+        tech: ["Python", "tree-sitter", "FastAPI", "React"],
     },
     {
-        name: "Handly 🤚",
+        name: "UBC Course Assistant",
+        link: "https://github.com/Tjindl/ubc-course-assistant",
+        tagline: "Semantic search chatbot over UBC's course catalog using sentence-transformer embeddings in ChromaDB",
+        tech: ["Python", "ChromaDB", "Sentence Transformers"],
+    },
+    {
+        name: "MontrWalk",
+        link: "https://github.com/Tjindl/Conuhacks-X",
+        tagline: "Accessibility navigation with live Gemini street-view scene descriptions (ConUHacks X)",
+        tech: ["Python", "Gemini API", "FastAPI", "React"],
+    },
+    {
+        name: "Aether",
+        link: "https://github.com/Tjindl/Aether",
+        tagline: "AR air-whiteboard driven by fingertip tracking and a 98%+ accurate gesture classifier",
+        tech: ["OpenCV", "MediaPipe", "scikit-learn"],
+    },
+    {
+        name: "Handly",
         link: "https://github.com/Tjindl/Handly",
-        description: "Control your Mac with hand gestures. Uses a trained Random Forest classifier (99.3% accuracy) on MediaPipe hand landmarks to map real-time gestures to media and volume controls.",
-        tech: "Python, MediaPipe, OpenCV, scikit-learn, AppleScript"
+        tagline: "Control your Mac with hand gestures, using a 99.3% accurate classifier on MediaPipe landmarks",
+        tech: ["MediaPipe", "scikit-learn", "AppleScript"],
     },
     {
-        name: "Code Lantern 🏮",
+        name: "Snowdesk",
+        live: "https://snowdesk.vercel.app",
+        tagline: "Live BC ski-resort conditions from Puppeteer scrapers on a 30-minute GitHub Actions cron",
+        tech: ["React", "Puppeteer", "GitHub Actions"],
+    },
+    {
+        name: "Code Lantern",
         link: "https://github.com/naomichenruoxi/code-lantern",
-        description: "An AI-powered architecture analyzer that reconstructs dependency graphs and function relationships from uploaded projects using a hybrid regex + AST parser for Python, JS, and TSX.",
-        tech: "Python, JavaScript, FastAPI, Gemini API, Cytoscape.js, React"
+        tagline: "Reconstructs dependency and call graphs from uploaded projects with a hybrid regex + AST parser",
+        tech: ["Python", "FastAPI", "Cytoscape.js"],
     },
     {
-        name: "Resume Optimizer 📄",
+        name: "AwardScope",
+        link: "https://github.com/Tjindl/AwardScope",
+        live: "https://awardscope.vercel.app/",
+        tagline: "Scholarship matching with eligibility scoring and AI-generated essay strategies",
+        tech: ["TypeScript", "Node.js", "MongoDB", "Gemini API"],
+    },
+    {
+        name: "Resume Optimizer",
         link: "https://github.com/Tjindl/resOptimizer",
-        description: "A resume intelligence engine using NLP for ATS checks, section detection, and skill extraction. Features TF-IDF + cosine similarity scoring with a React dashboard for enhancement recommendations.",
-        tech: "Python, FastAPI, React, spaCy, scikit-learn, NLP"
+        tagline: "ATS checks, section detection, and TF-IDF skill matching for resumes",
+        tech: ["Python", "spaCy", "scikit-learn", "React"],
     },
     {
-        name: "ASL Recognition 🤟",
-        link: "https://github.com/Tjindl/ASL-Recognition",
-        description: "A real-time ASL gesture recognition system using a TensorFlow CNN with 99%+ accuracy. Features live webcam prediction using OpenCV and MediaPipe Hands.",
-        tech: "Python, TensorFlow, OpenCV, MediaPipe, Flask, React"
+        name: "ASL Recognition",
+        link: "https://github.com/Tjindl/asl",
+        tagline: "Real-time ASL gesture recognition from webcam with a 99%+ accurate TensorFlow CNN",
+        tech: ["TensorFlow", "OpenCV", "Flask"],
     },
     {
-        name: "EzBooks 📚",
+        name: "DevStats",
+        link: "https://github.com/Tjindl/DevStats",
+        tagline: "GitHub OAuth backend that syncs a developer's pull requests and scores their activity",
+        tech: ["FastAPI", "PostgreSQL", "SQLAlchemy"],
+    },
+    {
+        name: "EzBooks",
         link: "https://github.com/calebblo/ezbooks",
-        description: "A receipt parsing and bookkeeping app for small businesses built at Kickstart 2025 (UBC Biztech). Automates expense tracking and financial reporting.",
-        tech: "Python, Flask, React, AWS Textract, DynamoDB"
+        tagline: "Receipt parsing and bookkeeping for small businesses (UBC BizTech Kickstart 2025)",
+        tech: ["Flask", "AWS Textract", "DynamoDB"],
     },
     {
-        name: "MailMind 📧",
-        link: "https://github.com/Tjindl/MailMind",
-        description: "An intelligent email management system with automated categorization, summarization, and response generation.",
-        tech: "Python, Gmail API, NLP, React, Node.js"
-    },
-    {
-        name: "Messaging App 💬",
-        link: "https://github.com/Tjindl/messagingApp",
-        description: "A modern real-time chat application built with React, Node.js, and Socket.IO. Features a sleek dark theme interface and real-time message synchronization.",
-        tech: "React, Node.js, Socket.IO, JavaScript"
-    },
-    {
-        name: "CryptoStream 💵",
+        name: "CryptoStream",
         link: "https://github.com/Tjindl/Cryptostream",
-        description: "A custom Blockchain implementation, allowing users to send and receive cryptocurrency.",
-        tech: "Java, Blockchain, Cryptography, Data Structures, Networking"
+        tagline: "A blockchain implementation for sending and receiving cryptocurrency",
+        tech: ["Java", "Cryptography"],
     },
     {
-        name: "Sports Rental App ⚽️",
+        name: "Messaging App",
+        link: "https://github.com/Tjindl/messagingApp",
+        tagline: "Real-time chat with Socket.IO",
+        tech: ["React", "Node.js", "Socket.IO"],
+    },
+    {
+        name: "Sports Rental App",
         link: "https://github.com/Tjindl/Project-Starter",
-        description: "A full-stack application to manage rental products and customer data for a sports rental business, digitizing the traditional paper-based system.",
-        tech: "Java, Swing, JDBC, SQL, Unit Testing"
+        tagline: "Inventory and customer management for a sports rental business",
+        tech: ["Java", "Swing", "JDBC"],
     },
-    {
-        name: "Expense Tracker 💸",
-        link: "https://github.com/Tjindl/tracker",
-        description: "Spring Boot + MongoDB backend for tracking personal expenses via REST APIs.",
-        tech: "Spring Boot, MongoDB, REST API, Java"
-    }
 ];
 
 export default Data;

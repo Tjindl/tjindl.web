@@ -26,7 +26,7 @@ const workData = [
         bullets: [
             "Built and deployed production Telegram bots from scratch for a live fashion-tech platform",
             "Implemented intelligent matching, filtering logic, and automated scheduling",
-            "Integrated a Playwright web scraper across 7 sources processing ~100K pages/month, cutting infrastructure costs ~80%",
+            "Integrated a Playwright web scraper across **7 sources** processing **~100K pages/month**, cutting infrastructure costs **~80%**",
             "Containerized the full stack with Docker",
         ],
         logo: fWordLogo,
@@ -59,6 +59,13 @@ const educationData = [
     },
 ];
 
+// Renders **text** in bullets as <strong> so key numbers stand out.
+function withEmphasis(text) {
+    return text.split(/\*\*(.+?)\*\*/g).map((part, i) =>
+        i % 2 === 1 ? <strong key={i}>{part}</strong> : part
+    );
+}
+
 function ItemRow({ item }) {
     return (
         <div className="item-row">
@@ -69,7 +76,7 @@ function ItemRow({ item }) {
                     <h3 className="item-title">{item.role}</h3>
                     <p className="item-subtitle">{item.company} · {item.location}</p>
                     <ul className="item-bullets">
-                        {item.bullets.map((b, i) => <li key={i}>{b}</li>)}
+                        {item.bullets.map((b, i) => <li key={i}>{withEmphasis(b)}</li>)}
                     </ul>
                 </div>
             </div>
