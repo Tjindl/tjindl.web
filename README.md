@@ -42,7 +42,9 @@ Your post, in Markdown. Maths works inline ($e^{i\pi} + 1 = 0$) and in display b
 - **Images** go in `public/posts/<slug>/` and are referenced relative to `public/posts/`, e.g.
   `![Loss curve](my-post/loss.png)`.
 - `src/posts/formatting-guide.md` is a draft that demonstrates every feature; copy it to start.
-- Articles published elsewhere (e.g. Medium) are listed in `src/blog/external.js`.
+- **Cross-posts**: to host a copy of an article first published elsewhere, add
+  `originalUrl: https://medium.com/...` to its frontmatter; the post links back to the original.
+  To only link out without hosting a copy, list it in `src/blog/external.js` instead.
 
 Each published post gets its own HTML page with the post's title and summary (so shared links
 preview correctly), and the build writes an RSS feed to `/blog/rss.xml`.

@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from 'react';
+import { lazy, Suspense, useEffect, useRef } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { MotionConfig } from 'framer-motion';
 import Navigation from './Navigation.jsx';
@@ -16,11 +16,14 @@ const basename = import.meta.env.BASE_URL.replace(/\/$/, '');
 // New pages start at the top; links like /#projects scroll to that home section.
 function ScrollManager() {
   const { pathname, hash } = useLocation();
+  const lastPathname = useRef(pathname);
 
   useEffect(() => {
+    const pageChanged = lastPathname.current !== pathname;
+    lastPathname.current = pathname;
     const target = hash && document.getElementById(decodeURIComponent(hash.slice(1)));
     if (target) target.scrollIntoView();
-    else window.scrollTo({ top: 0, behavior: 'instant' });
+    else if (pageChanged) window.scrollTo({ top: 0, behavior: 'instant' });
   }, [pathname, hash]);
 
   return null;

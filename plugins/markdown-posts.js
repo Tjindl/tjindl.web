@@ -22,8 +22,28 @@ const WORDS_PER_MINUTE = 220;
 const SITE_ORIGIN = 'https://tjindl.github.io';
 const AUTHOR = 'Tushar Jindal';
 
+// Heading ids: "Step 5: Build the CNN" -> "step-5-build-the-cnn" (plain ASCII, safe in URLs).
+const slugify = (text) =>
+    text.toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9\s-]/g, '').trim().replace(/[\s-]+/g, '-');
+
 const escapeHtml = (s) =>
     String(s).replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[ch]);
+
+// Friendly names for sites a post may have been first published on (`originalUrl`).
+const KNOWN_SOURCES = { 'medium.com': 'Medium', 'dev.to': 'DEV', 'substack.com': 'Substack', 'hashnode.dev': 'Hashnode' };
+
+function originalSource(value, file) {
+    let url;
+    try {
+        url = new URL(String(value));
+    } catch {
+        throw new Error(`${file}: frontmatter "originalUrl" must be a full URL`);
+    }
+    const host = url.hostname.replace(/^www\./, '');
+    const known = Object.keys(KNOWN_SOURCES).find((domain) => host === domain || host.endsWith(`.${domain}`));
+    return { url: url.href, source: known ? KNOWN_SOURCES[known] : host };
+}
 
 const toIsoDate = (value, file) => {
     const date = value instanceof Date ? value : new Date(value);
@@ -45,6 +65,8 @@ function readPost(file) {
             summary: data.summary ? String(data.summary) : '',
             tags: Array.isArray(data.tags) ? data.tags.map(String) : [],
             draft: Boolean(data.draft),
+            // Where the post first appeared, if it was cross-posted (e.g. Medium).
+            original: data.originalUrl ? originalSource(data.originalUrl, name) : null,
             readingTime: Math.max(1, Math.round(words / WORDS_PER_MINUTE)),
         },
         content,
@@ -57,6 +79,7 @@ function createRenderer(base) {
 
     md.use(anchor, {
         level: [2, 3],
+        slugify,
         permalink: anchor.permalink.linkInsideHeader({ symbol: '#', placement: 'before', ariaHidden: true }),
         callback: (token, { slug, title }) => toc.push({ id: slug, title, level: Number(token.tag.slice(1)) }),
     });

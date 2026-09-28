@@ -18,6 +18,7 @@ function PostRow({ post, showYear = true }) {
                 <span className="post-row-meta">
                     {post.readingTime} min read
                     {post.external && <> · {post.source}</>}
+                    {post.original && <> · also on {post.original.source}</>}
                     {post.draft && <span className="post-draft">draft</span>}
                 </span>
             </span>

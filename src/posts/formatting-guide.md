@@ -24,6 +24,9 @@ draft: true
 ---
 ```
 
+If the post was first published somewhere else, add `originalUrl: https://medium.com/@you/...`. The
+post page then links back to it ("Originally on Medium") and notes where readers can comment.
+
 ## Text
 
 Paragraphs are separated by a blank line. You can write *italic*, **bold**, `inline code`,

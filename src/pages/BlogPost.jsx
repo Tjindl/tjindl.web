@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FiArrowLeft, FiArrowRight, FiCheck, FiLink } from 'react-icons/fi';
+import { FiArrowLeft, FiArrowRight, FiArrowUpRight, FiCheck, FiLink } from 'react-icons/fi';
 import 'katex/dist/katex.min.css';
 import Footer from '../components/Footer.jsx';
 import NotFound from './NotFound.jsx';
@@ -42,7 +42,17 @@ function BlogPost() {
     const [post, setPost] = useState(null);
     const [linkCopied, setLinkCopied] = useState(false);
     const activeId = useActiveHeading(post?.toc);
+    const tocRef = useRef(null);
     useDocumentTitle(meta ? meta.title : 'Not found');
+
+    // Long contents lists scroll inside the rail; keep the current heading centred in view.
+    useEffect(() => {
+        const rail = tocRef.current;
+        const item = rail?.querySelector('.nav-item.active');
+        if (rail && item && rail.scrollHeight > rail.clientHeight) {
+            rail.scrollTo({ top: item.offsetTop - rail.clientHeight / 2, behavior: 'smooth' });
+        }
+    }, [activeId]);
 
     useEffect(() => {
         if (!meta) return undefined;
@@ -101,7 +111,7 @@ function BlogPost() {
 
     return (
         <>
-            <aside className="nav-rail desktop-only post-toc" aria-label="Contents">
+            <aside className="nav-rail desktop-only post-toc" aria-label="Contents" ref={tocRef}>
                 <nav className="navigation">
                     <div className="nav-items">
                         <Link to="/blog" className="nav-item">
@@ -138,6 +148,11 @@ function BlogPost() {
                             {formatDate(meta.date, { month: 'long', day: 'numeric', year: 'numeric' })}
                         </time>
                         <span>{meta.readingTime} min read</span>
+                        {meta.original && (
+                            <a className="post-original" href={meta.original.url} target="_blank" rel="noopener noreferrer">
+                                Originally on {meta.original.source} <FiArrowUpRight aria-hidden="true" />
+                            </a>
+                        )}
                         {meta.tags.map((tag) => <span className="post-tag" key={tag}>{tag}</span>)}
                         {meta.draft && <span className="post-draft">draft</span>}
                     </p>
@@ -151,6 +166,16 @@ function BlogPost() {
                     />
                 ) : (
                     <div className="prose-loading" aria-busy="true" />
+                )}
+
+                {meta.original && (
+                    <p className="post-original-note">
+                        First published on{' '}
+                        <a href={meta.original.url} target="_blank" rel="noopener noreferrer">
+                            {meta.original.source} <FiArrowUpRight aria-hidden="true" />
+                        </a>
+                        , where you can also leave a comment.
+                    </p>
                 )}
 
                 <footer className="post-end">
