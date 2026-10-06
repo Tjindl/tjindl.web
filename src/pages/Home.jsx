@@ -149,7 +149,7 @@ function Home() {
             </motion.p>
             <motion.p className="hero-now" variants={heroItem}>
               <span className="hero-now-dot" aria-hidden="true" />
-              Currently Web Developer at the Science Undergraduate Society, UBC
+              Currently Web Development Chair at the Science Undergraduate Society, UBC
             </motion.p>
 
             <motion.div className="hero-actions" variants={heroItem}>

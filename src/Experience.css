@@ -65,6 +65,59 @@
     margin-bottom: 0.6rem;
 }
 
+/* Title with an optional badge (e.g. a promotion) */
+.item-title-row {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.6rem;
+    margin-bottom: 0.2rem;
+}
+
+.item-title-row .item-title {
+    margin-bottom: 0;
+}
+
+.item-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: var(--fs-chip);
+    padding: 1px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+    color: var(--amber);
+    background: rgba(var(--amber-rgb), 0.1);
+    border: 1px solid rgba(var(--amber-rgb), 0.3);
+}
+
+/* Earlier roles at the same organisation */
+.item-previous {
+    margin-top: 1.1rem;
+    padding-left: 14px;
+    border-left: 1px solid var(--divider);
+}
+
+.item-previous-label {
+    font-family: 'Space Mono', monospace;
+    font-size: var(--fs-chip);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+}
+
+.item-previous-role {
+    font-size: var(--fs-body);
+    font-weight: 500;
+    color: var(--text-primary);
+    margin: 0.15rem 0 0.45rem;
+}
+
+.item-tech {
+    margin-top: 0.75rem;
+    font-family: 'Space Mono', monospace;
+    font-size: var(--fs-chip);
+    color: var(--text-secondary);
+}
+
 .item-bullets {
     list-style: none;
     display: flex;
