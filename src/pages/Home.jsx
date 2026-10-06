@@ -13,6 +13,8 @@ import Skills from '../Skills.jsx';
 import { RESUME_URL, navLinks } from '../site';
 import { posts, hasWriting } from '../blog/posts';
 import PostRow from '../components/PostRow.jsx';
+import SectionNav from '../components/SectionNav.jsx';
+import NameCycle from '../components/NameCycle.jsx';
 import useDocumentTitle from '../useDocumentTitle';
 
 const LATEST_COUNT = 3;
@@ -20,6 +22,9 @@ const LATEST_COUNT = 3;
 // *word* marks an accent (italic, primary colour) in the About statement.
 const aboutStatement =
   "I'm a Data Science and Mathematics double major at UBC, graduating in 2028, focused on statistical modeling, machine learning, and large-scale data analysis. I'm comfortable across the stack, from production full-stack apps to APIs and infra, and most interested in where *statistical* *rigour* meets *real-world* *engineering* *constraints.*";
+
+// Hovered letters take each accent in turn.
+const LETTER_ACCENTS = ['var(--primary)', 'var(--violet)', 'var(--coral)', 'var(--amber)'];
 
 // Each letter rises in from a blur on load and turns italic on hover.
 function AnimatedName({ text }) {
@@ -38,7 +43,9 @@ function AnimatedName({ text }) {
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                 transition={{ delay: 0.1 + i * 0.04, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
               >
-                <span className="name-letter">{char}</span>
+                <span className="name-letter" style={{ '--letter-accent': LETTER_ACCENTS[i % LETTER_ACCENTS.length] }}>
+                  {char}
+                </span>
               </motion.span>
             );
           })}
@@ -122,96 +129,106 @@ function Home() {
     <>
       <NeuralBackground />
 
-      <main className="main">
+      {/* Wide screens: the intro stays pinned on the left while the sections scroll past */}
+      <div className="home-layout">
         <motion.header
-          className="profile-header"
+          className="intro"
           variants={heroStagger}
           initial="hidden"
           animate="show"
         >
-          <motion.p className="byline" variants={heroItem}>
-            ML Engineer & Computer Vision — Data Science & Mathematics at UBC
-          </motion.p>
-          <AnimatedName text="Tushar Jindal" />
-          <motion.p className="hero-headline" variants={heroItem}>
-            I build machine learning systems, from computer vision pipelines to LLM
-            inference engines, and contribute to open-source ML infrastructure
-            like <strong>NVIDIA cuDF</strong>, <strong>Dynamo</strong>, and <strong>vLLM</strong>.
-          </motion.p>
-          <motion.p className="hero-now" variants={heroItem}>
-            <span className="hero-now-dot" aria-hidden="true" />
-            Currently Web Developer at the Science Undergraduate Society, UBC
-          </motion.p>
+          <div className="intro-main">
+            <motion.p className="byline" variants={heroItem}>
+              ML Engineer & Computer Vision — Data Science & Mathematics at UBC
+            </motion.p>
+            <AnimatedName text="Tushar Jindal" />
+            <motion.p className="hero-headline" variants={heroItem}>
+              I build machine learning systems, from computer vision pipelines to LLM
+              inference engines, and contribute to open-source ML infrastructure
+              like <strong>NVIDIA cuDF</strong>, <strong>Dynamo</strong>, and <strong>vLLM</strong>.
+            </motion.p>
+            <motion.p className="hero-now" variants={heroItem}>
+              <span className="hero-now-dot" aria-hidden="true" />
+              Currently Web Developer at the Science Undergraduate Society, UBC
+            </motion.p>
 
-          <motion.div className="hero-actions" variants={heroItem}>
-            <a className="btn btn-primary" href={RESUME_URL} target="_blank" rel="noopener noreferrer">
-              <FiFileText /> Resume
-            </a>
-            <a className="btn btn-ghost" href="mailto:tushar.bzp05@gmail.com">
-              Email me <FiArrowUpRight />
-            </a>
+            <motion.div className="hero-actions" variants={heroItem}>
+              <a className="btn btn-primary" href={RESUME_URL} target="_blank" rel="noopener noreferrer">
+                <FiFileText /> Resume
+              </a>
+              <a className="btn btn-ghost" href="mailto:tushar.bzp05@gmail.com">
+                Email me <FiArrowUpRight />
+              </a>
 
-            <div className="social-links">
-              <a href="https://github.com/tjindl" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                <FiGithub />
-              </a>
-              <a href="https://linkedin.com/in/tushar-jindal-97602420b/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                <FiLinkedin />
-              </a>
-              <a href="https://medium.com/@tushar.bzp05" target="_blank" rel="noopener noreferrer" aria-label="Medium">
-                <FiEdit3 />
-              </a>
-              <a href="mailto:tushar.bzp05@gmail.com" aria-label="Email">
-                <FiMail />
-              </a>
-            </div>
+              <div className="social-links">
+                <a href="https://github.com/tjindl" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                  <FiGithub />
+                </a>
+                <a href="https://linkedin.com/in/tushar-jindal-97602420b/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                  <FiLinkedin />
+                </a>
+                <a href="https://medium.com/@tushar.bzp05" target="_blank" rel="noopener noreferrer" aria-label="Medium">
+                  <FiEdit3 />
+                </a>
+                <a href="mailto:tushar.bzp05@gmail.com" aria-label="Email">
+                  <FiMail />
+                </a>
+              </div>
+            </motion.div>
+          </div>
+
+          <motion.div className="intro-aside" variants={heroItem}>
+            <SectionNav className="intro-nav" />
+            <NameCycle />
           </motion.div>
         </motion.header>
 
-        <Section id="about" title="About">
-          <RevealText text={aboutStatement} />
-          <JuliaFigure />
-        </Section>
-
-        <Section id="opensource" title="Open Source" subtitle="Contributions to production codebases used in industry.">
-          <OpenSource />
-        </Section>
-
-        <Section id="projects" title="Projects">
-          <Projects />
-        </Section>
-
-        {hasWriting && (
-          <Section id="writing" title="Writing">
-            <div className="post-list">
-              {posts.slice(0, LATEST_COUNT).map((post) => (
-                <PostRow key={post.slug ?? post.url} post={post} />
-              ))}
-            </div>
-            <Link className="all-writing" to="/blog">
-              All writing <FiArrowRight aria-hidden="true" />
-            </Link>
+        <main className="home-content">
+          <Section id="about" title="About">
+            <RevealText text={aboutStatement} />
+            <JuliaFigure />
           </Section>
-        )}
 
-        <Section id="experience" title="Experience">
-          <Experience />
-        </Section>
+          <Section id="opensource" title="Open Source" subtitle="Contributions to production codebases used in industry.">
+            <OpenSource />
+          </Section>
 
-        <Section id="education" title="Education">
-          <Education />
-        </Section>
+          <Section id="projects" title="Projects">
+            <Projects />
+          </Section>
 
-        <Section id="skills" title="Skills">
-          <Skills />
-        </Section>
+          {hasWriting && (
+            <Section id="writing" title="Writing">
+              <div className="post-list">
+                {posts.slice(0, LATEST_COUNT).map((post) => (
+                  <PostRow key={post.slug ?? post.url} post={post} />
+                ))}
+              </div>
+              <Link className="all-writing" to="/blog">
+                All writing <FiArrowRight aria-hidden="true" />
+              </Link>
+            </Section>
+          )}
 
-        <Section id="connect" title="Connect">
-          <Connect />
-        </Section>
+          <Section id="experience" title="Experience">
+            <Experience />
+          </Section>
 
-        <Footer />
-      </main>
+          <Section id="education" title="Education">
+            <Education />
+          </Section>
+
+          <Section id="skills" title="Skills">
+            <Skills />
+          </Section>
+
+          <Section id="connect" title="Connect">
+            <Connect />
+          </Section>
+
+          <Footer />
+        </main>
+      </div>
     </>
   );
 }

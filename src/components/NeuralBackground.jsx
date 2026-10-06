@@ -4,13 +4,33 @@ const NODE_COUNT = 42;
 const MAX_DIST = 185;
 const MOUSE_RADIUS = 200;
 const SPEED = 0.55;
-// Full strength behind the hero, fading to a faint texture once reading starts.
-const HERO_OPACITY = 0.6;
-const READING_OPACITY = 0.14;
+// Full strength (the theme's --network-strength) behind the hero, fading to a faint texture
+// once reading starts.
+const READING_FRACTION = 0.23;
+// On wide screens the home intro is pinned on the left: the network lives behind it at full
+// strength, and CSS (.neural-bg) fades it out before the reading column.
+const WIDE_LAYOUT = 1101;
+const WIDE_REGION = 0.48;
 
-function getRGB() {
-  return getComputedStyle(document.documentElement)
-    .getPropertyValue('--primary-rgb').trim() || '177, 80, 47';
+// Node colours: mostly the primary accent, with violet and coral "neurons" mixed in.
+const NODE_TONES = [
+  { prop: '--primary-rgb', share: 0.6 },
+  { prop: '--violet-rgb', share: 0.25 },
+  { prop: '--coral-rgb', share: 0.15 },
+];
+
+function readTones() {
+  const style = getComputedStyle(document.documentElement);
+  return NODE_TONES.map(({ prop }) => style.getPropertyValue(prop).trim() || '36, 69, 194');
+}
+
+function pickTone() {
+  let r = Math.random();
+  for (let i = 0; i < NODE_TONES.length; i++) {
+    r -= NODE_TONES[i].share;
+    if (r <= 0) return i;
+  }
+  return 0;
 }
 
 function NeuralBackground() {
@@ -35,28 +55,34 @@ function NeuralBackground() {
     const onMouseMove = (e) => { mouse.x = e.clientX; mouse.y = e.clientY; };
     window.addEventListener('mousemove', onMouseMove);
 
+    const isWide = () => window.innerWidth >= WIDE_LAYOUT;
+
     const onScroll = () => {
-      const t = Math.min(window.scrollY / (window.innerHeight * 0.6), 1);
-      canvas.style.opacity = HERO_OPACITY + (READING_OPACITY - HERO_OPACITY) * t;
+      const t = isWide() ? 0 : Math.min(window.scrollY / (window.innerHeight * 0.6), 1);
+      canvas.style.opacity = `calc(var(--network-strength) * ${1 + (READING_FRACTION - 1) * t})`;
     };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
 
+    // Width the nodes roam over: the intro area on wide screens, the whole viewport otherwise.
+    const regionWidth = () => canvas.width * (isWide() ? WIDE_REGION : 1);
+
     const nodes = Array.from({ length: NODE_COUNT }, () => ({
-      x: Math.random() * canvas.width,
+      x: Math.random() * regionWidth(),
       y: Math.random() * canvas.height,
       vx: (Math.random() - 0.5) * SPEED,
       vy: (Math.random() - 0.5) * SPEED,
       r: Math.random() * 1.5 + 2.5,
+      tone: pickTone(),
     }));
 
-    let rgb = getRGB();
-    const observer = new MutationObserver(() => { rgb = getRGB(); });
+    let tones = readTones();
+    const observer = new MutationObserver(() => { tones = readTones(); });
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
     const draw = () => {
-      const W = canvas.width, H = canvas.height;
-      ctx.clearRect(0, 0, W, H);
+      const W = regionWidth(), H = canvas.height;
+      ctx.clearRect(0, 0, canvas.width, H);
 
       for (const n of nodes) {
         // mouse repulsion
@@ -97,10 +123,12 @@ function NeuralBackground() {
           const d = Math.sqrt(dx * dx + dy * dy);
           if (d < MAX_DIST) {
             const alpha = (1 - d / MAX_DIST) * 0.38;
+            // Links between same-coloured nodes take their colour; everything else uses the primary accent.
+            const tone = a.tone === b.tone ? tones[a.tone] : tones[0];
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
             ctx.lineTo(b.x, b.y);
-            ctx.strokeStyle = `rgba(${rgb}, ${alpha})`;
+            ctx.strokeStyle = `rgba(${tone}, ${alpha})`;
             ctx.lineWidth = 1;
             ctx.stroke();
           }
@@ -111,7 +139,7 @@ function NeuralBackground() {
       for (const n of nodes) {
         ctx.beginPath();
         ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${rgb}, 0.55)`;
+        ctx.fillStyle = `rgba(${tones[n.tone]}, 0.6)`;
         ctx.fill();
       }
 
@@ -125,7 +153,7 @@ function NeuralBackground() {
             ctx.beginPath();
             ctx.moveTo(mouse.x, mouse.y);
             ctx.lineTo(n.x, n.y);
-            ctx.strokeStyle = `rgba(${rgb}, ${alpha})`;
+            ctx.strokeStyle = `rgba(${tones[0]}, ${alpha})`;
             ctx.lineWidth = 1.2;
             ctx.stroke();
           }
@@ -133,7 +161,7 @@ function NeuralBackground() {
         // cursor node itself
         ctx.beginPath();
         ctx.arc(mouse.x, mouse.y, 4, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${rgb}, 0.75)`;
+        ctx.fillStyle = `rgba(${tones[0]}, 0.75)`;
         ctx.fill();
       }
 
@@ -155,12 +183,13 @@ function NeuralBackground() {
     <canvas
       ref={canvasRef}
       aria-hidden="true"
+      className="neural-bg"
       style={{
         position: 'fixed',
         inset: 0,
         zIndex: 0,
         pointerEvents: 'none',
-        opacity: HERO_OPACITY,
+        opacity: 'var(--network-strength)',
       }}
     />
   );

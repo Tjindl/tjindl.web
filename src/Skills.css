@@ -18,6 +18,18 @@
     padding-top: 0.1rem;
 }
 
+/* Each category is keyed by one of the accents */
+.skills-category::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin-right: 0.55rem;
+    border-radius: 50%;
+    background: var(--category-accent, var(--primary));
+    vertical-align: 0.1em;
+}
+
 .skills-items {
     display: flex;
     flex-wrap: wrap;

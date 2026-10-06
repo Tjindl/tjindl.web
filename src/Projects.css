@@ -10,21 +10,53 @@
     gap: 20px;
 }
 
+/* Each featured card carries one accent (data-accent in Data.js), used for its figures,
+   hover border, cursor glow and the glint along its top edge */
 .featured-card {
+    --card-accent: var(--primary);
+    --card-accent-rgb: var(--primary-rgb);
     position: relative;
     display: flex;
     flex-direction: column;
     gap: 0.9rem;
     padding: 24px;
-    background: color-mix(in srgb, var(--bg-darker) 70%, transparent);
+    background: var(--surface);
     border: 1px solid var(--border-light);
     border-radius: 12px;
     transition: border-color 0.25s ease, transform 0.25s ease;
 }
 
+.featured-card[data-accent='violet'] {
+    --card-accent: var(--violet);
+    --card-accent-rgb: var(--violet-rgb);
+}
+
+.featured-card[data-accent='coral'] {
+    --card-accent: var(--coral);
+    --card-accent-rgb: var(--coral-rgb);
+}
+
+.featured-card[data-accent='amber'] {
+    --card-accent: var(--amber);
+    --card-accent-rgb: var(--amber-rgb);
+}
+
 .featured-card:hover {
-    border-color: color-mix(in srgb, var(--primary) 40%, transparent);
+    border-color: rgba(var(--card-accent-rgb), 0.45);
     transform: translateY(-2px);
+}
+
+.featured-card::after {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 24px;
+    right: 24px;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, transparent, var(--card-accent), transparent);
+    opacity: 0.75;
+    pointer-events: none;
 }
 
 /* Soft glow that follows the cursor (position set in Projects.jsx) */
@@ -35,7 +67,7 @@
     border-radius: inherit;
     background: radial-gradient(
         420px circle at var(--mx, 50%) var(--my, 50%),
-        color-mix(in srgb, var(--primary) 9%, transparent),
+        rgba(var(--card-accent-rgb), 0.1),
         transparent 70%
     );
     opacity: 0;
@@ -116,7 +148,7 @@
     font-family: 'Space Mono', monospace;
     font-size: 1.15rem;
     font-weight: 700;
-    color: var(--primary);
+    color: var(--card-accent);
     line-height: 1.2;
     white-space: nowrap;
 }

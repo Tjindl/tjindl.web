@@ -126,9 +126,9 @@ function OpenSource() {
   return (
     <div className="os-list">
       <p className="os-summary">
-        <span><strong>{mergedCount}</strong> merged</span>
-        <span><strong>{openCount}</strong> in review</span>
-        <span><strong>{contributions.length}</strong> repositories</span>
+        <span className="os-count-merged"><strong>{mergedCount}</strong> merged</span>
+        <span className="os-count-open"><strong>{openCount}</strong> in review</span>
+        <span className="os-count-repos"><strong>{contributions.length}</strong> repositories</span>
       </p>
       {contributions.map((contrib) => (
         <div className="os-repo" key={contrib.repo}>

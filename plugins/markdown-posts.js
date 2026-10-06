@@ -138,7 +138,6 @@ function withMeta(html, { title, description, url, type = 'website', extra = '' 
         `<link rel="canonical" href="${url}" />`,
         `<meta property="og:url" content="${url}" />`,
         `<meta property="og:type" content="${type}" />`,
-        '<meta name="twitter:card" content="summary" />',
         extra,
     ].filter(Boolean).join('\n  ');
     return out.replace('</head>', `  ${tags}\n</head>`);
@@ -183,6 +182,11 @@ export default function markdownPosts({ external = [] } = {}) {
             config = resolved;
             isBuild = resolved.command === 'build';
             render = createRenderer(resolved.base);
+        },
+
+        // index.html refers to absolute URLs (e.g. the og:image) as __SITE_URL__…
+        transformIndexHtml(html) {
+            return html.replaceAll('__SITE_URL__', new URL(config.base, SITE_ORIGIN).href);
         },
 
         load(id) {

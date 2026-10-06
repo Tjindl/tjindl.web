@@ -1,25 +1,23 @@
 /* Blog index, post pages and the 404 page. Post bodies are pre-rendered HTML styled by .prose. */
 
+/* Code colours come from the site palette: blue keywords, gold strings, red-pen numbers,
+   violet types */
 :root {
     --code-bg: color-mix(in srgb, var(--text-primary) 4%, var(--bg-darker));
-    --code-text: #3f372f;
-    --code-keyword: #b1502f;
-    --code-string: #5c7636;
-    --code-number: #8b4779;
-    --code-comment: #9b8f80;
-    --code-type: #9c6518;
-    --code-attr: #3a6a82;
+    --code-text: #2a2b33;
+    --code-keyword: var(--primary);
+    --code-string: var(--amber);
+    --code-number: var(--coral);
+    --code-comment: #6a6b73;
+    --code-type: var(--violet);
+    --code-attr: var(--text-body);
 }
 
 [data-theme='dark'] {
-    --code-bg: color-mix(in srgb, #000 22%, var(--bg-darker));
-    --code-text: #d6ccbf;
-    --code-keyword: #e38d64;
-    --code-string: #a9bf7e;
-    --code-number: #d29fc6;
-    --code-comment: #7f7467;
-    --code-type: #ddb06a;
-    --code-attr: #88b6cc;
+    --code-bg: color-mix(in srgb, #000 30%, var(--bg-darker));
+    --code-text: #d8dbe6;
+    --code-keyword: var(--primary-strong);
+    --code-comment: #7a809b;
 }
 
 /* Blog index */
@@ -76,7 +74,7 @@
     font-family: 'Space Mono', monospace;
     font-size: var(--fs-label);
     font-weight: 400;
-    color: var(--primary);
+    color: var(--violet);
 }
 
 /* Post header */
@@ -169,7 +167,7 @@
 
 .post-tag::before {
     content: '#';
-    color: var(--primary);
+    color: var(--coral);
 }
 
 .prose-loading {

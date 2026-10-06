@@ -106,9 +106,8 @@
 /* Caption */
 .julia-caption {
     display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: baseline;
-    gap: 10px 24px;
+    grid-template-columns: 1fr;
+    gap: 10px;
     margin-top: 16px;
 }
 
@@ -172,9 +171,9 @@ i.math-inline {
 }
 
 .julia-badge.is-dust {
-    color: var(--text-secondary);
-    background: none;
-    border-color: var(--border-light);
+    color: var(--coral);
+    background: rgba(var(--coral-rgb), 0.1);
+    border-color: rgba(var(--coral-rgb), 0.3);
 }
 
 .julia-text {

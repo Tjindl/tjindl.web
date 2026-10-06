@@ -39,7 +39,7 @@ function trackPointer(e) {
 
 function FeaturedCard({ project }) {
     return (
-        <article className="featured-card" onPointerMove={trackPointer}>
+        <article className="featured-card" data-accent={project.accent} onPointerMove={trackPointer}>
             <header className="featured-header">
                 <h3 className="featured-name">{project.name}</h3>
                 <ProjectLinks project={project} />

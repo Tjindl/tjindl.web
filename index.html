@@ -3,7 +3,11 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/png" href="/assets/resume_icon.png" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="64x64" href="/favicon.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="theme-color" content="#f7f4ec" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0a0d18" media="(prefers-color-scheme: dark)" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description"
     content="Tushar Jindal - Software Engineer & AI Researcher. Portfolio showcasing projects in machine learning, generative AI, and full-stack development." />
@@ -12,14 +16,23 @@
   <meta property="og:title" content="Tushar Jindal | Software Engineer & AI" />
   <meta property="og:description"
     content="Software Engineer specializing in AI, systems architecture, and full-stack development." />
-  <meta property="og:image"
-    content="https://media.licdn.com/dms/image/v2/D5603AQHooUMy8EhUYA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1708591722795?e=1734566400&v=beta&t=7UlRxp423XWBDfUSVutWJiFE11RSbYu2OwpORdCpG7c" />
+  <meta property="og:image" content="__SITE_URL__og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Tushar Jindal: ML engineer, Data Science &amp; Mathematics at UBC" />
+  <meta name="twitter:card" content="summary_large_image" />
   <title>Tushar Jindal | Software Engineer & AI</title>
   <script>
     (function () {
       var stored = localStorage.getItem('theme');
       var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
       document.documentElement.setAttribute('data-theme', theme);
+      // A saved choice overrides the system preference, so the browser chrome should follow it too
+      if (stored) {
+        document.querySelectorAll('meta[name="theme-color"]').forEach(function (meta) {
+          meta.setAttribute('content', theme === 'dark' ? '#0a0d18' : '#f7f4ec');
+        });
+      }
     })();
   </script>
 </head>

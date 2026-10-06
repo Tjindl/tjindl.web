@@ -8,6 +8,11 @@ import { FiMenu, FiX, FiFileText, FiSun, FiMoon, FiSearch, FiBookOpen } from 're
 import { RESUME_URL, navLinks, isMac } from './site';
 import { hasWriting } from './blog/posts';
 import CommandPalette from './components/CommandPalette.jsx';
+import NameCycle from './components/NameCycle.jsx';
+import useActiveSection from './useActiveSection';
+
+// Browser chrome colours (meta theme-color), matching --bg-darker in each theme.
+const THEME_COLORS = { light: '#f7f4ec', dark: '#0a0d18' };
 
 // Links shown in the rail away from the home page.
 const pageLinks = [
@@ -20,22 +25,11 @@ function Navigation() {
     const onHome = pathname === '/';
     // Post pages draw their own rail with the post's table of contents.
     const onPost = pathname.startsWith('/blog/');
-    const [activeSection, setActiveSection] = useState('about');
     const [isMobileOpen, setIsMobileOpen] = useState(false);
     const [theme, setTheme] = useState(() => document.documentElement.getAttribute('data-theme') || 'light');
-    const [nameIdx, setNameIdx] = useState(0);
     const [paletteOpen, setPaletteOpen] = useState(false);
-
-    const names = [
-        { text: 'Tushar Jindal', script: 'en' },
-        { text: 'तुषार जिंदल', script: 'hi' },
-        { text: 'ਤੁਸ਼ਾਰ ਜਿੰਦਲ', script: 'pa' },
-    ];
-
-    useEffect(() => {
-        const t = setInterval(() => setNameIdx(i => (i + 1) % 3), 2500);
-        return () => clearInterval(t);
-    }, []);
+    // On desktop the home page's intro panel has its own section nav; this tracks it for the mobile menu.
+    const activeSection = useActiveSection(onHome && isMobileOpen);
 
     // `origin` is the element the reveal circle grows from; defaults to the viewport centre.
     const toggleTheme = useCallback((origin) => {
@@ -43,6 +37,7 @@ function Navigation() {
         const apply = () => {
             flushSync(() => setTheme(next));
             document.documentElement.setAttribute('data-theme', next);
+            document.querySelectorAll('meta[name="theme-color"]').forEach((meta) => meta.setAttribute('content', THEME_COLORS[next]));
             localStorage.setItem('theme', next);
         };
 
@@ -68,39 +63,14 @@ function Navigation() {
 
     useEffect(() => setIsMobileOpen(false), [pathname]);
 
-    useEffect(() => {
-        if (!onHome) return undefined;
-        // Active = the last section whose top has passed the upper third of the viewport,
-        // or the last section once the page is scrolled to the bottom.
-        const handleScroll = () => {
-            const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
-            if (atBottom) {
-                setActiveSection(navLinks[navLinks.length - 1].to);
-                return;
-            }
-
-            const line = window.innerHeight * 0.35;
-            let current = navLinks[0].to;
-            for (const { to } of navLinks) {
-                const element = document.getElementById(to);
-                if (element && element.getBoundingClientRect().top <= line) {
-                    current = to;
-                }
-            }
-            setActiveSection(current);
-        };
-
-        handleScroll();
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, [onHome]);
-
     const sectionLink = (link, onClick) => (
         <ScrollLink
             key={link.name}
             to={link.to}
+            href={`#${link.to}`}
             smooth={true}
             duration={500}
+            offset={-80}
             onClick={onClick}
             className={`nav-item ${activeSection === link.to ? 'active' : ''}`}
         >
@@ -122,29 +92,15 @@ function Navigation() {
 
     return (
         <>
-            {!onPost && <div className="nav-rail desktop-only">
-                <nav className="navigation">
-                    <div className="nav-items">
-                        {onHome ? navLinks.map((link) => sectionLink(link)) : pageLinks.map(pageLink)}
-                    </div>
-                </nav>
-
-                <div className="nav-name-cycle">
-                    <AnimatePresence mode="wait">
-                        <motion.span
-                            key={nameIdx}
-                            initial={{ opacity: 0, y: 4 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -4 }}
-                            transition={{ duration: 0.4, ease: 'easeInOut' }}
-                            className="nav-name-text"
-                            lang={names[nameIdx].script}
-                        >
-                            {names[nameIdx].text}
-                        </motion.span>
-                    </AnimatePresence>
+            {/* The home intro and post pages draw their own rails */}
+            {!onHome && !onPost && (
+                <div className="nav-rail desktop-only">
+                    <nav className="navigation">
+                        <div className="nav-items">{pageLinks.map(pageLink)}</div>
+                    </nav>
+                    <NameCycle />
                 </div>
-            </div>}
+            )}
 
             <div className="nav-corner desktop-only">
                 <button

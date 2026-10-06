@@ -27,7 +27,10 @@ uniform vec2 u_res;
 uniform vec2 u_c;
 uniform vec3 u_bg;
 uniform vec3 u_accent;
+uniform vec3 u_violet;
+uniform vec3 u_warm;
 uniform vec3 u_ink;
+uniform float u_haze;
 const int MAX_ITER = 200;
 
 void main() {
@@ -40,12 +43,15 @@ void main() {
         if (dot(z, z) > 256.0) { escaped = true; break; }
         n += 1.0;
     }
-    vec3 col = mix(u_accent, u_ink, 0.55);
+    vec3 col = mix(u_violet, u_ink, 0.6);
     if (escaped) {
         float smoothN = n + 1.0 - log2(0.5 * log2(dot(z, z)));
         float t = log(max(smoothN, 1.0)) / log(float(MAX_ITER));
-        col = mix(u_bg, u_accent, smoothstep(0.18, 0.62, t));
-        col = mix(col, u_ink, smoothstep(0.7, 1.0, t) * 0.7);
+        // Slow-escaping points sit near the set: a violet haze far out, a body in the primary accent, amber edges.
+        col = mix(u_bg, u_violet, smoothstep(0.14, 0.44, t) * u_haze);
+        col = mix(col, u_accent, smoothstep(0.38, 0.66, t));
+        col = mix(col, u_warm, smoothstep(0.68, 0.93, t));
+        col = mix(col, u_ink, smoothstep(0.93, 1.0, t) * 0.4);
     }
     gl_FragColor = vec4(col, 1.0);
 }
@@ -68,7 +74,10 @@ function readTheme() {
     return {
         bg: parseColor(style.getPropertyValue('--bg-darker')),
         accent: parseColor(style.getPropertyValue('--primary-rgb')),
+        violet: parseColor(style.getPropertyValue('--violet-rgb')),
+        warm: parseColor(style.getPropertyValue('--amber-rgb')),
         ink: parseColor(style.getPropertyValue('--text-primary')),
+        haze: parseFloat(style.getPropertyValue('--julia-haze')) || 0.8,
     };
 }
 
@@ -139,7 +148,10 @@ function JuliaFigure() {
         gl.enableVertexAttribArray(aPos);
         gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
         const uniform = (name) => gl.getUniformLocation(program, name);
-        const u = { res: uniform('u_res'), c: uniform('u_c'), bg: uniform('u_bg'), accent: uniform('u_accent'), ink: uniform('u_ink') };
+        const u = {
+            res: uniform('u_res'), c: uniform('u_c'), bg: uniform('u_bg'), accent: uniform('u_accent'),
+            violet: uniform('u_violet'), warm: uniform('u_warm'), ink: uniform('u_ink'), haze: uniform('u_haze'),
+        };
 
         const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const inset = insetRef.current;
@@ -164,7 +176,8 @@ function JuliaFigure() {
             inset.width = w;
             inset.height = h;
             const image = insetCtx.createImageData(w, h);
-            const [ar, ag, ab] = theme.accent.map((x) => x * 255);
+            const accent = theme.accent.map((x) => x * 255);
+            const violet = theme.violet.map((x) => x * 255);
             const [ir, ig, ib] = theme.ink.map((x) => x * 255);
             for (let py = 0; py < h; py++) {
                 for (let px = 0; px < w; px++) {
@@ -180,7 +193,10 @@ function JuliaFigure() {
                     if (n === 80) {
                         image.data.set([ir, ig, ib, 200], i);
                     } else {
-                        image.data.set([ar, ag, ab, Math.min(255, n * 9)], i);
+                        // Escape bands shade from violet (fast) to the primary accent (near M's boundary).
+                        const k = Math.min(1, n / 18);
+                        const rgb = violet.map((v, c) => v + (accent[c] - v) * k);
+                        image.data.set([...rgb, Math.min(255, n * 9)], i);
                     }
                 }
             }
@@ -208,7 +224,10 @@ function JuliaFigure() {
             gl.uniform2f(u.c, c.re, c.im);
             gl.uniform3fv(u.bg, theme.bg);
             gl.uniform3fv(u.accent, theme.accent);
+            gl.uniform3fv(u.violet, theme.violet);
+            gl.uniform3fv(u.warm, theme.warm);
             gl.uniform3fv(u.ink, theme.ink);
+            gl.uniform1f(u.haze, theme.haze);
             gl.drawArrays(gl.TRIANGLES, 0, 3);
             drawInset();
 

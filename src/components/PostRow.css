@@ -75,8 +75,8 @@
 .post-draft {
     padding: 1px 7px;
     border-radius: 999px;
-    border: 1px dashed var(--primary);
-    color: var(--primary);
+    border: 1px dashed var(--amber);
+    color: var(--amber);
 }
 
 .all-writing {
