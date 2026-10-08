@@ -166,14 +166,14 @@ i.math-inline {
     padding: 2px 9px;
     border-radius: 999px;
     color: var(--primary);
-    background: color-mix(in srgb, var(--primary) 12%, transparent);
-    border: 1px solid color-mix(in srgb, var(--primary) 30%, transparent);
+    background: rgba(var(--primary-rgb), 0.08);
+    border: 1px solid rgba(var(--primary-rgb), 0.28);
 }
 
 .julia-badge.is-dust {
-    color: var(--coral);
-    background: rgba(var(--coral-rgb), 0.1);
-    border-color: rgba(var(--coral-rgb), 0.3);
+    color: var(--teal);
+    background: rgba(var(--teal-rgb), 0.08);
+    border-color: rgba(var(--teal-rgb), 0.28);
 }
 
 .julia-text {

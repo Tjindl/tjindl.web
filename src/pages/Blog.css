@@ -1,23 +1,22 @@
 /* Blog index, post pages and the 404 page. Post bodies are pre-rendered HTML styled by .prose. */
 
-/* Code colours come from the site palette: blue keywords, gold strings, red-pen numbers,
-   violet types */
+/* Code colours come from the site palette: persimmon keywords, ochre strings, teal numbers,
+   rose types */
 :root {
     --code-bg: color-mix(in srgb, var(--text-primary) 4%, var(--bg-darker));
-    --code-text: #2a2b33;
+    --code-text: #2a2523;
     --code-keyword: var(--primary);
     --code-string: var(--amber);
-    --code-number: var(--coral);
-    --code-comment: #6a6b73;
-    --code-type: var(--violet);
+    --code-number: var(--teal);
+    --code-comment: #69625d;
+    --code-type: var(--rose);
     --code-attr: var(--text-body);
 }
 
 [data-theme='dark'] {
     --code-bg: color-mix(in srgb, #000 30%, var(--bg-darker));
-    --code-text: #d8dbe6;
-    --code-keyword: var(--primary-strong);
-    --code-comment: #7a809b;
+    --code-text: #dcd6d1;
+    --code-comment: #8c857e;
 }
 
 /* Blog index */
@@ -74,7 +73,7 @@
     font-family: 'Space Mono', monospace;
     font-size: var(--fs-label);
     font-weight: 400;
-    color: var(--violet);
+    color: var(--rose);
 }
 
 /* Post header */
@@ -167,7 +166,7 @@
 
 .post-tag::before {
     content: '#';
-    color: var(--coral);
+    color: var(--teal);
 }
 
 .prose-loading {

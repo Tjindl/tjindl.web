@@ -1,77 +1,77 @@
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=STIX+Two+Text:ital@0;1&family=Sora:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
 
 :root {
-  /* "Ink on paper": cobalt ink on warm cream. Companion accents each have a role: violet for
-     depth and research, red pen for warmth and "live" signals, gold for status and value. */
-  --primary: #2445c2;
-  --primary-rgb: 36, 69, 194;
-  --primary-strong: #1a3399;
+  /* "Spot colour": warm ink on bone paper with one persimmon ink, like the second colour of a
+     two-colour print. Supporting inks each have a role: rose for depth (gradients, research), teal
+     as the cool counterpoint for live and finished things, ochre for status and value.
+     Every accent passes WCAG AA as text on the page and inside its own tinted badge. */
+  --primary: #be3606;
+  --primary-rgb: 190, 54, 6;
+  --primary-strong: #9c290d;
   --on-primary: #ffffff;
-  --violet: #7c3aed;
-  --violet-rgb: 124, 58, 237;
-  --coral: #b83226;
-  --coral-rgb: 184, 50, 38;
-  --amber: #8f5b00;
-  --amber-rgb: 143, 91, 0;
-  --accent-gradient: linear-gradient(100deg, var(--primary), var(--violet));
-  --bg-dark: #eeeae0;
-  --bg-darker: #f7f4ec;
-  --bg-card: #eeeae0;
-  --surface: rgba(255, 255, 255, 0.55);
-  --text-primary: #1a1b23;
-  --text-body: #45464f;
-  --text-secondary: #5f6069;
-  --text-mono: #5f6069;
-  --border-light: rgba(26, 27, 35, 0.1);
-  --divider: rgba(26, 27, 35, 0.09);
-  --overlay-bg: rgba(247, 244, 236, 0.86);
-  --scrollbar-thumb: rgba(26, 27, 35, 0.16);
-  --scrollbar-thumb-hover: rgba(26, 27, 35, 0.28);
-  --aura-strength: 0.08;
+  --rose: #b03557;
+  --rose-rgb: 176, 53, 87;
+  --teal: #017067;
+  --teal-rgb: 1, 112, 103;
+  --amber: #8e5b01;
+  --amber-rgb: 142, 91, 1;
+  --accent-gradient: linear-gradient(100deg, var(--primary), var(--rose));
+  --bg-darker: #f7f5f1;
+  --surface: rgba(255, 255, 255, 0.5);
+  --text-primary: #1a1614;
+  --text-body: #4c4643;
+  --text-secondary: #6a635e;
+  --border-light: rgba(26, 22, 20, 0.11);
+  --divider: rgba(26, 22, 20, 0.1);
+  --overlay-bg: rgba(247, 245, 241, 0.86);
+  --scrollbar-thumb: rgba(26, 22, 20, 0.16);
+  --scrollbar-thumb-hover: rgba(26, 22, 20, 0.28);
+  --aura-strength: 0.06;
   --network-strength: 0.4;
-  --julia-haze: 0.45;
-  --grain-opacity: 0.06;
+  --julia-haze: 0.25;
+  --julia-glow-rgb: var(--primary-rgb);  /* the Julia set: a persimmon wash deepening to oxblood ink */
+  --julia-edge-rgb: 111, 27, 13;
+  --grain-opacity: 0.05;
 
   /* Type scale */
   --fs-lead: 1.2rem;     /* hero headline */
-  --fs-title: 1.06rem;   /* item, PR and project names */
-  --fs-body: 0.97rem;    /* descriptions and bullets */
-  --fs-small: 0.9rem;    /* secondary descriptions */
-  --fs-label: 0.8rem;    /* mono labels and metadata */
-  --fs-chip: 0.75rem;    /* chips, badges, tech lists */
+  --fs-title: 1.1rem;    /* item, PR and project names */
+  --fs-body: 1.03rem;    /* descriptions and bullets */
+  --fs-small: 0.94rem;   /* secondary descriptions */
+  --fs-label: 0.82rem;   /* mono labels and metadata */
+  --fs-chip: 0.78rem;    /* chips, badges, tech lists */
 
   color-scheme: light;
 }
 
-/* Dark: a midnight-blue blueprint */
+/* Dark: embers on warm charcoal */
 [data-theme='dark'] {
-  --primary: #7d9bff;
-  --primary-rgb: 125, 155, 255;
-  --primary-strong: #a3b8ff;
-  --on-primary: #0a0d18;
-  --violet: #b49bff;
-  --violet-rgb: 180, 155, 255;
-  --coral: #ff8577;
-  --coral-rgb: 255, 133, 119;
-  --amber: #f5c451;
-  --amber-rgb: 245, 196, 81;
-  --bg-dark: #121628;
-  --bg-darker: #0a0d18;
-  --bg-card: #121628;
-  --surface: rgba(255, 255, 255, 0.03);
-  --text-primary: #e8eaf2;
-  --text-body: #b6bacb;
-  --text-secondary: #8188a3;
-  --text-mono: #8188a3;
-  --border-light: rgba(255, 255, 255, 0.08);
-  --divider: rgba(255, 255, 255, 0.08);
-  --overlay-bg: rgba(10, 13, 24, 0.82);
-  --scrollbar-thumb: rgba(255, 255, 255, 0.12);
-  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.2);
-  --aura-strength: 0.14;
-  --network-strength: 0.6;
-  --julia-haze: 0.8;
-  --grain-opacity: 0.04;
+  --primary: #f98150;
+  --primary-rgb: 249, 129, 80;
+  --primary-strong: #ffaa79;
+  --on-primary: #22110b;
+  --rose: #ee7c90;
+  --rose-rgb: 238, 124, 144;
+  --teal: #63ccc0;
+  --teal-rgb: 99, 204, 192;
+  --amber: #f3bd5c;
+  --amber-rgb: 243, 189, 92;
+  --bg-darker: #13100e;
+  --surface: rgba(255, 245, 235, 0.03);
+  --text-primary: #efeae4;
+  --text-body: #c3bdb6;
+  --text-secondary: #989189;
+  --border-light: rgba(239, 234, 228, 0.09);
+  --divider: rgba(239, 234, 228, 0.08);
+  --overlay-bg: rgba(19, 16, 14, 0.82);
+  --scrollbar-thumb: rgba(239, 234, 228, 0.12);
+  --scrollbar-thumb-hover: rgba(239, 234, 228, 0.2);
+  --aura-strength: 0.11;
+  --network-strength: 0.55;
+  --julia-haze: 0.7;
+  --julia-glow-rgb: 155, 29, 41;  /* the Julia set: embers, from a crimson glow to gold-hot edges */
+  --julia-edge-rgb: var(--amber-rgb);
+  --grain-opacity: 0.035;
 
   color-scheme: dark;
 }
@@ -98,7 +98,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* App background: soft blue, violet and gold light, under a film of paper grain */
+/* App background: soft persimmon, rose and ochre light, under a film of paper grain */
 .App {
   min-height: 100vh;
   position: relative;
@@ -113,7 +113,7 @@ body {
   pointer-events: none;
   background:
     radial-gradient(900px 620px at 8% -8%, rgba(var(--primary-rgb), var(--aura-strength)), transparent 70%),
-    radial-gradient(820px 640px at 104% 34%, rgba(var(--violet-rgb), calc(var(--aura-strength) * 0.75)), transparent 70%),
+    radial-gradient(820px 640px at 104% 34%, rgba(var(--rose-rgb), calc(var(--aura-strength) * 0.75)), transparent 70%),
     radial-gradient(760px 520px at 58% 112%, rgba(var(--amber-rgb), calc(var(--aura-strength) * 0.6)), transparent 70%);
 }
 
@@ -196,7 +196,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .intro .hero-headline {
-    font-size: 1.06rem;
+    font-size: 1.1rem;
     margin-bottom: 1rem;
   }
 
@@ -270,9 +270,9 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  font-family: 'Space Mono', monospace;
-  font-size: var(--fs-label);
-  color: var(--text-secondary);
+  font-size: var(--fs-small);
+  line-height: 1.45;
+  color: var(--text-body);
   margin-bottom: 2rem;
 }
 
@@ -281,7 +281,7 @@ h1, h2, h3, h4, h5, h6 {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--coral);
+  background: var(--teal);
   flex-shrink: 0;
 }
 
@@ -290,7 +290,7 @@ h1, h2, h3, h4, h5, h6 {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: var(--coral);
+  background: var(--teal);
   animation: now-pulse 2.4s ease-out infinite;
 }
 
@@ -423,7 +423,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .about-statement {
   font-family: 'Instrument Serif', serif;
-  font-size: clamp(1.6rem, 3.6vw, 2.1rem);
+  font-size: clamp(1.55rem, 3.4vw, 1.95rem);
   line-height: 1.3;
   letter-spacing: -0.005em;
   color: var(--text-primary);
@@ -474,7 +474,8 @@ h1, h2, h3, h4, h5, h6 {
 
 /* The home network background (NeuralBackground.jsx) stays behind the pinned intro */
 @media (min-width: 1101px) {
+  /* Strongest at the left edge, faint behind the intro text, gone before the reading column */
   .neural-bg {
-    mask-image: linear-gradient(90deg, #000 0%, #000 30%, transparent 50%);
+    mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.42) 16%, rgba(0, 0, 0, 0.3) 34%, transparent 50%);
   }
 }

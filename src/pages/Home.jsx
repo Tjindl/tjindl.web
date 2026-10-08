@@ -15,16 +15,17 @@ import { posts, hasWriting } from '../blog/posts';
 import PostRow from '../components/PostRow.jsx';
 import SectionNav from '../components/SectionNav.jsx';
 import NameCycle from '../components/NameCycle.jsx';
+import Highlights from '../components/Highlights.jsx';
 import useDocumentTitle from '../useDocumentTitle';
 
 const LATEST_COUNT = 3;
 
 // *word* marks an accent (italic, primary colour) in the About statement.
 const aboutStatement =
-  "I'm a Data Science and Mathematics double major at UBC, graduating in 2028, focused on statistical modeling, machine learning, and large-scale data analysis. I'm comfortable across the stack, from production full-stack apps to APIs and infra, and most interested in where *statistical* *rigour* meets *real-world* *engineering* *constraints.*";
+  "I'm a Data Science and Mathematics double major at UBC, graduating in 2028, and I *learn* *by* *building.* Since 2023 that's meant tutoring math and programming, shipping production bots as an intern, getting contributions merged into NVIDIA's cuDF, and now leading web development for UBC's Science Undergraduate Society. I'm most interested in where *statistical* *rigour* meets *real-world* *engineering* *constraints.*";
 
 // Hovered letters take each accent in turn.
-const LETTER_ACCENTS = ['var(--primary)', 'var(--violet)', 'var(--coral)', 'var(--amber)'];
+const LETTER_ACCENTS = ['var(--primary)', 'var(--rose)', 'var(--teal)', 'var(--amber)'];
 
 // Each letter rises in from a blur on load and turns italic on hover.
 function AnimatedName({ text }) {
@@ -60,7 +61,7 @@ function AnimatedName({ text }) {
 function RevealText({ text }) {
   const ref = useRef(null);
   const reduceMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.85', 'end 0.55'] });
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.9', 'end 0.6'] });
   const words = text.split(' ');
 
   return (
@@ -80,7 +81,8 @@ function RevealText({ text }) {
 }
 
 function RevealWord({ children, progress, range, accent, still }) {
-  const opacity = useTransform(progress, range, [0.16, 1]);
+  // Unrevealed words stay legible (not ghosted) so a quick skim still reads the whole paragraph.
+  const opacity = useTransform(progress, range, [0.32, 1]);
   return (
     <>
       <motion.span className={accent ? 'about-accent' : undefined} style={still ? undefined : { opacity }}>
@@ -139,7 +141,7 @@ function Home() {
         >
           <div className="intro-main">
             <motion.p className="byline" variants={heroItem}>
-              ML Engineer & Computer Vision — Data Science & Mathematics at UBC
+              ML Engineer · Data Science & Math at UBC
             </motion.p>
             <AnimatedName text="Tushar Jindal" />
             <motion.p className="hero-headline" variants={heroItem}>
@@ -186,6 +188,7 @@ function Home() {
         <main className="home-content">
           <Section id="about" title="About">
             <RevealText text={aboutStatement} />
+            <Highlights />
             <JuliaFigure />
           </Section>
 

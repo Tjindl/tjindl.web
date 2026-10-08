@@ -13,9 +13,8 @@ const workData = [
         company: "Science Undergraduate Society of UBC",
         location: "Vancouver, BC",
         date: "Jun 2026 — Present",
-        badge: "↑ promoted Oct 2026",
         bullets: [
-            "Accountable for the society's web apps, including its main website and online shop",
+            "Lead the society's web apps, including its main website and online shop",
         ],
         previous: [
             {
@@ -96,10 +95,7 @@ function ItemRow({ item }) {
             <div className="item-content">
                 <img src={item.logo} alt={item.company} className="item-logo" />
                 <div className="item-main">
-                    <div className="item-title-row">
-                        <h3 className="item-title">{item.role}</h3>
-                        {item.badge && <span className="item-badge">{item.badge}</span>}
-                    </div>
+                    <h3 className="item-title">{item.role}</h3>
                     <p className="item-subtitle">{item.company} · {item.location}</p>
                     <Bullets items={item.bullets} />
                     {item.previous?.map((prev) => (

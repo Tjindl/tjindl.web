@@ -12,7 +12,7 @@ import NameCycle from './components/NameCycle.jsx';
 import useActiveSection from './useActiveSection';
 
 // Browser chrome colours (meta theme-color), matching --bg-darker in each theme.
-const THEME_COLORS = { light: '#f7f4ec', dark: '#0a0d18' };
+const THEME_COLORS = { light: '#f7f5f1', dark: '#13100e' };
 
 // Links shown in the rail away from the home page.
 const pageLinks = [

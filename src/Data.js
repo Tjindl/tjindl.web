@@ -1,11 +1,11 @@
 // Featured projects render as cards with stat tiles; the rest render as a compact list.
 // `link` is the source repo, `live` is a deployed site. Private repos should only have `live`.
-// Featured cards take an `accent`: 'violet', 'coral' or 'amber' (the primary colour is the default).
+// Featured cards take an `accent`: 'rose', 'teal' or 'amber' (the primary colour is the default).
 const Data = [
     {
         name: "BitSmith",
         featured: true,
-        accent: "violet",
+        accent: "rose",
         link: "https://github.com/Tjindl/BitSmith",
         tagline: "INT4 LLM quantization research + a from-scratch C++ inference engine",
         description: "Compressed GPT-2 by 50% with AWQ and uniform quantization, then ran paired statistical tests (bootstrap CI, McNemar's) and found perplexity is a misleading proxy for quality: a 5× perplexity jump under AWQ INT4 collapsed LAMBADA accuracy but left HellaSwag unchanged. Also built PageRank-guided structured pruning and a zero-dependency C++ engine with packed INT4 weights and ARM NEON SIMD kernels.",
@@ -19,7 +19,7 @@ const Data = [
     {
         name: "Lore",
         featured: true,
-        accent: "coral",
+        accent: "teal",
         live: "https://getlore.tech/",
         npm: "https://www.npmjs.com/package/lore-memory",
         tagline: "Persistent project memory for developers and their AI assistants",

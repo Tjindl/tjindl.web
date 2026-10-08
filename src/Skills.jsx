@@ -8,12 +8,12 @@ const skillGroups = [
     },
     {
         category: "Frameworks",
-        accent: "violet",
+        accent: "rose",
         items: ["React", "Node.js", "Flask", "FastAPI", "Tailwind"],
     },
     {
         category: "Data & ML",
-        accent: "coral",
+        accent: "teal",
         items: ["PyTorch", "TensorFlow", "scikit-learn", "OpenCV", "MediaPipe", "HuggingFace", "LLMs / Generative AI"],
     },
     {

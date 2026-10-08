@@ -12,16 +12,16 @@ const READING_FRACTION = 0.23;
 const WIDE_LAYOUT = 1101;
 const WIDE_REGION = 0.48;
 
-// Node colours: mostly the primary accent, with violet and coral "neurons" mixed in.
+// Node colours: mostly the primary accent, with rose and teal "neurons" mixed in.
 const NODE_TONES = [
   { prop: '--primary-rgb', share: 0.6 },
-  { prop: '--violet-rgb', share: 0.25 },
-  { prop: '--coral-rgb', share: 0.15 },
+  { prop: '--rose-rgb', share: 0.25 },
+  { prop: '--teal-rgb', share: 0.15 },
 ];
 
 function readTones() {
   const style = getComputedStyle(document.documentElement);
-  return NODE_TONES.map(({ prop }) => style.getPropertyValue(prop).trim() || '36, 69, 194');
+  return NODE_TONES.map(({ prop }) => style.getPropertyValue(prop).trim() || '190, 54, 6');
 }
 
 function pickTone() {

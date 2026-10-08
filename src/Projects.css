@@ -26,14 +26,14 @@
     transition: border-color 0.25s ease, transform 0.25s ease;
 }
 
-.featured-card[data-accent='violet'] {
-    --card-accent: var(--violet);
-    --card-accent-rgb: var(--violet-rgb);
+.featured-card[data-accent='rose'] {
+    --card-accent: var(--rose);
+    --card-accent-rgb: var(--rose-rgb);
 }
 
-.featured-card[data-accent='coral'] {
-    --card-accent: var(--coral);
-    --card-accent-rgb: var(--coral-rgb);
+.featured-card[data-accent='teal'] {
+    --card-accent: var(--teal);
+    --card-accent-rgb: var(--teal-rgb);
 }
 
 .featured-card[data-accent='amber'] {

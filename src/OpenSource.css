@@ -15,7 +15,7 @@
 }
 
 .os-summary strong {
-  color: var(--primary);
+  color: var(--teal);
   font-size: 1.1rem;
   margin-right: 0.3rem;
 }
@@ -25,7 +25,7 @@
 }
 
 .os-count-repos strong {
-  color: var(--violet);
+  color: var(--rose);
 }
 
 .os-repo {
@@ -151,16 +151,17 @@
   flex-shrink: 0;
 }
 
+/* Merged work is settled (the cool teal); work in review is still warm (ochre) */
 .os-badge--merged {
-  background: color-mix(in srgb, var(--primary) 12%, transparent);
-  color: var(--primary);
-  border: 1px solid color-mix(in srgb, var(--primary) 30%, transparent);
+  background: rgba(var(--teal-rgb), 0.08);
+  color: var(--teal);
+  border: 1px solid rgba(var(--teal-rgb), 0.28);
 }
 
 .os-badge--open {
-  background: rgba(var(--amber-rgb), 0.1);
+  background: rgba(var(--amber-rgb), 0.08);
   color: var(--amber);
-  border: 1px solid rgba(var(--amber-rgb), 0.3);
+  border: 1px solid rgba(var(--amber-rgb), 0.28);
 }
 
 .os-pr-desc {
